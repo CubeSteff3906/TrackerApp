@@ -10,6 +10,7 @@ class Comanda {
     this.nume = databaseElement.nume;
     this.cantitateaTotala = databaseElement.cantitateaTotala;
     this.esteNecesaraOperatia = databaseElement.esteNecesaraOperatia;
+    this.numeOperatie = databaseElement.numeOperatie;
     this.stadiuOperatii = databaseElement.stadiuOperatii;
     this.cantitatePieseFinalizate = databaseElement.cantitatePieseFinalizate;
     this.angajatOperatie = databaseElement.angajatOperatie;
@@ -26,6 +27,7 @@ class Comanda {
         nume: this.nume,
         cantitateaTotala: this.cantitateaTotala,
         esteNecesaraOperatia: this.esteNecesaraOperatia,
+        numeOperatie: this.numeOperatie,
         stadiuOperatii: this.stadiuOperatii,
         cantitatePieseFinalizate: this.cantitatePieseFinalizate,
         angajatOperatie: this.angajatOperatie,

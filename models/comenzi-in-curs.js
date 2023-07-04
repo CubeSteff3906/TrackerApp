@@ -22,7 +22,8 @@ const schemaComenziInCurs = new mongoose.Schema({
     required: true
   },
   esteNecesaraOperatia: [Boolean],
-  stadiuOperatii: [String],
+  numeOperatie: [String],
+  stadiuOperatie: [String],
   cantitatePieseFinalizate: [Number],
   angajatOperatie: [String],
   utilajOperatie: [String]
