@@ -24,5 +24,8 @@ app.listen(process.env.PORT || 3000);
 
 
 
-const indexRouter = require('./routes/index')
-app.use('/', indexRouter)
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
+
+const adminRouter = require('./routes/admin');
+app.use('/admin', adminRouter);
