@@ -1,24 +1,12 @@
 const mongoose = require('mongoose');
 
 const schemaComenziFinalizate = new mongoose.Schema({
-  _id: {
+  Numar_comanda: {
     type: String,
     required: true
   },
-  RTSP: {
-    type: String,
-    required: true
-  },
-  Cod_client: {
-    type: String,
-    required: true
-  },
-  nume: {
-    type: String,
-    required: true
-  },
-  cantitateaTotala: {
-    type: Number,
+  Piese: {
+    type: [String],
     required: true
   }
 });

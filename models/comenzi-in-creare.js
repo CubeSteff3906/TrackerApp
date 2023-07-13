@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const schemaComenziInCurs = new mongoose.Schema({
+const schemaComenziInCreare = new mongoose.Schema({
   Numar_comanda: {
     type: String,
     required: true
@@ -12,4 +12,4 @@ const schemaComenziInCurs = new mongoose.Schema({
   stadiuOperatie: [String]
 });
 
-module.exports = mongoose.model('comenzi-in-curs', schemaComenziInCurs);
+module.exports = mongoose.model('comenzi-in-creare', schemaComenziInCreare);

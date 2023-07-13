@@ -1,0 +1,28 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <form method="POST" action="./angajat"
+    style="margin: 2em 0 2em 0; display: flex; flex-direction: column; align-items: center; padding: 2rem 4rem; border: 0.2rem solid black; border-radius: 1rem; background-color: cyan;">
+  
+    <label for="idComanda">INTRODUCETI NUMAR COMANDA</label>
+    <input type="text" name="idComanda">
+
+    <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+
+    <div style="display: flex;">
+      <button href="./" style="margin-right: 1rem;">ANULATI</button>
+      <button type="submit">INTRODUCETI</button>
+    </div>
+  
+  </form> 
+
+</body>
+</html>

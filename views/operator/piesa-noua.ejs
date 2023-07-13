@@ -1,0 +1,80 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    function cautaRTSP() {
+      const id = document.getElementById('rtspCautat');
+      const rtspIntrodus = id.value;
+
+      const RTSPuri = JSON.parse('<%- JSON.stringify(RTSPuri) %>');
+
+      const comanda = RTSPuri.find(rtsp => rtsp.RTSP === rtspIntrodus);
+      if (rtsp) {
+        document.getElementById('rtsp').value = rtspIntrodus;
+        document.getElementById('codclient').value = comanda.Cod_client;
+        document.getElementById('nume').value = comanda.nume;
+
+        const checkboxuri = Array.from(document.getElementsByTagName('input'))
+          .filter(input => input.type === 'checkbox');
+        checkboxuri.forEach(checkbox => {
+          if (comanda.esteNecesaraOperatia[+checkbox.name]) {
+            checkbox.checked = true;
+          } else {
+            checkbox.checked = false;
+          }
+        });
+      }
+    }
+  </script>
+  <title>Piesa Noua</title>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center;">
+
+  <div>
+    <input id="rtspCautat" type="text" name="rtspCautat" placeholder="INTRODUCETI COD RSTP DE CAUTAT">
+    <button onClick="cautaRTSP();">CAUTARE</button>
+  </div>
+  
+  <form id="formBoss" method="POST" action="/operator/piesa-noua"
+    style="margin: 2em 0 2em 0; display: flex; flex-direction: column; align-items: center; padding: 2rem 4rem; border: 0.2rem solid black; border-radius: 1rem; background-color: cyan;">
+  
+    <label for="id">NUMARUL DE COMANDA:</label>
+    <input type="text" id="id" name="id" value="<%= numar %>" readonly>
+  
+    <label for="rtsp">INTRODUCETI RTSP PIESA</label>
+    <input type="text" id="rtsp" name="rtsp">
+  
+    <label for="codclient">INTRODUCETI COD CLIENT</label>
+    <input type="text" id="codclient" name="codclient">
+  
+    <label for="nume">INTRODUCETI NUME PIESA</label>
+    <input type="text" id="nume" name="nume">
+  
+    <label for="cantitate" style="text-align: center;">INTRODUCETI CANTITATEA <br> TOTALA DE PIESE NECESARA</label>
+    <input type="number" name="cantitate" min="1" step="1" value="1">
+  
+    <label for="operatii">SELECTATI OPERATIILE NECESARE</label>
+    <div name="operatii" style="display: flex; flex-direction: column;">
+      <% Operatii.forEach(operatie=> { %>
+        <div style="display: flex;">
+          <label for="<%= operatie.id %>">
+            <%= operatie.nume %>
+          </label>
+          <input type="checkbox" id="<%= operatie.id %>" name="<%= operatie.id %>" value="<%= operatie.id %>">
+        </div>
+        <% }); %>
+    </div>
+  
+    <div style="display: flex;">
+      <button href="./" style="margin-right: 1rem;">ANULATI</button>
+      <button type="submit">INTRODUCETI</button>
+    </div>
+  
+  </form>
+
+</body>
+</html>

@@ -14,6 +14,7 @@ const schemaRTSP = new mongoose.Schema({
     required: true
   },
   esteNecesaraOperatia: [Boolean]
+  // Orice rezumate legate de costul de productie al vreunei piese se vor stoca in Nexus.
 });
 
 module.exports = mongoose.model('rtsp', schemaRTSP);

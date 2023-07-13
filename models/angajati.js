@@ -13,6 +13,10 @@ const schemaAngajati = new mongoose.Schema({
     type: String,
     required: true
   },
+  verificator: {
+    type: Boolean,
+    required: true
+  },
   parola: {
     type: String,
     required: true,
