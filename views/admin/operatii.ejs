@@ -7,7 +7,22 @@
   <title>Admin - Operatii</title>
 </head>
 
-<body style="display: flex; flex-direction: column; align-items: center;">
+<body style="display: flex; flex-direction: column; align-items: center; margin: 0; padding: 0;">
+
+  <header style="width: 100%; padding: 0.75em 0.1em; display: flex; align-items: center; border: 4px solid black;">
+    <div style="display: flex; text-align: center; font-size: 1.2em; padding-left: 0.8em; flex: 15%;">
+      <a href="../" style="margin: 0.4em 0.6em; font-size: 1.6em; font-weight: bold;">&#10094; INAPOI</a>
+    </div>
+    <nav style="flex: 85%;">
+      <ul style="font-size: 1.6em; display: flex; justify-content: space-between; padding: 0 5em 0 8em; list-style-type: none;">
+        <li><a href="./">LOG</a></li>
+        <li><a href="./angajati">ANGAJATI</a></li>
+        <li style="background-color: gray;"><a href="./operatii">OPERATII</a></li>
+        <li><a href="./utilaje">UTILAJE</a></li>
+        <li><a href="./rtsp">RTSP-URI</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <form method="POST" action="./operatii"
     style="margin: 6em 0 2em 0; display: flex; flex-direction: column; align-items: center; padding: 2rem 4rem; border: 0.2rem solid black; border-radius: 1rem; background-color: cyan;">

@@ -12,11 +12,10 @@ const comenziFinalizate = require('../models/comenzi-finalizate');
 const Utilaje = require('../models/utilaje');
 
 router.get('/', async (req, res) => {
-  const vectorComenziFinalizate = await comenziFinalizate.find().exec();
-  const vectorPieseFinalizate = await pieseFinalizate.find().exec();
-  res.render('admin', { vectorComenziFinalizate, vectorPieseFinalizate });
+  const vectorPieseInCurs = await pieseInCurs.find().exec();
+  const vectorComenziInCurs = await comenziInCurs.find().exec();
+  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs });
 });
-
 
 // Rute ale sectiunii de editare a bazei de date a Angajatilor
 router.get('/angajati', async (req, res) => {

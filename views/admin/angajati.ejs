@@ -1,58 +1,98 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Angajati</title>
+  <link rel="stylesheet" type="text/css" href="/styles/admin/angajati.css">
+  <title>Document</title>
 </head>
-<body style="display: flex; flex-direction: column; align-items: center;">
-  
-  <form method="POST" action="./angajati" style="margin: 6em 0 2em 0; display: flex; flex-direction: column; align-items: center; padding: 2rem 4rem; border: 0.2rem solid black; border-radius: 1rem; background-color: cyan;">
-
-    <label for="id">INTRODUCETI ID ANGAJAT</label>
-    <input type="text" id="id" name="id" style="margin-bottom: 1rem;">
-
-    <label for="nume">INTRODUCETI NUME ANGAJAT</label>
-    <input type="text" id="nume" name="nume" style="margin-bottom: 1rem;">
-
-    <label for="pozitie">SELECTATI PRIVILEGII ANGAJAT</label>
-    <select id="pozitie" name="pozitie" style="margin-bottom: 1rem;">
-      <option value="Lucrator">Lucrator - Poate doar sa scaneze fise tehnologice</option>
-      <option value="Operator">Operator - Poate initia fise tehnologice</option>
-      <option value="Administrator">Administrator - Poate monitoriza comenzile si edita baze de date</option>
-    </select>
-
-    <div style="display: flex;">
-      <label for="verificator">ANGAJATUL POATE EXECUTA INSPECTII ALE COMENZILOR?</label>
-      <input type="checkbox" id="verificator" name="verificator" style="margin-bottom: 1rem;">
+<body>
+  <header>
+    <div class="div-buton-inapoi">
+      <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
     </div>
+    <nav class="nav-header">
+      <ul>
+        <li><a href="./">LOG</a></li>
+        <li class="highlight"><a href="./angajati">ANGAJATI</a></li>
+        <li><a href="./operatii">OPERATII</a></li>
+        <li><a href="./utilaje">UTILAJE</a></li>
+        <li><a href="./rtsp">RTSP-URI</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <label for="parola">INTRODUCETI PAROLA ANGAJAT (OPTIONAL):</label>
-    <input type="text" id="parola" name="parola" style="margin-bottom: 1rem;">
+  <section class="sectiune">
 
-    <div style="display: flex;">
-      <button href="./" style="margin-right: 1rem;">ANULATI</button>
-      <button type="submit">INTRODUCETI</button> 
-    </div>
-  </form>
+    <div style="display: flex; justify-content: space-between;">
 
-  <section style="display: flex; flex-direction: column; align-items: center;">
+      <div class="subsectiune" style="flex: 1.5;">
 
-    <p style="font-size: 20px;">LISTA ANGAJATI</p>
+        <div class="div-buton-adaugare">
+          <p>NUMAR ANGAJATI: <%= Angajati.length %> </p>
+          <input type="text" placeholder="Cauta angajat dupa RTSP">
+        </div>
 
-    <% Angajati.forEach(angajat => { %>
-      <div style="width: 85%; display: flex; justify-content: center; border-radius: 1em; border: 2px solid black; background-color: gray;">
-        <%= angajat._id %> <%= angajat.nume %> <%= angajat.pozitie %>
-        <form method="POST" action="./sterge-angajat">
-          <input type="hidden" id="id" name="id" value="<%= angajat._id %>">
-          <button type="submit">Sterge Angajat</button>
+        <div class="big-daddy-scroll">
+          <% Angajati.forEach(angajat=> { %>
+            <div class="element-meniu">
+              <div class="div-stanga">
+                <img src="/icons/user_icon.png">
+                <div class="container">
+                  <%= angajat.nume %> <br>
+                    <%= angajat.pozitie %>
+                </div>
+              </div>
+              <div class="div-dreapta">
+                <img class="roata" src="/icons/cog.png">
+                <button></button>
+
+                <img class="gunoi" src="/icons/trash.png">
+                <form method="POST" action="./sterge-angajat">
+                  <input type="hidden" name="id" value="<%= angajat._id %>">
+                  <button type="submit"></button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
+        <form class="adauga" method="POST" action="./angajati">
+          
+          <label for="id">INTRODUCETI ID ANGAJAT</label>
+          <input type="text" id="id" name="id" style="margin-bottom: 1rem;">
+          
+          <label for="nume">INTRODUCETI NUME ANGAJAT</label>
+          <input type="text" id="nume" name="nume" style="margin-bottom: 1rem;">
+          
+          <label for="pozitie">SELECTATI PRIVILEGII ANGAJAT</label>
+          <select id="pozitie" name="pozitie" style="text-align: center; margin-bottom: 1rem; font-size: 0.7em;">
+            <option value="Lucrator">Lucrator - Poate completa comenzi prin scanarea fisei tehnologice</option>
+            <option value="Operator">Operator - Poate initia comenzi noi si monitoriza comenzile in curs</option>
+            <option value="Administrator">Administrator - Poate monitoriza si administra procesul de productie</option>
+          </select>
+
+          <div style="display: flex;">
+            <label style="margin-right: 1em;" for="verificator">ANGAJATUL POATE EXECUTA <br> INSPECTII ALE COMENZILOR?</label>
+            <input style="align-self: center; width: 2em; height: 2em;" type="checkbox" id="verificator" name="verificator" style="margin-bottom: 1rem;">
+          </div>
+
+          <label for="parola">INTRODUCETI PAROLA ANGAJAT <br> (PENTRU ADMINISTRATORI):</label>
+          <input type="text" id="parola" name="parola" style="margin-bottom: 1rem;">
+
+          <div class="div-buton">
+            <button href="./" style="margin-right: 1rem;">ANULATI</button>
+            <button type="submit">INTRODUCETI</button> 
+          </div>
+
         </form>
       </div>
-    <% }); %>
+
+    </div>
 
   </section>
-
 </body>
 </html>
