@@ -228,7 +228,7 @@ router.post('/utilaje', async (req, res) => {
 })
 
 router.post('/sterge-utilaj', async (req, res) => {
-  const numeUtilaj = req.body.id;
+  const numeUtilaj = req.body.nume;
   Utilaje.findOneAndDelete({ nume: numeUtilaj })
     .then(() => {
       res.redirect('./utilaje')

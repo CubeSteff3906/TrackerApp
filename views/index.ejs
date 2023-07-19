@@ -4,15 +4,101 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome Page</title>
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
 </head>
-<body style="font-size: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; padding-top: 8em;">
-  <h3>BUN VENIT LA RATIS SERV!</h3> <br>
-  <p style="margin-top: -1em;">SCANATI-VA LEGITIMATIA <br> PENTRU A CONTINUA</p> <br> <br>
+<body>
+  <div class="outer-container">
+  
+    <form class="form-comanda" method="POST" action="./">
 
-  <form style="margin-top:-2em; display: flex; flex-direction: column; align-items: center;" method="POST" action="./">
-    <input style="font-size: 20px; margin-bottom: 1em;" type="text" name="idAngajat">
-    <button style="font-size: 20px;" type="submit">INTRODUCETI</button>
-  </form>
+      <h1 id="greetingText"></h1>
+
+      <h3 style="margin-top: 0;">BUN VENIT LA RATIS SERV!</h3> <br>
+      <p style="margin-top: -1em;">SCANATI-VA LEGITIMATIA <br> PENTRU A CONTINUA</p> <br> <br>
+
+      <input type="text" name="idAngajat">
+      <button type="submit">INTRODUCETI</button>
+    </form>
+  
+
+
+  </div>
+  
+  
+  
+  
+  
+  
+  <script>
+    // Footer time text
+    const greetingText = document.getElementById('greetingText');
+    
+    function updateTime() {
+      const date = new Date();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+      let greeting;
+    
+      if (hour >= 0 && hour < 6) {
+        greeting = 'BUNA SEARA!';
+      } else if (hour >= 6 && hour < 12) {
+        greeting = 'BUNA DIMINEATA!';
+      } else {
+        greeting = 'BUNA ZIUA!';
+      }
+    
+      greetingText.textContent = greeting;
+    }
+    
+    updateTime(); // Update time immediately
+    setInterval(updateTime, 1000); // Update time every second
+  </script>
+
+  <script>
+
+    
+const backgroundImages = [
+      "/images/download (1).jpg",
+      "/images/download (2).jpg",
+      "/images/download.jpg"
+    ];
+
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      slideIndex++;
+      if (slideIndex > backgroundImages.length) {
+        slideIndex = 1;
+      }
+
+      const body = document.body;
+      body.style.backgroundImage = `url('${backgroundImages[slideIndex - 1]}')`;
+
+      setTimeout(showSlides, 3000); // Change slide every 3 seconds
+    }
+
+// var slideIndex = 0;
+    // showSlides();
+
+    // function showSlides() {
+    //   var i;
+    //   var slides = document.querySelector(".slideshow-container").getElementsByTagName("img");
+    //   for (i = 0; i < slides.length; i++) {
+    //     slides[i].classList.remove("fade-in");
+    //     slides[i].style.display = "none";
+    //   }
+    //   slideIndex++;
+    //   if (slideIndex > slides.length) {
+    //     slideIndex = 1;
+    //   }
+    //   slides[slideIndex - 1].style.display = "block";
+    //   setTimeout(function() {
+    //     slides[slideIndex - 1].classList.add("fade-in");
+    //   }, 100);
+    //   setTimeout(showSlides, 3000); // Change slide every 3 seconds
+  </script>
 
 </body>
 </html>
