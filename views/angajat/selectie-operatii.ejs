@@ -4,21 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/selectie-operatii.css">
   <title>Selectati Piesa</title>
 </head>
-<body style="margin-top:2em; margin-bottom: 1em; display: flex; flex-direction: column; align-items: center;">
-  <p style="font-size: 20px;"> SELECTATI PIESA DIN COMANDA SCANATA </p>
+<body>
 
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <% pieseComandaCurenta.forEach(piesa => { %>
-      <form style="margin-bottom: 1em;" method="POST" action="./selectie-operatii">
-        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-        <input type="hidden" name="idPiesa" value="<%= piesa._id %>">
-        <input type="hidden" name="idComanda" value="<%= idComanda %>">
-        <button style="width: 10em; height: 3em; font-size: 20px;"><%= piesa.nume %></button>
-      </form>
-    <% }); %>
+  <div class="outer-container">
+
+    <div class="form-comanda">
+      <p style="font-size: 40px; font-weight: bold; display: inline; margin-top: 2em;"> SELECTATI PIESA </p>
+
+      <div class="mini-casuta">
+        <% pieseComandaCurenta.forEach(piesa=> { %>
+          <form style="margin: 0;" method="POST" action="./selectie-operatii">
+            <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+            <input type="hidden" name="idPiesa" value="<%= piesa._id %>">
+            <input type="hidden" name="idComanda" value="<%= idComanda %>">
+            <button class="yes" type="submit">
+              <%= piesa.nume %> <br>
+                <p class="extra">(<%= piesa.RTSP %>)</p>
+            </button>
+          </form>
+        <% }); %>
+      </div>
+
+    </div>
+
   </div>
-
+  
 </body>
 </html>

@@ -5,24 +5,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="styles/angajat/index.css">
+  <title>Bun venit!</title>
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var inputElement = document.getElementById('myInput');
+      inputElement.focus();
+      inputElement.select();
+    })
+  </script>
 </head>
 <body>
+    <div class="outer-container">
+    
+      <form class="form-comanda" method="POST" action="./angajat">
 
-  <form method="POST" action="./angajat"
-    style="margin: 2em 0 2em 0; display: flex; flex-direction: column; align-items: center; padding: 2rem 4rem; border: 0.2rem solid black; border-radius: 1rem; background-color: cyan;">
-  
-    <label for="idComanda">INTRODUCETI NUMAR COMANDA</label>
-    <input type="text" name="idComanda">
+        <p class="salut">BUNA DIMINEATA, <%= nume%> !</p>
 
-    <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+        <label for="idComanda">SCANEAZA CODUL DE BARE <br> AL COMENZII PENTRU A INCEPE</label>
+        <img src="icons/scanner.png">
+        <input type="text" id="myInput" name="idComanda" placeholder="NUMARUL COMENZII">
 
-    <div style="display: flex;">
-      <button href="./" style="margin-right: 1rem;">ANULATI</button>
-      <button type="submit">INTRODUCETI</button>
+        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+
+        <div style="display: flex;">
+          <button href="./" style="margin-right: 1rem;">ANULATI</button>
+          <button type="submit">INTRODUCETI</button>
+        </div>
+
+      </form>
+
     </div>
-  
-  </form> 
 
 </body>
 </html>
