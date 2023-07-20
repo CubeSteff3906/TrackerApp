@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/styles/admin/angajati.css">
   <title>Document</title>
 </head>
-<body>
+<body> 
   <header>
     <div class="div-buton-inapoi">
       <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
@@ -40,7 +40,7 @@
               <div class="div-stanga">
                 <img src="/icons/user_icon.png">
                 <div class="container"> 
-                  <%= angajat.nume %> <br>
+                  <%= angajat.nume %> <%= angajat.prenume %> <br>
                     <%= angajat.pozitie %>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                 <button></button>
 
                 <img class="gunoi" src="/icons/trash.png">
-                <form method="POST" action="./sterge-angajat">
+                <form method="POST" action="./sterge-angajat?idAngajat=<%= idAngajat %>">
                   <input type="hidden" name="id" value="<%= angajat._id %>">
                   <button type="submit"></button>
                 </form>
@@ -60,14 +60,17 @@
       </div>
 
       <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
-        <form class="adauga" method="POST" action="./angajati">
+        <form class="adauga" method="POST" action="./angajati?idAngajat=<%= idAngajat %>">
           
           <label for="id">INTRODUCETI ID ANGAJAT</label>
-          <input type="text" id="id" name="id" style="margin-bottom: 1rem;">
+          <input type="text" id="id" name="id" style="margin-bottom: 1rem; text-align: center;" placeholder="ID">
           
-          <label for="nume">INTRODUCETI NUME ANGAJAT</label>
-          <input type="text" id="nume" name="nume" style="margin-bottom: 1rem;">
-          
+          <label for="nume">INTRODUCETI NUME COMPLET ANGAJAT</label>
+          <div style="display: flex;">
+            <input type="text" id="nume" name="nume" style="margin-right: 1em; text-align: center;" placeholder="NUME">
+            <input type="text" name="prenume" style="text-align: center;" placeholder="PRENUME">
+          </div>
+
           <label for="pozitie">SELECTATI PRIVILEGII ANGAJAT</label>
           <select id="pozitie" name="pozitie" style="text-align: center; margin-bottom: 1rem; font-size: 0.7em;">
             <option value="Lucrator">Lucrator - Poate completa comenzi prin scanarea fisei tehnologice</option>
@@ -81,7 +84,7 @@
           </div>
 
           <label for="parola">INTRODUCETI PAROLA ANGAJAT <br> (PENTRU ADMINISTRATORI):</label>
-          <input type="text" id="parola" name="parola" style="margin-bottom: 1rem;">
+          <input type="text" id="parola" name="parola" style="margin-bottom: 1rem; text-align: center;" placeholder="PAROLA">
 
           <div class="div-buton">
             <button href="./" style="margin-right: 1rem;">ANULATI</button>
