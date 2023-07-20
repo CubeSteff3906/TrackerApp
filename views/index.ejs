@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome Page</title>
   <link rel="stylesheet" type="text/css" href="styles/index.css">
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var inputElement = document.getElementById('myInput');
+      inputElement.focus();
+      inputElement.select();
+    })
+  </script>
 </head>
 <body>
   <div class="outer-container">
@@ -16,20 +23,14 @@
       <h3 style="margin-top: 0;">BUN VENIT LA RATIS SERV!</h3> <br>
       <p style="margin-top: -1em;">SCANATI-VA LEGITIMATIA <br> PENTRU A CONTINUA</p> <br> <br>
 
-      <input type="text" name="idAngajat">
+      <input id="myInput" type="text" name="idAngajat">
       <button type="submit">INTRODUCETI</button>
     </form>
   
-
-
   </div>
   
-  
-  
-  
-  
-  
   <script>
+
     // Footer time text
     const greetingText = document.getElementById('greetingText');
     
@@ -53,12 +54,8 @@
     
     updateTime(); // Update time immediately
     setInterval(updateTime, 1000); // Update time every second
-  </script>
 
-  <script>
-
-    
-const backgroundImages = [
+    const backgroundImages = [
       "/images/download (1).jpg",
       "/images/download (2).jpg",
       "/images/download.jpg"
@@ -78,26 +75,6 @@ const backgroundImages = [
 
       setTimeout(showSlides, 3000); // Change slide every 3 seconds
     }
-
-// var slideIndex = 0;
-    // showSlides();
-
-    // function showSlides() {
-    //   var i;
-    //   var slides = document.querySelector(".slideshow-container").getElementsByTagName("img");
-    //   for (i = 0; i < slides.length; i++) {
-    //     slides[i].classList.remove("fade-in");
-    //     slides[i].style.display = "none";
-    //   }
-    //   slideIndex++;
-    //   if (slideIndex > slides.length) {
-    //     slideIndex = 1;
-    //   }
-    //   slides[slideIndex - 1].style.display = "block";
-    //   setTimeout(function() {
-    //     slides[slideIndex - 1].classList.add("fade-in");
-    //   }, 100);
-    //   setTimeout(showSlides, 3000); // Change slide every 3 seconds
   </script>
 
 </body>

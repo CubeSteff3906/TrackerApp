@@ -12,20 +12,24 @@ const comenziFinalizate = require('../models/comenzi-finalizate');
 const Utilaje = require('../models/utilaje');
 
 router.get('/', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorPieseInCurs = await pieseInCurs.find().exec();
   const vectorComenziInCurs = await comenziInCurs.find().exec();
-  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs });
+  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
 });
 
 // Rute ale sectiunii de editare a bazei de date a Angajatilor
 router.get('/angajati', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorAngajati = await Angajati.find().exec();
-  res.render('admin/angajati', { Angajati: vectorAngajati });
+  res.render('admin/angajati', { Angajati: vectorAngajati, idAngajat });
 });
 
 router.post('/angajati', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const id = req.body.id;
   const nume = req.body.nume;
+  const prenume = req.body.prenume;
   const pozitie = req.body.pozitie;
   const checkbox = req.body.verificator;
   let verificator;
@@ -51,21 +55,23 @@ router.post('/angajati', async (req, res) => {
   const angajatNou = new Angajati({
     _id: id,
     nume: nume,
+    prenume: prenume,
     pozitie: pozitie,
     verificator: verificator,
     parola: parola,
     hash: hashParola
   });
   angajatNou.save();
-  res.redirect('./angajati');
+  res.redirect(`./angajati?idAngajat=${idAngajat}`);
 })
 
 router.post('/sterge-angajat', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const id = req.body.id;
 
   Angajati.findOneAndDelete({ _id: id })
     .then(() => {
-      res.redirect('./angajati')
+      res.redirect(`./angajati?idAngajat=${idAngajat}`)
     })
     .catch((eroare) => {
       console.error('Eroare: Nu s-a putut sterge angajatul', eroare)
@@ -74,13 +80,14 @@ router.post('/sterge-angajat', async (req, res) => {
 
 // Rute ale paginii de editare ale bazei de date a RTSP-urilor
 router.get('/rtsp', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorRTSPuri = await RTSPuri.find().exec();
   const vectorOperatii = await Operatii.find().exec();
-  res.render('admin/rtsp', { RTSP: vectorRTSPuri, Operatii: vectorOperatii });
+  res.render('admin/rtsp', { RTSP: vectorRTSPuri, Operatii: vectorOperatii, idAngajat });
 });
 
 router.post('/rtsp', async (req, res) => {
-
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
 
   const RTSP = req.body.rtsp;
@@ -109,15 +116,16 @@ router.post('/rtsp', async (req, res) => {
     esteNecesaraOperatia: esteNecesaraOperatia
   });
   rtspNou.save();
-  res.redirect('./rtsp');
+  res.redirect(`./rtsp?idAngajat=${idAngajat}`);
 })
 
 router.post('/sterge-rtsp', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const id = req.body.id;
 
   RTSPuri.findOneAndDelete({ RTSP: id })
     .then(() => {
-      res.redirect('./rtsp')
+      res.redirect(`./rtsp?idAngajat=${idAngajat}`)
     })
     .catch((eroare) => {
       console.error('Eroare: Nu s-a putut sterge profilul', eroare);
@@ -126,13 +134,15 @@ router.post('/sterge-rtsp', async (req, res) => {
 
 // Rute ale paginii de editare a operatiilor
 router.get('/operatii', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
   console.log(vectorOperatii);
   Operatii.findOneAndDelete({ _id: "64a67a098a61c12a4b18b7d2" });
-  res.render('admin/operatii', { Operatii: vectorOperatii });
+  res.render('admin/operatii', { Operatii: vectorOperatii, idAngajat });
 });
 
 router.post('/operatii', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
   let index = req.body.index;
   const numeOperatieNoua = req.body.nume;
@@ -167,10 +177,11 @@ router.post('/operatii', async (req, res) => {
     }
   }
 
-  res.redirect('./operatii');
+  res.redirect(`./operatii?idAngajat=${idAngajat}`);
 })
 
 router.post('/sterge-operatie', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
   
   let index = req.body.id;
@@ -190,19 +201,20 @@ router.post('/sterge-operatie', async (req, res) => {
     operatieNoua.save();
   }
 
-  res.redirect('./operatii');
+  res.redirect(`./operatii?idAngajat=${idAngajat}`);
 })
 
 
 // Rute ale paginii de editare a utilajelor
 router.get('/utilaje', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
   const vectorUtilaje = await Utilaje.find().exec();
-  res.render('admin/utilaje', { Operatii: vectorOperatii, Utilaje: vectorUtilaje });
+  res.render('admin/utilaje', { Operatii: vectorOperatii, Utilaje: vectorUtilaje, idAngajat });
 })
 
 router.post('/utilaje', async (req, res) => {
-
+  const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
 
   const numeUtilaj = req.body.nume;
@@ -224,14 +236,15 @@ router.post('/utilaje', async (req, res) => {
     operatii: numeOperatii
   });
   utilajNou.save();
-  res.redirect('./utilaje');
+  res.redirect(`./utilaje?idAngajat=${idAngajat}`);
 })
 
 router.post('/sterge-utilaj', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
   const numeUtilaj = req.body.nume;
   Utilaje.findOneAndDelete({ nume: numeUtilaj })
     .then(() => {
-      res.redirect('./utilaje')
+      res.redirect(`./utilaje?idAngajat=${idAngajat}`)
     })
     .catch((eroare) => {
       console.error('Eroare: Nu s-a putut sterge utilajul', eroare)

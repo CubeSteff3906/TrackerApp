@@ -13,11 +13,11 @@
     </div>
     <nav class="nav-header">
       <ul>
-        <li><a href="./">LOG</a></li>
-        <li><a href="./angajati">ANGAJATI</a></li>
-        <li class="highlight"><a href="./operatii">OPERATII</a></li>
-        <li><a href="./utilaje">UTILAJE</a></li>
-        <li><a href="./rtsp">RTSP-URI</a></li>
+        <li><a href="./?idAngajat=<%= idAngajat %>">LOG</a></li>
+        <li><a href="./angajati?idAngajat=<%= idAngajat %>">ANGAJATI</a></li>
+        <li class="highlight?idAngajat=<%= idAngajat %>"><a href="./operatii">OPERATII</a></li>
+        <li><a href="./utilaje?idAngajat=<%= idAngajat %>">UTILAJE</a></li>
+        <li><a href="./rtsp?idAngajat=<%= idAngajat %>">RTSP-URI</a></li>
       </ul>
     </nav>
   </header>
@@ -48,7 +48,7 @@
                 <button></button>
 
                 <img class="gunoi" src="/icons/trash.png">
-                <form method="POST" action="./sterge-operatie">
+                <form method="POST" action="./sterge-operatie?idAngajat=<%= idAngajat %>">
                   <input type="hidden" id="id" name="id" value="<%= operatie.id %>">
                   <button type="submit">Sterge Operatie</button>
                 </form>
@@ -59,7 +59,7 @@
       </div>
 
       <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
-        <form class="adauga" method="POST" action="./operatii">
+        <form class="adauga" method="POST" action="./operatii?idAngajat=<%= idAngajat %>">
           
           <label for="id">INTRODUCETI INDEX (LASATI GOL DACA VRETI SA ADAUGATI LA COADA)</label>
           <input type="text" id="id" name="index" style="margin-bottom: 1rem;">

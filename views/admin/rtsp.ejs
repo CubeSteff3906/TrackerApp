@@ -14,11 +14,11 @@
     </div>
     <nav class="nav-header">
       <ul>
-        <li><a href="./">LOG</a></li>
-        <li ><a href="./angajati">ANGAJATI</a></li>
-        <li><a href="./operatii">OPERATII</a></li>
-        <li><a href="./utilaje">UTILAJE</a></li>
-        <li class="highlight"><a href="./rtsp">RTSP-URI</a></li>
+        <li><a href="./?idAngajat=<%= idAngajat %>">LOG</a></li>
+        <li ><a href="./angajati?idAngajat=<%= idAngajat %>">ANGAJATI</a></li>
+        <li><a href="./operatii?idAngajat=<%= idAngajat %>">OPERATII</a></li>
+        <li><a href="./utilaje?idAngajat=<%= idAngajat %>">UTILAJE</a></li>
+        <li class="highlight"><a href="./rtsp?idAngajat=<%= idAngajat %>">RTSP-URI</a></li>
       </ul>
     </nav>
   </header>
@@ -50,7 +50,7 @@
                 <button></button>
 
                 <img class="gunoi" src="/icons/trash.png">
-                <form method="POST" action="./sterge-rtsp">
+                <form method="POST" action="./sterge-rtsp?idAngajat=<%= idAngajat %>">
                   <input type="hidden" name="id" value="<%= rtsp.RTSP %>">
                   <button type="submit"></button>
                 </form>
@@ -61,7 +61,7 @@
       </div>
 
       <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
-        <form class="adauga" method="POST" action="./rtsp">
+        <form class="adauga" method="POST" action="./rtsp?idAngajat=<%= idAngajat %>">
           
          <label for="rtsp">INTRODUCETI COD RTSP</label>
           <input type="text" id="rtsp" name="rtsp" style="margin-bottom: 1rem;">

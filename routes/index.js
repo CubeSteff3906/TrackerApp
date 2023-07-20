@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Angajati = require('../models/angajati');
 
-router.get('/', (req, res) => {
+router.get('/', (req, res) => { 
   res.render('index')
 })
 

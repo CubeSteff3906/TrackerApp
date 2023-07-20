@@ -3,7 +3,8 @@ const router = express.Router();
 
 const pieseInCurs = require('../models/piese-in-curs');
 const comenziInCurs = require('../models/comenzi-in-curs');
-const comenziInCreare = require('../models/comenzi-in-creare')
+const comenziInCreare = require('../models/comenzi-in-creare');
+const comenziFinalizate = require('../models/comenzi-finalizate');
 const RTSPuri = require('../models/rtsp');
 let Operatii = require('../models/operatii2');
 
@@ -11,7 +12,8 @@ let Operatii = require('../models/operatii2');
 router.get('/', async (req, res) => {
   const vectorPieseInCurs = await pieseInCurs.find().exec();
   const vectorComenziInCurs = await comenziInCurs.find().exec();
-  res.render('operator', { pieseInCurs: vectorPieseInCurs, comenziInCurs: vectorComenziInCurs });
+  const vectorComenziFinalizate = await comenziFinalizate.find().exec();
+  res.render('operator', { pieseInCurs: vectorPieseInCurs, comenziInCurs: vectorComenziInCurs, comenziFinalizate: vectorComenziFinalizate });
 })
 
 // Initierea si stergerea unei comenzi noi (new comenziInCreare); mai intai se adauga toate piesele in comanda,

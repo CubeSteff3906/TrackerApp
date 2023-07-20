@@ -6,7 +6,7 @@
   <title>Document</title>
   <link rel="stylesheet" type="text/css" href="/styles/admin/index.css">
 </head>
-<body style="margin: 0; padding: 0;">
+<body style="margin: 0; padding: 0;"> 
 
   <header style="width: 100%; padding: 0.75em 0.1em; display: flex; align-items: center; border: 4px solid black;">
     <div style="display: flex; text-align: center; font-size: 1.2em; padding-left: 0.8em; flex: 15%;">
@@ -14,11 +14,11 @@
     </div>
     <nav style="flex: 85%;">
       <ul style="font-size: 1.6em; display: flex; justify-content: space-between; padding: 0 5em 0 8em; list-style-type: none;">
-        <li style="background-color: gray;"><a href="/admin">LOG</a></li>
-        <li><a href="/admin/angajati">ANGAJATI</a></li>
-        <li><a href="/admin/operatii">OPERATII</a></li>
-        <li><a href="/admin/utilaje">UTILAJE</a></li>
-        <li><a href="/admin/rtsp">RTSP-URI</a></li>
+        <li style="background-color: gray;"><a href="/admin?idAngajat=<%= idAngajat %>">LOG</a></li>
+        <li><a href="/admin/angajati?idAngajat=<%= idAngajat %>">ANGAJATI</a></li>
+        <li><a href="/admin/operatii?idAngajat=<%= idAngajat %>">OPERATII</a></li>
+        <li><a href="/admin/utilaje?idAngajat=<%= idAngajat %>">UTILAJE</a></li>
+        <li><a href="/admin/rtsp?idAngajat=<%= idAngajat %>">RTSP-URI</a></li>
       </ul>
     </nav>
   </header>
