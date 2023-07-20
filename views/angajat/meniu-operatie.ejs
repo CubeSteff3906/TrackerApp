@@ -5,44 +5,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/meniu-operatie.css">
   <title>Meniu Operatie</title>
 </head>
-<body style="margin-top:2em; margin-bottom: 1em; display: flex; flex-direction: column; align-items: center;">
+<body>
 
-  <p>BUNA, <%= numeAngajat.toUpperCase() %>!</p>
-  <% if (tipOperatie === "Initiere") { %>
-    <p>VREI SA INCEPI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= idComanda %> ?</p>
-  <% } else if (tipOperatie === "Finalizare") { %>
-    <p>VREI SA FINALIZEZI OPERATIA DE <%= operatieCurenta.toUpperCase() %> PE CARE AI INCEPUT-O PENTRU COMANDA <%= idComanda %> ?</p>
-  <% } %>
+  <div class="outer-container">
+  
+    <div class="form-comanda">
 
-  <br>
-
-  <form method="POST" action="./meniu-operatie" style="display: flex; flex-direction: column; align-items: center;">
-    <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-    <input type="hidden" name="idPiesa" value="<%= idPiesa %>">
-    <input type="hidden" name="operatieCurenta" value="<%= indexOperatieCurenta %>">
-    <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
-
-    <% if (tipOperatie == "Finalizare") { %>
-      <label for="utilaj">INTRODUCETI NUMARUL DE PIESE FINALIZATE</label>
-      <input type="number" name="utilaj" value="<%= Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>">
-
-      <label for="nrRebut">INTRODUCETI NUMARUL DE PIESE IN REBUT</label>
-      <input type="number" name="nrRebut" value="<%= Piesa.cantitateTotala - Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>" max="<%= Piesa.cantitateTotala - Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>" >
-    <% } else { %>
-      <% if (Utilaje.length > 0) { %>
-        <label for="utilaj">SELECTEAZA UTILAJUL PE CARE IL VEI FOLOSI</label>
-        <select name="utilaj">
-          <% Utilaje.forEach(utilaj => { %>
-            <option value="<%= utilaj %>"><%= utilaj %></option>
-          <% }); %>
-        </select>
+      <% if (tipOperatie === "Initiere") { %>
+        <p>VREI SA INCEPI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= idComanda %> ?</p>
+      <% } else if (tipOperatie === "Finalizare") { %>
+        <p>VREI SA FINALIZEZI OPERATIA DE <%= operatieCurenta.toUpperCase() %> PE CARE AI INCEPUT-O PENTRU COMANDA <%= idComanda %> ?</p>
       <% } %>
-    <% } %>
 
-    <br>
-    <button>INCEPE</button>
-  </form>
+      <br>
+
+      <form method="POST" action="./meniu-operatie" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+        <input type="hidden" name="idPiesa" value="<%= idPiesa %>">
+        <input type="hidden" name="operatieCurenta" value="<%= indexOperatieCurenta %>">
+        <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
+
+        <% if (tipOperatie == "Finalizare") { %>
+          <label for="utilaj">INTRODUCETI NUMARUL DE PIESE FINALIZATE</label>
+          <input type="number" name="utilaj" value="<%= Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>">
+
+          <label for="nrRebut">INTRODUCETI NUMARUL DE PIESE IN REBUT</label>
+          <input type="number" name="nrRebut" value="0" max="<%= Piesa.cantitateTotala - Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>" >
+        <% } else { %>
+          <% if (Utilaje.length > 0) { %>
+            <label for="utilaj">SELECTEAZA UTILAJUL PE CARE IL VEI FOLOSI</label>
+            <select name="utilaj">
+              <% Utilaje.forEach(utilaj => { %>
+                <option value="<%= utilaj %>"><%= utilaj %></option>
+              <% }); %>
+            </select>
+          <% } %>
+        <% } %>
+
+        <br>
+        <button>INCEPE</button>
+      </form>
+
+
+    </div>
+
+  </div>
+
 </body>
 </html>

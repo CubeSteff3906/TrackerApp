@@ -1,0 +1,67 @@
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/images/art.png');
+  background-size: cover;
+  background-position: bottom;
+  overflow: hidden;
+}
+
+.outer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.form-comanda {
+  color: white;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(37, 37, 37);
+  border-left: 3.5px solid white;
+  border-right: 3.5px solid white;
+}
+
+.form-comanda .mini-casuta {
+  width: 70%;
+  height: 42vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 20vh;
+  grid-row-gap: 1em;
+  grid-column-gap: 0.1em;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-bottom: 3em;
+  padding: 0.4em 0;
+  border: 3px solid white;
+}
+
+.mini-casuta::-webkit-scrollbar {
+  display: none;
+}
+
+.form-comanda .yes {
+  width: 22vw;
+  height: 100%;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  background-color: white;
+}
+
+.form-comanda .extra {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+}

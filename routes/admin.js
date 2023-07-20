@@ -12,9 +12,10 @@ const comenziFinalizate = require('../models/comenzi-finalizate');
 const Utilaje = require('../models/utilaje');
 
 router.get('/', async (req, res) => {
+  const idAngajat= req.query.idAngajat;
   const vectorPieseInCurs = await pieseInCurs.find().exec();
   const vectorComenziInCurs = await comenziInCurs.find().exec();
-  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs });
+  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
 });
 
 // Rute ale sectiunii de editare a bazei de date a Angajatilor
@@ -57,7 +58,7 @@ router.post('/angajati', async (req, res) => {
     hash: hashParola
   });
   angajatNou.save();
-  res.redirect('./angajati');
+  res.redirect(`./angajati?${idAngajat}`);
 })
 
 router.post('/sterge-angajat', async (req, res) => {

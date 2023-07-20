@@ -265,7 +265,10 @@ const executaOperatie = async function (idPiesa, idAngajat, operatieSelectata, t
 
 router.get('/', async (req, res) => {
   const idAngajat = req.query.idAngajat;
-  res.render('angajat', {idAngajat} );
+  const angajat = await Angajati.findOne({ _id: idAngajat }).exec();
+  let nume = angajat.nume;
+  nume = nume.toUpperCase();
+  res.render('angajat', {idAngajat, nume } );
 })
 
 router.post('/', (req, res) => {
