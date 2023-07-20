@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
   const vectorPieseInCurs = await pieseInCurs.find().exec();
   const vectorComenziInCurs = await comenziInCurs.find().exec();
   res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
+  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
 });
 
 // Rute ale sectiunii de editare a bazei de date a Angajatilor
