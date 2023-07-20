@@ -9,6 +9,10 @@ const schemaAngajati = new mongoose.Schema({
     type: String,
     required: true
   },
+  prenume: {
+    type: String,
+    required: true
+  },
   pozitie: {
     type: String,
     required: true

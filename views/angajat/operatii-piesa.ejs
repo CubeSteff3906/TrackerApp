@@ -5,54 +5,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel=stylesheet type="text/css" href="/styles/angajat/operatii-piesa.css">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/operatii-piesa.css">
   <title>Operatii Piesa</title>
 </head>
-<body> 
-
-  <div class="outer-container">
+<body style="margin-top:2em; margin-bottom: 1em; display: flex; flex-direction: column; align-items: center;">
   
-    <div class="form-comanda">
-      <p style="font-size: 40px; font-weight: bold; display: inline; margin-top: 2em;"> SELECTATI OPERATIA </p>
+  <div class="form-comanda">
+    <p style="font-size: 40px; font-weight: bold; display: inline; margin-top: 2em;"> SELECTATI OPERATIA </p>
 
-      <div class="mini-casuta">
+    <div class="mini-casuta">
 
-        <% let vectorOperatii = piesaCurenta.stadiuOperatie ; %>
-        <% let operatiaCurenta = vectorOperatii.length - 1; %>
-        <% while (piesaCurenta.stadiuOperatie[operatiaCurenta] === "NULL") { %>
-          <% operatiaCurenta--; %>
+      <% let vectorOperatii = piesaCurenta.stadiuOperatie ; %>
+      <% let operatiaCurenta = vectorOperatii.length - 1; %>
+      <% while (piesaCurenta.stadiuOperatie[operatiaCurenta] === "NULL") { %>
+        <% operatiaCurenta--; %>
+      <% } %>
+
+      <% while (operatiaCurenta > 0) { %>
+        <% let operatiaPrecedenta=operatiaCurenta - 1; %>
+        <% while (piesaCurenta.stadiuOperatie[operatiaPrecedenta] === "NULL" && operatiaPrecedenta > 0) { %>
+          <% operatiaPrecedenta--; %>
         <% } %>
-
-        <% while (operatiaCurenta > 0) { %>
-          <% let operatiaPrecedenta=operatiaCurenta - 1; %>
-          <% while (piesaCurenta.stadiuOperatie[operatiaPrecedenta] === "NULL" && operatiaPrecedenta > 0) { %>
-            <% operatiaPrecedenta--; %>
-          <% } %>
-          <% if (piesaCurenta.cantitatePieseInCurs[operatiaCurenta] > 0) { %>
-            <form method="POST" action="./operatii-piesa">
-              <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-              <input type="hidden" name="idComanda" value="<%= idComanda %>">
-              <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
-              <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
-              <input type="hidden" name="tipOperatie" value="Finalizare">
-              <button type="submit">Finalizeaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseInCurs[operatiaCurenta]%> x <%= piesaCurenta.nume %></button>
-            </form>
-          <% } else if (piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta] > 0 && piesaCurenta.stadiuOperatie[operatiaCurenta] !== "In lucru" ) { %>
-            <form method="POST" action="./operatii-piesa">
-              <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-              <input type="hidden" name="idComanda" value="<%= idComanda %>">
-              <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
-              <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
-              <input type="hidden" name="tipOperatie" value="Initiere">
-              <button type="submit">Initiaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.nume %></button>
-            </form>
-          <% } %>
-          <% operatiaCurenta = operatiaPrecedenta; %>
+        <% if (piesaCurenta.cantitatePieseInCurs[operatiaCurenta] > 0) { %>
+          <form method="POST" action="./operatii-piesa">
+            <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+            <input type="hidden" name="idComanda" value="<%= idComanda %>">
+            <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
+            <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
+            <input type="hidden" name="tipOperatie" value="Finalizare">
+            <button type="submit">Finalizeaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseInCurs[operatiaCurenta]%> x <%= piesaCurenta.nume %></button>
+          </form>
+        <% } else if (piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta] > 0 && piesaCurenta.stadiuOperatie[operatiaCurenta] !== "In lucru" ) { %>
+          <form method="POST" action="./operatii-piesa">
+            <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+            <input type="hidden" name="idComanda" value="<%= idComanda %>">
+            <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
+            <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
+            <input type="hidden" name="tipOperatie" value="Initiere">
+            <button type="submit">Initiaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.nume %></button>
+          </form>
         <% } %>
-
-      </div>
+        <% operatiaCurenta = operatiaPrecedenta; %>
+      <% } %>
 
     </div>
+
+  </div>
 
   </div>
 
