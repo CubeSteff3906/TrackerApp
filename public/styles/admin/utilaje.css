@@ -108,7 +108,7 @@ body {
   
   .element-meniu .div-stanga {
     display: flex;
-    align-items: center;
+    align-items: start;
   }
   
   .element-meniu .div-stanga img {
@@ -120,7 +120,6 @@ body {
   
   .element-meniu .div-stanga .container {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     font-size: 1.2em;
     margin-left: 0.6em;

@@ -60,30 +60,36 @@
         </div>
       </div>
 
-      <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
+      <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center; padding: 0;">
+        
         <form class="adauga" method="POST" action="./rtsp?idAngajat=<%= idAngajat %>">
           
-         <label for="rtsp">INTRODUCETI COD RTSP</label>
-          <input type="text" id="rtsp" name="rtsp" style="margin-bottom: 1rem;">
-      
-          <label for="codclient">INTRODUCETI COD CLIENT</label>
-          <input type="text" id="codclient" name="codclient" style="margin-bottom: 1rem;">
-      
-          <label for="nume">INTRODUCETI NUME PIESA</label>
+          <p style="margin: 0; font-size: 22px; font-weight: bold;">RTSP NOU</p>
+
+          <div style="display: flex;">
+            <div style="display: flex; flex-direction: column; margin-right: 1em;">
+              <label for="rtsp">COD RTSP</label>
+              <input type="text" id="rtsp" name="rtsp" style="margin-bottom: 0.2rem;">
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <label for="codclient">COD CLIENT</label>
+              <input type="text" id="codclient" name="codclient" style="margin-bottom: 0.2rem;">
+            </div>
+          </div>
+
+          <label for="nume">NUME PIESA</label>
           <input type=text id="nume" name="nume" style="margin-bottom: 1rem;">
 
-          <div style="display: flex; flex-direction: column;">
+          <div style="display: flex; flex-direction: column; height: 25vh; border: 2px solid black; padding: 0 1em; overflow-y: scroll; margin-bottom: 0;">
             <% Operatii.forEach(operatie => { %>
               <div style="display: flex;">
-                <label for="<%= operatie.id %>"> <%= operatie.nume %> </label>
-                <input type="checkbox" name="<%= operatie.id %>" value="<%= operatie.id %>">
+                <input style="margin: 0;" type="checkbox" name="<%= operatie.id %>" value="<%= operatie.id %>">
+                <label style="margin: 0; margin-left: 0.3em;" for="<%= operatie.id %>"> <%= operatie.nume %> </label>
               </div>
             <% }); %>
           </div>
-      
 
-          <div class="div-buton">
-            <button href="./" style="margin-right: 1rem;">ANULATI</button>
+          <div class="div-buton" style="margin-top: 0;">
             <button type="submit">INTRODUCETI</button> 
           </div>
 

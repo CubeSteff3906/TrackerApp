@@ -4,60 +4,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden;
-}
-
- 
-
-/* Sectiunea de header */
-
-header {
-  width: 100%;
-  padding: 0.75em 0.1em;
-  display: flex;
-  align-items: center;
-  border: 4px solid black;
-}
-
-.div-buton-inapoi {
-  display: flex;
-  text-align: center;
-  font-size: 1.2em;
-  padding-left: 0.8em;
-  flex: 15%;
-}
-
-.buton-inapoi {
-  margin: 0.4em 0.6em;
-  font-size: 1.6em;
-  font-weight: bold;
-}
-
-.nav-header {
-  flex: 85%;
-}
-
-.nav-header ul {
-  font-size: 1.6em;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 5em 0 8em;
-  list-style-type: none;
-}
-
-.nav-header .highlight {
-  background-color: gray;
-}
-
-
-
-/* Sectiunea de UX */
-body {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   overflow: hidden;
 }
 
@@ -158,85 +104,24 @@ header button {
   padding: 1.2em 1em;
 }
 
-.element .sus {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1em;
+.element .titlu {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-bottom: 0;
 }
 
-.element .jos {
+.element .continut {
   width: 80%;
-  padding: 0.4em 0.2em;
-  border: 3px solid black;
-  margin-bottom: 0.5em;
-}
-
-.element-piesa {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.4em 0.8em;
-  font-size: 20px;
-}
-
-.titlu form {
-  margin: 0;
-  display: flex;
-}
-
-.element .div-stanga {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: bold;
-  margin-left: 0.6em;
+  padding: 1em;
 }
 
-.element .div-dreapta {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  font-size: 1.1em;
-  font-weight: bold;
-}
-
-.element .div-dreapta img {
-  margin: 0 1em 0 1em;
-  width: 1em;
-  height: 1em;
-}
-
-.element .div-dreapta button {
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
-}
-
-.titlu-mic {
-  width: 81.3%;
-  display: flex;
-  justify-content: center;
-  border-top: 3px solid black;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
-  font-size: 30px;
-  font-weight: bold;
-  padding-right: -2em;
-}
-
-.titlu-mic form {
+.continut p {
   margin: 0;
+  font-size: 1.2em;
 }
-
-.titlu-mic form button {
-  margin-top: -0.05em;
-  font-size: 33px;
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-}
-
 
 /*Meniu Adaugare*/
 
@@ -295,14 +180,15 @@ header button {
 }
 
 .butoane img {
-  width: 2em;
-  height: 2em;
+  width: 2.2em;
+  height: 2.2em;
 }
 
 .butoane form button {
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid black;
   cursor: pointer;
+  margin: 1em;
+  padding: 0.5em 2em;
 }
 
 .piese {
@@ -331,6 +217,72 @@ header button {
 }
 
 
+.element2 {
+  margin: 0.4em 0 0.4em 1em;
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+  border: 2px black solid;
+  padding: 1.2em 1em;
+}
+
+.element2 .sus {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.element2 .jos {
+  width: 80%;
+  padding: 0.4em 0.2em;
+  border: 3px solid black;
+  margin-bottom: 0.5em;
+}
+
+.element-piesa {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4em 0.8em;
+  font-size: 20px;
+}
+
+.titlu form {
+  margin: 0;
+  display: flex;
+}
+
+.element2 .div-stanga {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-left: 0.6em;
+}
+
+.element2 .div-dreapta {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.element2 .div-dreapta img {
+  margin: 0 1em 0 1em;
+  width: 1em;
+  height: 1em;
+}
+
+.element2 .div-dreapta button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+
 
 .acceseaza-piesa {
   width: 100%;
@@ -342,11 +294,94 @@ header button {
   padding: 0;
 }
 
-.cutiuta {
-  height: 85.55vh;
+
+
+.fundal-pop-up {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pop-up {
+  margin-top: -5em;
+  width: 40%;
+  padding: 1em 1.6em 0.4em 1.6em;
+  border: 4px solid black;
+  background-color: white;
   display: flex;
   flex-direction: column;
-  width: 63%;
-  border-left: 3px solid black;
-  border-right: 3px solid black;
+  align-items: center;
+}
+
+.pop-up .titlu-popup {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.titlu-popup p {
+  margin: 0;
+}
+
+.titlu-popup .stadiu {
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.titlu-popup .anuleaza {
+  margin-left: 1em;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.stadiu .icon {
+  width: 0.9em;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+}
+
+.pop-up .content {
+  width: 100%;
+  display: flex;
+}
+
+.pop-up .coloana {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pop-up .informatii {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2em;
+  margin: 0.1em 0;
+}
+
+.informatii p,
+.stadiu-lot p {
+  margin: 0;
+}
+
+.informatii span,
+.stadiu-lot span {
+  font-weight: bold;
+}
+
+.stadiu-lot {
+  width: 100%;
+  display: flex;
+  font-size: 1.2em;
+  margin: 1em 0;
 }

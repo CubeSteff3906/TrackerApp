@@ -11,29 +11,31 @@
 <body>
 
   <div class="outer-container">
-  
+
     <div class="form-comanda">
 
       <% if (tipOperatie === "Initiere") { %>
-        <p>VREI SA INCEPI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= idComanda %> ?</p>
+        <p>VRETI SA INCEPETI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
       <% } else if (tipOperatie === "Finalizare") { %>
-        <p>VREI SA FINALIZEZI OPERATIA DE <%= operatieCurenta.toUpperCase() %> PE CARE AI INCEPUT-O PENTRU COMANDA <%= idComanda %> ?</p>
+        <p>VRETI SA FINALIZATI OPERATIA DE <br> <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
+
+        <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[indexOperatieCurenta] %> PIESE</p>
       <% } %>
 
       <br>
 
       <form method="POST" action="./meniu-operatie" style="display: flex; flex-direction: column; align-items: center;">
         <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-        <input type="hidden" name="idPiesa" value="<%= idPiesa %>">
+        <input type="hidden" name="idPiesa" value="<%= lot._id %>">
         <input type="hidden" name="operatieCurenta" value="<%= indexOperatieCurenta %>">
         <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
 
         <% if (tipOperatie == "Finalizare") { %>
           <label for="utilaj">INTRODUCETI NUMARUL DE PIESE FINALIZATE</label>
-          <input type="number" name="utilaj" value="<%= Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>">
+          <input type="number" name="utilaj" value="<%= lot.cantitatePieseInCurs[indexOperatieCurenta] %>">
 
           <label for="nrRebut">INTRODUCETI NUMARUL DE PIESE IN REBUT</label>
-          <input type="number" name="nrRebut" value="0" max="<%= Piesa.cantitateTotala - Piesa.cantitatePieseInCurs[indexOperatieCurenta] %>" >
+          <input type="number" name="nrRebut" value="0" max="<%= lot.cantitateTotala - lot.cantitatePieseInCurs[indexOperatieCurenta] %>" >
         <% } else { %>
           <% if (Utilaje.length > 0) { %>
             <label for="utilaj">SELECTEAZA UTILAJUL PE CARE IL VEI FOLOSI</label>
@@ -46,7 +48,11 @@
         <% } %>
 
         <br>
-        <button>INCEPE</button>
+        <% if (tipOperatie === "Initiere") { %>
+          <button>INCEPE</button>
+        <% } else { %>
+          <button>FINISH</button>
+        <% } %>
       </form>
 
 

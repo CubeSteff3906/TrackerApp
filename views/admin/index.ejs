@@ -23,40 +23,26 @@
     </nav>
   </header>
 
-
-  <section style="display: flex; flex-direction: column; align-items: center;">
-
-    <div class="subsectiune" style="flex: 1.5;">
-  
-      <div class="div-buton-adaugare">
-        <p>NUMAR ANGAJATI: 10 </p>
-        <input type="text" placeholder="Cauta angajat dupa RTSP">
-      </div>
-
-      <div class="big-daddy-scroll">
-        <% vectorComenziInCurs.forEach(comanda=> { %>
-          <div class="element-meniu">
+    <div class="cutiuta">
+      <section class="lista">
+        <% loturiInCurs.forEach(lot=> { %>
+          <div class="element">
             <div class="div-stanga">
-              <img src="/icons/user_icon.png">
-              <div class="container">
-                <%= comanda.Numar_comanda %>
-              </div>
+              COMANDA #<%= lot.Cod_Intern %>
             </div>
             <div class="div-dreapta">
-              <img class="roata" src="/icons/cog.png">
-              <button></button>
-
-              <img class="gunoi" src="/icons/trash.png">
-              <form method="POST" action="./sterge-angajat">
-                <input type="hidden" name="id" value="<%= comanda.Numar_comanda %>">
-                <button type="submit"></button>
-              </form>
+              <div style="width: 11vw; display: flex; justify-content: end;">
+                IN LUCRU
+                <img src="/icons/in-lucru.png">
+              </div>
+              <div style="width: 5vw; display: flex; justify-content: end;">
+                <button><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
+              </div>
             </div>
           </div>
         <% }); %>
-      </div>
+      </section>
     </div>
-  </section>
 
 </body>
 </html>

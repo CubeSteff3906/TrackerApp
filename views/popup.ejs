@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eroare</title>
+  <link rel="stylesheet" type="text/css" href="styles/popup.css">
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var inputElement = document.getElementById('myInput');
+      inputElement.focus();
+      inputElement.select();
+    })
+  </script>
+</head>
+
+<% if (tipEroare==="angajatLipsa" ) { %>
+  <body>
+    <div class="outer-container">
+      <form class="form-comanda" method="POST" action="./">
+        <h1 id="greetingText"></h1>
+    
+        <h3 style="margin-top: 0;">BUN VENIT LA RATIS SERV!</h3> <br>
+        <p style="margin-top: -1em;">SCANATI-VA LEGITIMATIA <br> PENTRU A CONTINUA</p> <br> <br>
+    
+        <input id="myInput" type="text" name="idAngajat">
+        <button type="submit">INTRODUCETI</button>
+      </form>
+    </div>
+    <div class="fog">
+      <div class="popup">
+        <div class="corp-popup">
+            <img src="/icons/giovanni_sad.png">
+            <p style="font-size: 22px; font-weight: bold;">UUUF!</p>
+            <p>NU S-A PUTUT GASI ANGAJATUL</p>
+
+        </div>
+        <div class="titlu-popup" style="justify-content: center;">
+          <button onclick="window.location.href='/'">OK</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Footer time text
+      const greetingText = document.getElementById('greetingText');
+      function updateTime() {
+        const date = new Date();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const second = date.getSeconds();
+        let greeting;
+        if (hour >= 0 && hour < 6) {
+          greeting = 'BUNA SEARA!';
+        } else if (hour >= 6 && hour < 12) {
+          greeting = 'BUNA DIMINEATA!';
+        } else {
+          greeting = 'BUNA ZIUA!';
+        }
+        greetingText.textContent = greeting;
+      }
+      updateTime(); // Update time immediately
+      setInterval(updateTime, 1000); // Update time every second
+      const backgroundImages = [
+        "/images/download (1).jpg",
+        "/images/download (2).jpg",
+        "/images/download.jpg"
+      ];
+      var slideIndex = 0;
+      showSlides();
+      function showSlides() {
+        slideIndex++;
+        if (slideIndex > backgroundImages.length) {
+          slideIndex = 1;
+        }
+        const body = document.body;
+        body.style.backgroundImage = `url('${backgroundImages[slideIndex - 1]}')`;
+        setTimeout(showSlides, 3000); // Change slide every 3 seconds
+      }
+    </script>
+  </body>
+<% } else if (tipEroare === "comandaLipsa") {%>
+  <body class="body2">
+    <div class="outer-container2">
+    
+      <form class="form-comanda2" method="POST" action="./angajat">
+    
+        <p class="salut2">BUNA DIMINEATA, <%= nume%> !</p>
+    
+        <label for="idComanda">SCANEAZA CODUL DE BARE <br> AL COMENZII PENTRU A INCEPE</label>
+        <img src="icons/scanner.png">
+        <input type="text" id="myInput" name="idComanda" placeholder="NUMARUL COMENZII">
+    
+        <div style="display: flex;">
+          <button type="button" style="margin-right: 1rem;" onclick="window.location.href = '/'">ANULATI</button>
+          <button type="submit">INTRODUCETI</button>
+        </div>
+    
+      </form>
+    
+    </div>
+    <div class="fog">
+      <div class="popup">
+        <div class="corp-popup">
+          <img src="/icons/giovanni_sad.png">
+          <p style="font-size: 22px; font-weight: bold;">UUUF!</p>
+          <p>NU S-A PUTUT GASI COMANDA</p>
+        </div>
+        <div class="titlu-popup" style="justify-content: center;">
+          <button onclick="window.location.href='/angajat?idAngajat=<%=idAngajat%>'">OK</button>
+        </div>
+      </div>
+    </div>
+  </body>
+<% } %>
+
+</html>

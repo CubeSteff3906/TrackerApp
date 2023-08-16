@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const Angajati = require('../models/angajati');
+const Loturi = require('../models/loturi');
+const Revizii = require('../models/revizii');
+const Produse = require('../models/produse')
 
-router.get('/', (req, res) => { 
-  res.render('index')
+router.get('/', async (req, res) => {
+  res.render('index');
 })
 
 router.post('/', async (req, res) => {
@@ -21,8 +24,15 @@ router.post('/', async (req, res) => {
       console.log('Angajatul nu are o pozitie valida');
     }
   } else {
-    console.log('Nu s-a putut gasi angajatul');
+    res.redirect(`/popup?tipEroare=angajatLipsa`);
   }
+})
+
+router.get('/popup', async (req, res) => {
+  const tipEroare = req.query.tipEroare;
+  const idAngajat = req.query.idAngajat;
+  const nume = req.query.nume;
+  res.render('popup', { tipEroare: tipEroare, nume, idAngajat });
 })
 
 module.exports = router;

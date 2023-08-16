@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/catalog.css">
+  <title>Catalog</title>
+</head>
+
+<body><header>
+  <div class="div-buton-inapoi">
+    <a href="/operator" class="buton-inapoi">&#10094; INAPOI</a>
+    <p style="margin: 0 20vw 0 17vw;">CATALOG PRODUSE</p>
+    <button onClick="window.location.href = 'http://localhost:3000/operator/catalog-popup?filtru=<%= filtru %>';"
+      style="margin-left: 0.2em;">ADAUGA PRODUS +</button>
+  </div>
+</header>
+<div class="corp">
+  <div class="big-daddy-scroll">
+    <% if (filtru==="null" ) { %>
+      <% produse.forEach(element=> { %>
+        <div style="margin: 1em 0.5em; padding: 1em 1em; font-size: 20px; font-weight: bold; border: 2px solid black;">
+          <%= element.Denumire %>
+            <%= element.Cod_reper %>
+              <% const v=element.Revizii %> <br>
+                <%= v.length %>
+                  <% if(v.length> 1) { %>
+                    Revizii
+                    <% } else { %>
+                      Revizie
+                      <% } %>
+        </div>
+        <% }); %>
+          <% } %>
+  </div>
+  <div class="navbar">
+    <form class="sectiune-cautare">
+      <label>CAUTA PRODUS</label>
+      <div>
+        <input type="text" name="Cod_Reper" placeholder="INTRODU COD REPER">
+        <button><img style="width: 1.6em; height: 1.6em;" src="/icons/cauta.png"></button>
+      </div>
+    </form>
+    <form class="sectiune-filtre">
+      <p>FILTREAZA ANUL</p>
+      <div class="continut">
+        <label style="font-weight: bold;" for="an">AN:</label>
+        <select name="an">
+          <option value="10">2010</option>
+          <option value="11">2011</option>
+          <option value="12">2012</option>
+          <option value="13">2013</option>
+          <option value="14">2014</option>
+          <option value="15">2015</option>
+          <option value="16">2016</option>
+          <option value="17">2017</option>
+          <option value="18">2018</option>
+          <option value="19">2019</option>
+          <option value="20">2020</option>
+          <option value="21">2021</option>
+          <option value="22">2022</option>
+          <option value="23">2023</option>
+        </select>
+        <button>CAUTA <img style="width: 1em; height: 1em; margin-left: 0.4em;" src="/icons/cauta.png"></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <section class="fundal-pop-up">
+
+    <div class="pop-up">
+
+      <div class="header-pop-up">
+        <p style="margin: 0;">INTRODUCETI NUMAR DE PROGRAM PENTRU OPERATIILE MENTIONATE</p>
+      </div>
+
+      <form method="POST" action="/operator/numere-program?revizie=<%=revizie%>&idAngajat=<%=idAngajat%>">
+
+        <% for (let i = 0; i <= denumiriOperatii.length - 1; i++) { %>
+            <label><%= denumiriOperatii[i] %></label>
+            <input type="text" name="<%=denumiriOperatii[i]%>">
+        <% } %>
+
+        <div class="footer-pop-up">
+          <button style="margin-right: 2em;">ANULATI</button>
+          <button type="submit">OK</button>
+        </div>
+      </form>
+
+    </div>
+
+  </section>
+</body>
+
+</html>

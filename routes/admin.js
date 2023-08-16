@@ -3,20 +3,16 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 const Angajati = require('../models/angajati');
-const RTSPuri = require('../models/rtsp');
-let Operatii = require('../models/operatii2');
-const pieseInCurs = require('../models/piese-in-curs');
-const comenziInCurs = require('../models/comenzi-in-curs');
-const pieseFinalizate = require('../models/piese-finalizate');
-const comenziFinalizate = require('../models/comenzi-finalizate');
 const Utilaje = require('../models/utilaje');
+let Operatii = require('../models/operatii2');
+const Produse = require('../models/produse');
+const Loturi = require('../models/loturi');
 
 router.get('/', async (req, res) => {
   const idAngajat = req.query.idAngajat;
-  const vectorPieseInCurs = await pieseInCurs.find().exec();
-  const vectorComenziInCurs = await comenziInCurs.find().exec();
-  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
-  res.render('admin', { vectorComenziInCurs, vectorPieseInCurs, idAngajat });
+  const loturiInCurs = await Loturi.find().exec();
+  await Loturi.deleteMany().exec();
+  res.render('admin', { loturiInCurs, idAngajat });
 });
 
 // Rute ale sectiunii de editare a bazei de date a Angajatilor
@@ -137,8 +133,6 @@ router.post('/sterge-rtsp', async (req, res) => {
 router.get('/operatii', async (req, res) => {
   const idAngajat = req.query.idAngajat;
   const vectorOperatii = await Operatii.find().exec();
-  console.log(vectorOperatii);
-  Operatii.findOneAndDelete({ _id: "64a67a098a61c12a4b18b7d2" });
   res.render('admin/operatii', { Operatii: vectorOperatii, idAngajat });
 });
 
@@ -193,7 +187,6 @@ router.post('/sterge-operatie', async (req, res) => {
     }
   }
   await Operatii.deleteMany(filtru).exec();
-  console.log(vectorOperatii.length, index, vectorOperatii.length - 1);
   for (let i = index; i <= vectorOperatii.length - 2; i++) {
     const operatieNoua = new Operatii({
       id: i + 1,
@@ -220,14 +213,12 @@ router.post('/utilaje', async (req, res) => {
 
   const numeUtilaj = req.body.nume;
   const valoriForm = Object.entries(req.body);
-  valoriForm.sort((a, b) => a[0].localeCompare(b[0]));
   const indexFinal = valoriForm.length - 2;
   let indexInitial = 0;
   let numeOperatii = [];
   while (indexInitial <= indexFinal) {
     let i = +valoriForm[indexInitial][1];
     const operatie = vectorOperatii[i-1];
-    console.log(operatie);
     const nume = operatie.nume;
     numeOperatii.push(nume);
     indexInitial++;

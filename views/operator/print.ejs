@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/print.css">
+  <title>Fisa Urmarire Lot #<%= lot._id %></title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <button onclick="window.location.href='/operator?idAngajat=<%=idAngajat%>'" class="inapoi">INAPOI</button>
+    <button id="print" class="printeaza">PRINT<img style="margin-left: 0.5em; width: 1em;" src="/icons/print.png"></button>
+  </header>
+
+  <script>
+    const button = document.getElementById('print');
+    button.addEventListener('click', () => {
+      window.print();
+    })
+  </script>
+
+  <section class="continut">
+    <% if (tip==="fisa" ) { %>
+      <div class="header">
+        <div class="coloana1">
+
+        </div>
+        <div class="coloana2">
+          <p class="titlu">
+              FISA URMARIRE LOT IN PRODUCTIE
+            </p>
+            <div class="informatii">
+              <p>
+                Nr. <span style="margin-left: 2em;"><%= lot._id %></span>
+              </p>
+              <p>
+                Data: <%= lot.Data %>
+              </p>
+            </div>
+          </div>
+          <div class="coloana3">
+
+          </div>
+        </div>
+        <section class="tabel">
+          <div class="coloana1">
+            <div class="rand-titlu" style="border: none;">
+              Identificator:
+            </div>
+            <div class="rand-continut">
+              <span>
+                <%= lot.Identificator %>
+              </span>
+            </div>
+            <div class="rand-titlu">
+              Termen de livrare:
+            </div>
+            <div class="rand-continut">
+              <span>
+                <%= lot.Termen_Livrare %>
+              </span>
+            </div>
+            <div class="rand-titlu">
+              Timp estimativ buc/lot:
+            </div>
+            <div class="rand-continut">
+            
+            </div>
+          </div>
+          <div class="coloana2">
+            <div class="barcode">
+              <img style="height: 5.25em; width: 15em;" id="barcode">
+            </div>
+            <script>
+              const container = document.getElementById('barcode');
+              const barcodeValue = '<%= lot._id %>';
+              JsBarcode(container, barcodeValue, {
+                format: 'CODE39',
+                displayValue: false
+              });
+            </script>
+            <div class="rand" style="border-top: 3.5px solid black;">
+              <div style="background-color: rgba(145, 145, 145, 0.758); font-size: 1.5em; display: flex; align-items: center; justify-content: center; height: 100%; flex: 45%; border-right: 2px solid black;">
+                Bon de predare
+              </div>
+              <div style="height: 100%; flex: 55%;">
+              
+              </div>
+            </div>
+            <div class="rand" style="border-top: 2px solid black; border-bottom: 3.5px solid black;">
+              <div style="background-color: rgba(145, 145, 145, 0.758); font-size: 1.5em; display: flex; align-items: center; justify-content: center; height: 100%; flex: 45%; border-right: 2px solid black;">
+                Bon de consum
+              </div>
+              <div style="height: 100%; flex: 55%;">
+              
+              </div>
+            </div>
+          </div>
+          <div class="coloana3">
+            <div class="element">
+              <div class="rand-titlu" style="border-top: none;">
+                <span>Denumire reper</span>
+              </div>
+              <div class="rand-continut" style="border-top: none;">
+                <%= lot.Denumire %>
+              </div>
+            </div>
+            <div class="element">
+              <div class="rand-titlu">
+                <span>Cod reper</span>
+              </div>
+              <div class="rand-continut">
+                <%= lot.Cod_reper %>
+              </div>
+            </div>
+            <div class="element">
+              <div class="rand-titlu">
+                <span>Lot / Nr. buc.</span>
+              </div>
+              <div class="rand-continut">
+                <div style="width: 60%;">
+                  <%= lot.Numar_Lot %>
+                </div>
+                <div style="width: 40%;">
+                  <%= lot.cantitateaTotala %> buc.
+                </div>
+              </div>
+            </div>
+            <div class="element">
+              <div class="rand-titlu">
+                <span>Desen / rev.</span>
+              </div>
+              <div class="rand-continut">
+                <div style="width: 60%;">
+                  <%= lot.Desen %>
+                </div>
+                <div style="width: 40%;">
+                  Rev
+                </div>
+              </div>
+            </div>
+            <div class="element">
+              <div class="rand-titlu">
+                <span>Dimensiune semifabr.</span>
+              </div>
+              <div class="rand-continut">
+                <%= lot.Dimensiune_Semifabricat %>
+              </div>
+            </div>
+            <div class="element">
+              <div class="rand-titlu">
+                <span>Certificat calitate</span>
+              </div>
+              <div class="rand-continut">
+                <%= lot.Certificat_Calitate %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="lista2">
+        <div class="rand" style="background: rgba(145, 145, 145, 0.758);">
+          <div class="grup">
+            <div style="width: 50%; justify-content: center;">
+              OPERATIE
+            </div>
+            <div style="width: 27.5%; justify-content: center;">
+              Operator
+            </div>
+            <div style="width: 22.5% ; justify-content: center;">
+              Semnatura
+            </div>
+          </div>
+          <div class="grup" style="border-right: 3.5px solid black;">
+
+          </div>
+          <div class="grup" style="border-right: 3.5px solid black;">
+          
+          </div>
+        </div>
+        <% let i = 0; %>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+
+            </div>
+            <div style="width: 22.5% ;">
+
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+
+            </div>
+            <div style="width: 22.5% ;">
+
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+              <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+            
+            </div>
+            <div style="width: 22.5% ;">
+            
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+        <div class="rand" style="border-top: 2px solid black;">
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+10] %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+          <div class="grup">
+            <div style="width: 50%;">
+              <%= vectorCurent[i+20] %>
+                <% i++; %>
+            </div>
+            <div style="width: 27.5%;">
+        
+            </div>
+            <div style="width: 22.5% ;">
+        
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <% } else if (tip==="raport" ) { %>
+
+    <% } %>
+
+  </section>
+
+</body>
+</html>

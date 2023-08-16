@@ -38,11 +38,23 @@
           <% Utilaje.forEach(utilaj => { %>
             <div class="element-meniu">
               <div class="div-stanga">
-                <img src="/icons/Utilaje_icon.png">
                 <div class="container">
-                  <%= utilaj.nume %> <br>
+                  <div style="display: flex; align-items: center;">
+                    <img src="/icons/Utilaje_icon.png" style="margin-right: 1em;">
+                    <p style="margin: 0; font-weight: bold; font-size: 32px;">
+                      <%= utilaj.nume %>
+                    </p>
+                  </div>
                 </div>
               </div>
+              <% const vector=utilaj.operatii %>
+              <ul style="margin-left: 1em; border: 2px solid black; height: 10vh; overflow-y: scroll;">
+                <% vector.forEach(element=> { %>
+                  <li style="margin: 0.3em 0; font-size: 18px;">
+                    <%= element %>
+                  </li>
+                <% }); %>
+              </ul>
               <div class="div-dreapta">
                 <img class="roata" src="/icons/cog.png">
                 <button></button>
@@ -64,8 +76,16 @@
           <label for="nume">INTRODUCETI NUME UTILAJ</label>
           <input type="text" name="nume" style="margin-bottom: 1rem;">
 
+          <div style="display: flex; flex-direction: column; height: 40vh; border: 2px solid black; padding: 0 1em; overflow-y: scroll; margin-bottom: 0;">
+            <% Operatii.forEach(operatie => { %>
+              <div style="display: flex;">
+                <input style="margin: 0;" type="checkbox" name="<%= operatie.id %>" value="<%= operatie.id %>">
+                <label style="margin: 0; margin-left: 0.3em;" for="<%= operatie.id %>"> <%= operatie.nume %> </label>
+              </div>
+            <% }); %>
+          </div>
+
           <div class="div-buton">
-            <button href="./" style="margin-right: 1rem;">ANULATI</button>
             <button type="submit">INTRODUCETI</button> 
           </div>
 

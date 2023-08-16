@@ -3,19 +3,11 @@ const router = express.Router();
 
 const Angajati = require('../models/angajati');
 let Operatii = require('../models/operatii2');
-const pieseInCurs = require('../models/piese-in-curs');
-const pieseFinalizate = require('../models/piese-finalizate');
-const comenziInCurs = require('../models/comenzi-in-curs');
-const comenziFinalizate = require('../models/comenzi-finalizate');
+const Loturi = require('../models/loturi');
 const Utilaje = require('../models/utilaje');
 
-
-// La finalul fiecarui apel al executaOperatie(), verificam daca piesa pe care tocmai am modificat-o este gata.
-// Facem asta numarand cate din operatiile sale nu au stadiul "Finalizata" sau "NULL".
-// Daca exista care nu au, piesa nu e gata.
-
-const esteGataPiesa = async function (piesa) {
-  const vector = piesa.stadiuOperatie;
+const esteGataLotul = async function (lot) {
+  const vector = lot.stadiuOperatie;
   let cond = 0;
   vector.forEach(stadiu => {
     if (stadiu === "In lucru" || stadiu === "In asteptare") {
@@ -25,117 +17,109 @@ const esteGataPiesa = async function (piesa) {
   return (cond === 0);
 }
 
+const areRebut = async function (lot) {
+  if (lot.cantitateRebut > 0 ) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
-// Daca piesa e gata, se finalizeaza. Adica, se sterge piese din pieseInCurs si se adauga in pieseFinalizate.
-// De asemenea, stadiul ei din comandaInCurs se modifica. Functia esteGataComanda se uita la aceste stadii pentru a
-// determina cand si daca o comanda este si ea gata.
+const suplimenteazaLot = async function (lot) {
 
-const finalizeazaPiesa = async function (piesaDeFinalizat) {
+  let stadiuOperatie = ["NULL"];
+  let cantitatePieseFinalizate = [lot.cantitateRebut];
+
+  const vectorOperatii = await Operatii.find().exec();
   
-  // Modificam stadiul piesei in comandaInCurs
-  const comandaDeModificat = await comenziInCurs.findOne({ Numar_comanda: piesaDeFinalizat.Numar_comanda }).exec();
-  const pieseleComenzii = comandaDeModificat.Piese;
-  const stadiilePieselor = comandaDeModificat.stadiuOperatie;
-  for (let i = 0; i <= pieseleComenzii.length - 1; i++) {
-    if ((piesaDeFinalizat._id).toString() === pieseleComenzii[i]) {
-      stadiilePieselor[i] = "Finalizata";
+  for (let i = 1; i <= vectorOperatii.length; i++) {
+    stadiuOperatie.push("NULL");
+    cantitatePieseFinalizate.push(-1);
+  }
+  for (let i = 1; i <= vectorOperatii.length; i++) { // Itereaza prin valorile select urilor din form
+    if (lot.stadiuOperatie[i] === "Finalizata") {
+      stadiuOperatie[i] = "In asteptare";
+      cantitatePieseFinalizate[i] = 0;
     }
   }
-  await comenziInCurs.updateOne({ Numar_comanda: piesaDeFinalizat.Numar_comanda }, { $set: { 'stadiuOperatie': stadiilePieselor } }).exec();
+  
+  const datetime = new Date();
+  let data = datetime.toString();
+  data = data.slice(0, 10);
+
+  const lotRebut = new Loturi({
+    _id: lot._id + "-A",
+    Data: data,
+    Stadiu_lot: "In creare",
+    Identificator: lot.Identificator + " (Rebut)",
+    Termen_Livrare: lot.Termen_Livrare,
+    Cod_reper: lot.Cod_reper,
+    Denumire: lot.Denumire,
+    Numar_Lot: lot.Numar_Lot + "-A",
+    cantitateaTotala: lot.cantitateRebut,
+    Desen: lot.Desen,
+    Revizie: lot.Revizie,
+    Dimensiune_Semifabricat: lot.Dimensiune_Semifabricat,
+    Certificat_Calitate: lot.Certificat_Calitate,
+    cantitateRebut: 0,
+    esteNecesaraOperatia: lot.esteNecesaraOperatia,
+    stadiuOperatie: stadiuOperatie,
+    cantitatePieseFinalizate: cantitatePieseFinalizate,
+    cantitatePieseInCurs: lot.cantitatePieseInCurs,
+    angajatOperatie: lot.angajatOperatie,
+    utilajOperatie: lot.utilajOperatie,
+    dataInitiere: new Date()
+  })
+  lotRebut.save();
+}
+
+const finalizeazaLot = async function (lot) {
 
   const dataFinalizare = new Date();
-  
   // Durata in productie
-  let timpDeExecutie = 0;
-  const vectorDurate = piesaDeFinalizat.timpDeExecutieOperatie;
-  vectorDurate.forEach(durata => {
-    timpDeExecutie += durata;
+  let timpTotalExecutie = 0;
+  const duratePeUtilaje = lot.timpDeExecutieOperatie;
+  duratePeUtilaje.forEach(durata => {
+    timpTotalExecutie += durata;
   })
-  timpDeExecutie = parseInt(timpDeExecutie);
-  
-  const nrOre = parseInt(timpDeExecutie / 3600); // numarul de ore intregi din comanda
-  timpDeExecutie -= (nrOre * 3600); //numarul de secunde ramas fara acele ore
-
-  const nrMinute = parseInt(timpDeExecutie / 60);
+  timpTotalExecutie = parseInt(timpTotalExecutie);
+  const nrOre = parseInt(timpTotalExecutie / 3600); // numarul de ore intregi din comanda
+  timpTotalExecutie -= (nrOre * 3600); //numarul de secunde ramas fara acele ore
+  const nrMinute = parseInt(timpTotalExecutie / 60);
 
   // Durata comenzii ca atare
-  let durataComanda = parseInt((dataFinalizare - piesaDeFinalizat.dataInitiere)/1000);
-
+  let durataComanda = parseInt((dataFinalizare - lot.dataInitiere)/1000);
   const nrOreComanda = parseInt(durataComanda / 3600);
   durataComanda -= (nrOre * 3600);
-
   const nrMinuteComanda = parseInt(durataComanda / 60);
-
+  
   // Informatia finala
   const timpDeExecutieTotal = "Executia comenzii a durat " + nrOreComanda + " ore si " + nrMinuteComanda +
   " minute, din care aproximativ " + nrOre + " ore si " + nrMinute + " minute a petrecut in Productie.";
 
   // Creeam o piesaFinalizata cu informatiile pieseiInCurs
-  const piesaFinalizata = new pieseFinalizate({
-    _id: piesaDeFinalizat._id,
-    Numar_comanda: piesaDeFinalizat.Numar_comanda,
-    RTSP: piesaDeFinalizat.RTSP,
-    Cod_client: piesaDeFinalizat.Cod_client,
-    nume: piesaDeFinalizat.nume,
-    cantitateaTotala: piesaDeFinalizat.cantitateaTotala,
-    cantitateRebut: piesaDeFinalizat.cantitateRebut,
-    dataInitiere: piesaDeFinalizat.dataInitiere,
-    dataFinalizare: dataFinalizare,
-    rezumatOperatiiFinalizate: piesaDeFinalizat.rezumatOperatiiFinalizate,
-    timpDeExecutieTotal: timpDeExecutieTotal
-  });
-  piesaFinalizata.save();
-  await pieseInCurs.findOneAndDelete({ _id: piesaDeFinalizat._id }).exec();
+
+  const filtruLot = { Identificator: lot.Identificator };
+  const updateLot = { $set: { Stadiu_lot: "Finalizat", dataFinalizare: dataFinalizare, rezumatOperatiiFinalizate: lot.rezumatOperatiiFinalizate, timpDeExecutieTotal: timpDeExecutieTotal } };
+  await Loturi.updateOne(filtruLot, updateLot).exec();
 }
 
+const executaOperatie = async function (Identificator, idAngajat, operatieSelectata, tipOperatie, utilajSelectat, nrRebut) {
 
-// Atunci cand toate stadiile operatiilor componente ale comenzii sunt "Finalizate", comanda este gata.
-// Numaram cate nu sunt. Daca exista comenzi care au alt stadiu decat "Finalizate", comanda nu este gata.
+  const filtruLot = { _id: Identificator };
+  const filtruAngajat = { _id: idAngajat };
 
-const esteGataComanda = async function (comanda) {
-  const vector = comanda.stadiuOperatie;
-  let cond = 0;
-  vector.forEach(stadiu => {
-    if (stadiu === "In lucru") {
-      cond++;
-    }
-  });
-  return (cond === 0);
-}
-
-// Cand comanda e gata, o inchidem. Asta inseamna ca o stergem din comenzi in curs si o trecem in comenzi finalizate.
-// Fiecare piesa a fost deja finalizata la timpul ei, prin esteGataPiesa() -> inchidePiesa()
-
-const inchideComanda = async function (comanda) {
-  const comandaDeIncheiat = new comenziFinalizate({
-    Numar_comanda: comanda.Numar_comanda,
-    Piese: comanda.Piese
-  });
-  comandaDeIncheiat.save();
-  await comenziInCurs.findOneAndDelete({ Numar_comanda: comanda.Numar_comanda }).exec();
-}
-
-
-// Functia big daddy de executie a operatiilor.
-// Toate procesele existente in fabrica pot fi reduse la o succesiune de operatii de initiere (fie ele prelucrari,
-// inspectii, etc.) si de finalizare a acestor operatii initiate.
-
-const executaOperatie = async function (idPiesa, idAngajat, operatieSelectata, tipOperatie, utilajSelectat, nrRebut) {
-  
-  const angajatCurent = await Angajati.findOne({ _id: idAngajat }).exec();
-
-  let Piesa = await pieseInCurs.findOne({ _id: idPiesa }).exec();
-  const filtru = { _id: idPiesa };
+  const angajatCurent = await Angajati.findOne(filtruAngajat).exec();
+  let lot = await Loturi.findOne(filtruLot).exec();
 
   let update = {};
-
   // Se calculeaza operatia precedenta si cea succesiva celei curente in queue-ul operatiilor comenzii
   let operatiePrecedenta = operatieSelectata - 1;
-  while (Piesa.stadiuOperatie[operatiePrecedenta] === "NULL" && operatiePrecedenta > 0) {
+  while (lot.stadiuOperatie[operatiePrecedenta] === "NULL" && operatiePrecedenta > 0) {
     operatiePrecedenta--;
   }
   let operatieUlterioara = operatieSelectata + 1;
-  while (Piesa.stadiuOperatie[operatieUlterioara] === "NULL") {
+  while (lot.stadiuOperatie[operatieUlterioara] === "NULL") {
     operatieUlterioara++;
   }
 
@@ -144,19 +128,19 @@ const executaOperatie = async function (idPiesa, idAngajat, operatieSelectata, t
 
     // Cand initiem o operatie, pornim intotdeauna cu numarul de piese care au trecut prin toate operatiile
     // precedente si asteapta operatia noastra.
-    const cantitatePieseInCurs = Piesa.cantitatePieseInCurs;
-    cantitatePieseInCurs[operatieSelectata] = Piesa.cantitatePieseFinalizate[operatiePrecedenta];
+    const cantitatePieseInCurs = lot.cantitatePieseInCurs;
+    cantitatePieseInCurs[operatieSelectata] = lot.cantitatePieseFinalizate[operatiePrecedenta];
 
-    const stadiuOperatie = Piesa.stadiuOperatie;
+    const stadiuOperatie = lot.stadiuOperatie;
     stadiuOperatie[operatieSelectata] = "In lucru";
 
-    const angajatOperatie = Piesa.angajatOperatie;
+    const angajatOperatie = lot.angajatOperatie;
     angajatOperatie[operatieSelectata] = angajatCurent.nume;
 
-    const utilajOperatie = Piesa.utilajOperatie;
+    const utilajOperatie = lot.utilajOperatie;
     utilajOperatie[operatieSelectata] = utilajSelectat;
 
-    const dataInitiereOperatie = Piesa.dataInitiereOperatie;
+    const dataInitiereOperatie = lot.dataInitiereOperatie;
     dataInitiereOperatie[operatieSelectata] = new Date();
 
     update = {
@@ -170,60 +154,73 @@ const executaOperatie = async function (idPiesa, idAngajat, operatieSelectata, t
     };
 
     // Piesele ce au fost preluate in noua operatie, trebuie sa nu mai figureze in cea precedenta:
-    const cantitatePieseFinalizate = Piesa.cantitatePieseFinalizate;
+    const cantitatePieseFinalizate = lot.cantitatePieseFinalizate;
     cantitatePieseFinalizate[operatiePrecedenta] = 0;
-    await pieseInCurs.updateOne(filtru, { $set: { 'cantitatePieseFinalizate': cantitatePieseFinalizate } }).exec();
+    await Loturi.updateOne(filtruLot, { $set: { 'cantitatePieseFinalizate': cantitatePieseFinalizate } }).exec();
 
   } else if (tipOperatie === "Finalizare") {
 
     // Am folosit utilajSelectat pentru a trimite numarul pieselor finalizate
 
     // numar = numarul de piese deja gata + numarul de piese gata acum
-    const numar = Piesa.cantitatePieseFinalizate[operatieSelectata] + parseInt(utilajSelectat);
+    const numar = lot.cantitatePieseFinalizate[operatieSelectata] + parseInt(utilajSelectat);
     
     // numarPieseNeterminate (dar nu stricate) = cu cate am inceput - cate am terminat - cate am stricat
-    const numarPieseNeterminate = Piesa.cantitatePieseInCurs[operatieSelectata] - utilajSelectat - nrRebut;
+    const numarPieseNeterminate = lot.cantitatePieseInCurs[operatieSelectata] - utilajSelectat - nrRebut;
     
     const dataFinalizareOperatie = new Date();
 
     const operatie = await Operatii.findOne({ id: operatieSelectata }).exec();
 
-    const rezumatOperatieCurenta = (angajatCurent.nume).charAt(0).toUpperCase() + " a terminat " + utilajSelectat +
-    " x " + Piesa.nume + " dupa operatia de " + operatie.nume + " la utilajul " + Piesa.utilajOperatie[operatieSelectata] +
-    "." + "\n" + "A inceput operatia la " + Piesa.dataInitiereOperatie[operatieSelectata] + " si a terminat la " +
-    dataFinalizareOperatie + ".";
+    let rezumatOperatieCurenta = angajatCurent.nume + " a terminat " + utilajSelectat +
+    " x " + lot.Denumire + " dupa operatia de " + (operatie.nume).toLowerCase();
 
-    const timpDeExecutieOperatie = (dataFinalizareOperatie - Piesa.dataInitiereOperatie[operatieSelectata]) / 1000;
+    if (lot.utilajOperatie[operatieSelectata] !== "null" && lot.utilajOperatie[operatieSelectata] !== null ) {
+      rezumatOperatieCurenta = rezumatOperatieCurenta + " la utilajul " + lot.utilajOperatie[operatieSelectata];
+    }
+
+    let data1 = (lot.dataInitiereOperatie[operatieSelectata]).toString();
+    let data2 = dataFinalizareOperatie.toString();
+
+    const ziua1 = data1.slice(8, 10) + data1.slice(3, 7) + data1.slice(10, 15);
+    const ziua2 = data2.slice(8, 10) + data2.slice(3, 7) + data2.slice(10, 15);
+
+    const ora1 = data1.slice(15, 24);
+    const ora2 = data2.slice(15, 24);
+
+    rezumatOperatieCurenta = rezumatOperatieCurenta + ". A inceput operatia pe data de " + ziua1 + " la ora" + ora1 +
+    " si a terminat pe data de " + ziua2 + " la ora" + ora2 + ".";
+
+    const timpDeExecutieOperatie = (dataFinalizareOperatie - lot.dataInitiereOperatie[operatieSelectata]) / 1000;
 
     let stadiu;
-    if (numar < Piesa.cantitateaTotala) {
+    if (numarPieseNeterminate > 0) {
       stadiu = "In asteptare";
     } else {
       stadiu = "Finalizata";
     }
 
     // Mai am de efectuat operatieSelectata pentru toate piesele pe care nu le-am terminat dar nici nu le-am stricat
-    const cantitatePieseInCurs = Piesa.cantitatePieseInCurs;
+    const cantitatePieseInCurs = lot.cantitatePieseInCurs;
     cantitatePieseInCurs[operatieSelectata] = numarPieseNeterminate;
 
     // Noul numar de piese ce au finalizat operatieSelectata este cel existent + cate am terminat acum
     // De asemenea, cele pe care le-am stricat trebuie mentionate la 0 pentru a putea incepe din nou productia pentru
     // ele
-    const cantitatePieseFinalizate = Piesa.cantitatePieseFinalizate;
+    const cantitatePieseFinalizate = lot.cantitatePieseFinalizate;
     cantitatePieseFinalizate[operatieSelectata] = numar;
-    cantitatePieseFinalizate[0] = parseInt(nrRebut);
 
     // Cate am stricat in total = cate am stricat deja + cate am stricat acum
-    let cantitateRebut = Piesa.cantitateRebut;
+    let cantitateRebut = lot.cantitateRebut;
     cantitateRebut += parseInt(nrRebut);
 
-    const stadiuOperatie = Piesa.stadiuOperatie;
+    const stadiuOperatie = lot.stadiuOperatie;
     stadiuOperatie[operatieSelectata] = stadiu;
  
-    const angajatOperatie = Piesa.angajatOperatie;
+    const angajatOperatie = lot.angajatOperatie;
     angajatOperatie[operatieSelectata] = "Niciunul";
 
-    const utilajOperatie = Piesa.utilajOperatie;
+    const utilajOperatie = lot.utilajOperatie;
     utilajOperatie[operatieSelectata] = "Niciunul";
 
     update = {
@@ -244,21 +241,17 @@ const executaOperatie = async function (idPiesa, idAngajat, operatieSelectata, t
   }
 
   try{
-    await pieseInCurs.updateOne(filtru, update).exec();
+    await Loturi.updateOne(filtruLot, update).exec();
   } catch (err) {
     console.log(err);
   }
 
-  // Cautam din nou piesa (in ideea de a avea obiectul updatat cu care sa lucram) si efectuam controlul de
-  // finalizare
-  Piesa = await pieseInCurs.findOne(filtru).exec();
-  if (await esteGataPiesa(Piesa) === true) {
-    await finalizeazaPiesa(Piesa);
-    const comanda = await comenziInCurs.findOne({ Numar_comanda: Piesa.Numar_comanda }).exec();
-    console.log(await esteGataComanda(comanda) === true);
-    if (await esteGataComanda(comanda) === true) {
-      await inchideComanda(comanda);
+  lot = await Loturi.findOne(filtruLot).exec();
+  if (await esteGataLotul(lot) === true) {
+    if (await areRebut(lot)) {
+      await suplimenteazaLot(lot);
     }
+    await finalizeazaLot(lot);
   }
 }
 
@@ -271,57 +264,48 @@ router.get('/', async (req, res) => {
   res.render('angajat', {idAngajat, nume } );
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const idAngajat = req.body.idAngajat;
-  const idComanda = req.body.idComanda;
-  res.redirect(`angajat/selectie-operatii?idAngajat=${idAngajat}&idComanda=${idComanda}`);
+  const Identificator = req.body.idLot;
+  const angajat = await Angajati.findOne({ _id: idAngajat }).exec();
+  let nume = angajat.nume;
+  nume = nume.toUpperCase();
+  const lot = await Loturi.findOne({ _id: Identificator }).exec();
+  if (lot) {
+    res.redirect(`angajat/operatii-piesa?idAngajat=${idAngajat}&Identificator=${Identificator}`);
+  } else {
+    res.redirect(`/popup?idAngajat=${idAngajat}&tipEroare=comandaLipsa&nume=${nume}`);
+  }
 })
-
-router.get('/selectie-operatii', async (req, res) => {
-  const idAngajat = req.query.idAngajat;
-  const idComanda = req.query.idComanda;
-  const pieseComandaCurenta = await pieseInCurs.find({ Numar_comanda: idComanda }).exec();
-  res.render('angajat/selectie-operatii', { idAngajat, idComanda, pieseComandaCurenta, idComanda });
-})
-
-router.post('/selectie-operatii', (req, res) => {
-  const idAngajat = req.body.idAngajat;
-  const idPiesaCurenta = req.body.idPiesa;
-  const idComanda = req.body.idComanda;
-  res.redirect(`./operatii-piesa?idComanda=${idComanda}&idAngajat=${idAngajat}&idPiesaCurenta=${idPiesaCurenta}`);
-})
-
 
 router.get('/operatii-piesa', async (req, res) => {
-  const idComanda = req.query.idComanda;
+  const Identificator = req.query.Identificator;
   const idAngajat = req.query.idAngajat;
-  const idPiesaCurenta = req.query.idPiesaCurenta;
-  const piesaCurenta = await pieseInCurs.findOne({ _id: idPiesaCurenta }).exec();
   const vectorOperatii = await Operatii.find().exec();
   let denumiriOperatii = ['NULL'];
   vectorOperatii.forEach(operatie => {
     denumiriOperatii.push(operatie.nume);
   });
   let index = 0;
-  res.render('angajat/operatii-piesa', { idComanda, idAngajat, piesaCurenta, denumiriOperatii, index });
+  const loturi = await Loturi.find({ _id: Identificator }).exec();
+  const piesaCurenta = loturi[0];
+  res.render('angajat/operatii-piesa', { Identificator, idAngajat, piesaCurenta, denumiriOperatii, index });
 })
 
 router.post('/operatii-piesa', async(req, res) => {
   const idAngajat = req.body.idAngajat;
-  const idPiesa = req.body.idPiesa;
+  const Identificator = req.body.idPiesa;
   const operatieCurenta = req.body.operatieCurenta;
   const tipOperatie = req.body.tipOperatie;
-  const idComanda = req.body.idComanda;
 
-  res.redirect(`./meniu-operatie?idComanda=${idComanda}&idAngajat=${idAngajat}&idPiesa=${idPiesa}&operatieCurenta=${operatieCurenta}&tipOperatie=${tipOperatie}`);
+  res.redirect(`./meniu-operatie?Identificator=${Identificator}&idAngajat=${idAngajat}&operatieCurenta=${operatieCurenta}&tipOperatie=${tipOperatie}`);
 })
 
 
 router.get('/meniu-operatie', async (req, res) => {
   const idAngajat = req.query.idAngajat;
-  const idPiesa = req.query.idPiesa;
+  const Identificator = req.query.Identificator;
   const tipOperatie = req.query.tipOperatie;
-  const idComanda = req.query.idComanda;
 
   const vectorOperatii = await Operatii.find().exec();
   let denumiriOperatii = ['NULL'];
@@ -344,14 +328,14 @@ router.get('/meniu-operatie', async (req, res) => {
   const angajat = await Angajati.findOne({ _id: idAngajat }).exec();
   const numeAngajat = angajat.nume;
 
-  const Piesa = await pieseInCurs.findOne({ _id: idPiesa}).exec();
+  const lot = await Loturi.findOne({ _id: Identificator }).exec(); 
 
-  res.render('angajat/meniu-operatie', { idComanda, idAngajat, idPiesa, operatieCurenta, indexOperatieCurenta, tipOperatie, numeAngajat, Piesa, Utilaje: utilajeDisponibile });
+  res.render('angajat/meniu-operatie', { Identificator, idAngajat, operatieCurenta, indexOperatieCurenta, tipOperatie, numeAngajat, lot, Utilaje: utilajeDisponibile });
 })
 
 router.post('/meniu-operatie', async (req, res) => {
   const idAngajat = req.body.idAngajat;
-  const idPiesa = req.body.idPiesa;
+  const Identificator = req.body.idPiesa;
   const operatieCurenta = req.body.operatieCurenta;
   const tipOperatie = req.body.tipOperatie;
   const utilajSelectat = req.body.utilaj;
@@ -359,7 +343,7 @@ router.post('/meniu-operatie', async (req, res) => {
   if (!nrRebut) {
     nrRebut = 0;
   }
-  await executaOperatie(idPiesa, idAngajat, operatieCurenta, tipOperatie, utilajSelectat, nrRebut);
+  await executaOperatie(Identificator, idAngajat, operatieCurenta, tipOperatie, utilajSelectat, nrRebut);
   res.redirect('/');
 })
 

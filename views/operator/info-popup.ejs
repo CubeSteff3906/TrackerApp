@@ -4,12 +4,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/styles/operator/index.css">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/info-popup.css">
   <title>Operator</title>
 </head> 
 
 <body>
 
+
+  <section class="fundal-pop-up">
+  
+    <form class="pop-up">
+  
+      <div class="titlu-popup">
+        <p style="text-decoration: underline;">
+          Detalii comanda #<%= lot._id %>:
+        </p>
+        <p class="stadiu">
+          <%= lot.Stadiu_lot %>
+          <% if (lot.Stadiu_lot === "In lucru") { %>
+            <img class="icon" src="/icons/in-lucru.png">
+          <% } else { %>
+            <img class="icon" src="/icons/finalizat.png">
+          <% } %>
+          <button type="button" class="anuleaza"><img style="width: 1.8em;" onclick="window.location.href='/operator?idAngajat=<%=idAngajat%>'" src="/icons/cancel.png"></button>
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="coloana">
+          <div class="informatii" style="margin-top: 1em;">
+            <p>
+              <span>Identificator:</span>
+              <%= lot.Identificator %>
+            </p>
+          </div>
+          <div class="informatii">
+            <p>
+              <span>Produs:</span>
+              <%= lot.Denumire %> (<%= lot.Revizie %>)
+            </p>
+          </div>
+        </div>
+        <div class="coloana">
+          <div class="informatii" style="margin-top: 1em;">
+            <p>
+              <% var data=lot.Termen_Livrare; %>
+              <% data=data.toString() %>
+              <% data=data.substring(0,15); %>
+              <span>Termen Livrare:</span>
+              <%= data %>
+            </p>
+          </div>
+          <div class="informatii">
+            <p>
+              <% if (lot.Stadiu_lot === "Finalizat") { %>
+                <span>Finalizate:</span>
+              <% } else { %>
+                <span>In lucru:</span>
+              <% } %>
+              <%= lot.cantitateaTotala - lot.cantitateRebut %>/<%= lot.cantitateaTotala %>
+              <% if (lot.cantitateaTotala > 1) { %>
+                produse
+              <% } else { %>
+                produs
+              <% } %>
+              <% if(lot.Stadiu_lot !== "Finalizat") { %>
+                  (Rebut: <%= lot.cantitateRebut %>)
+              <% } %>
+            </p>
+          </div>
+          <% if (lot.Stadiu_lot === "Finalizat") { %>
+            <div class="informatii">
+              <p>
+                <span style="color: red;">In rebut:</span>
+                <%= lot.cantitateRebut %>/<%= lot.cantitateaTotala %>
+                <% if (lot.cantitateRebut > 1) { %>
+                  produse
+                <% } else { %>
+                  produs
+                <% } %>
+              </p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (lot.Stadiu_lot === "In lucru") { %>
+        <div class="stadiu-lot">
+          <p>
+            <span>Stadiu:</span> 
+            <% let i = 0; %>
+            <% let ok = 1; %>
+            <% const v = lot.stadiuOperatie; %>
+            <% v.forEach(stadiu => { %>
+              <% if (ok === 1) { %>
+                <% if (stadiu === "NULL" || stadiu === "Finalizata") { %>
+                  <% i++; %>
+                <% } else { %>
+                  <% const str=operatii[i-1].nume; %>
+                  <% if (stadiu === "In asteptare") { %>
+                    Se pregateste operatia de <%= str.toLowerCase() %>
+                  <% } else { %>
+                    Se efectueaza operatia de <%= str.toLowerCase() %>
+                  <% } %>
+                  <% ok = 0; %>
+                <% } %>
+              <% } %>
+            <% }); %>
+          </p>
+        </div>
+      <% } else {
+
+      } %>
+    </form>
+  </section>
+
+  
   <header>
     <div class="div-buton-inapoi">
       <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
@@ -78,7 +188,7 @@
                 </div>
               </div>
               <div style="width: 9vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>'"><img
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>'"><img
                     style="width:2em; height: 2em;" src="/icons/print.png"></button>
                 <button class="yes"
                   onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img
@@ -100,7 +210,7 @@
                 <img src="/icons/in-lucru.png">
               </div>
               <div style="width: 9vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=fisa&idAngajat=<%=idAngajat%>'"><img style="width:2em; height: 2em;" src="/icons/print.png"></button>
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>'"><img style="width:2em; height: 2em;" src="/icons/print.png"></button>
                 <button class="yes" onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
               </div>
             </div>
@@ -113,5 +223,6 @@
       </section>
     </div>
   </div>
+  
 </body>
 </html>

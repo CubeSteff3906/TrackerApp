@@ -4,13 +4,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/styles/operator/index.css">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/popup.css">
   <title>Operator</title>
+
+  <script>
+
+    const input = document.getElementById('codReper');
+    const eroare = document.getElementById('eroare');
+
+    function verificaInput() {
+      if (input === '') {
+        eroare.classList.add('vizibil');
+        console.log("Yes daddy");
+      }
+    }
+  </script>
+
 </head> 
 
 <body>
+  <section class="fundal-pop-up">
+  
+    <form class="pop-up" method="POST" action="./cauta-rtsp?idAngajat=<%= idAngajat %>">
+  
+      <div class="mini-header">
+        <button type="button" onclick="window.location.href='./?idAngajat=<%=idAngajat%>'"><img src="/icons/cancel.png"></button>
+      </div>
 
-  <header>
+      <p>Cautati un reper in baza de date:</p>
+
+      <div class="meniu-input">
+        <input id="codReper" type="text" name="codReper" placeholder="INTRODUCETI COD REPER">
+        <button type="submit"><img style="width: 1.4em;" src="/icons/cauta.png"></button>
+      </div>
+      
+      <% if(err === "true") { %>
+        <p class="avertisment">Produsul nu poate fi gasit in baza de date!</p>
+      <% } else { %>
+        <p class="avertisment" style="display: none;">Produsul nu poate fi gasit in baza de date!</p>
+      <% } %>
+
+    </form>
+  
+  </section>
+  
+    <header>
     <div class="div-buton-inapoi">
       <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
     </div>
@@ -78,7 +116,7 @@
                 </div>
               </div>
               <div style="width: 9vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>'"><img
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>'"><img
                     style="width:2em; height: 2em;" src="/icons/print.png"></button>
                 <button class="yes"
                   onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img
@@ -100,7 +138,7 @@
                 <img src="/icons/in-lucru.png">
               </div>
               <div style="width: 9vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=fisa&idAngajat=<%=idAngajat%>'"><img style="width:2em; height: 2em;" src="/icons/print.png"></button>
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>'"><img style="width:2em; height: 2em;" src="/icons/print.png"></button>
                 <button class="yes" onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
               </div>
             </div>
@@ -113,5 +151,7 @@
       </section>
     </div>
   </div>
+  
 </body>
+
 </html>

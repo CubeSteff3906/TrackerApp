@@ -1,0 +1,443 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 4.5vh 3.5vw 4vh 3.5vw;
+}
+
+header {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  border-bottom: 3.5px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header button {
+  margin: 0.4em 1em;
+  padding: 0.4em 0.8em;
+  font-size: 1.5em;
+}
+
+.printeaza {
+  display: flex;
+  align-items: center;
+}
+
+.continut {
+  width: 100%;
+  margin-top: 7vh;
+}
+
+.continut .header {
+  height: 9.15vh;
+  width: 100%;
+  display: flex;
+}
+
+.header .coloana1,
+.header .coloana2,
+.header .coloana3 {
+  height: 100%;
+}
+
+.header .coloana1 {
+  width: 22.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header .coloana2 {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  text-align: center;
+}
+
+.header .coloana3 {
+  width: 27.5%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.header .coloana2 .titlu {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 0.2em;
+}
+
+.header .coloana2 .informatii {
+  width: 100%;
+  margin: 0.3em 0 0.5em 0;
+  display: flex;
+  justify-content: center;
+}
+
+.informatii p {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 0 1.5em;
+}
+
+
+.continut .tabel {
+  height: 25.1625vh;
+  width: 100%;
+  display: flex;
+}
+
+.tabel .coloana1,
+.tabel .coloana2,
+.tabel .coloana3 {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tabel .coloana1 {
+  width: 22.5%;
+  border: 3.5px solid black;
+}
+
+.tabel .coloana2 {
+  width: 40%;
+  margin-top: 0.8vh;
+}
+
+.tabel .coloana3 {
+  width: 37.5%;
+  border: 3.5px solid black;
+}
+
+.tabel .coloana1 .rand-titlu,
+.tabel .coloana1 .rand-continut {
+  width: 100%;
+  flex: 100%;
+}
+
+.rand-titlu {
+  background-color: rgba(145, 145, 145, 0.758);
+  font-size: 1.2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  border-top: 2px solid black;
+}
+
+.rand-continut {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  border-top: 2px solid black;
+}
+
+.rand-continut div {
+  align-items: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  border-right: 2px solid black;
+}
+
+.rand-continut span {
+  margin-left: 0.2em;
+}
+
+.coloana2 .barcode {
+  flex: 70%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coloana2 .rand {
+  flex: 15%;
+  width: 100%;
+  display: flex;
+}
+
+.coloana3 .element {
+  width: 100%;
+  flex: 100%;
+  display: flex;
+}
+
+.element .rand-titlu {
+  flex: 45%;
+  height: 100%;
+  background-color: rgba(145, 145, 145, 0.758);
+  border-right: 2px solid black;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.element .rand-titlu span {
+  margin-left: 0.2em;
+}
+
+.element .rand-continut {
+  flex: 55%;
+  height: 100%;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.lista2 {
+  margin-top: 0.7vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  border: 2px solid black;
+}
+
+.lista2 .rand {
+  flex: 100%;
+  border-bottom: 2px solid black;
+  display: flex;
+}
+
+.grup {
+  flex: 33%;
+  border-right: 2px solid black;
+  display: flex;
+}
+
+.grup div {
+  border-right: 2px solid black;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  padding-left: 0.2em;
+}
+
+
+@media print {
+  header {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 4.5vh 0;
+  }
+  
+  .continut {
+    width: 100%;
+    margin-top: 0.2vh;
+  }
+
+  .continut .header {
+    height: 9.15vh;
+    width: 100%;
+    display: flex;
+  }
+
+  .header .coloana1,
+  .header .coloana2,
+  .header .coloana3 {
+    height: 100%;
+  }
+
+  .header .coloana1 {
+    width: 22.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header .coloana2 {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    text-align: center;
+  }
+
+  .header .coloana3 {
+    width: 27.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+  }
+
+  .header .coloana2 .titlu {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 0.2em;
+  }
+
+  .header .coloana2 .informatii {
+    width: 100%;
+    margin: 0.3em 0 0.5em 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .informatii p {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0 1.5em;
+  }
+
+
+  .continut .tabel {
+    height: 25.1625vh;
+    width: 100%;
+    display: flex;
+  }
+
+  .tabel .coloana1,
+  .tabel .coloana2,
+  .tabel .coloana3 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tabel .coloana1 {
+    width: 22.5%;
+    border: 3.5px solid black;
+  }
+
+  .tabel .coloana2 {
+    width: 40%;
+    margin-top: 0.8vh;
+  }
+
+  .tabel .coloana3 {
+    width: 37.5%;
+    border: 3.5px solid black;
+  }
+
+  .tabel .coloana1 .rand-titlu,
+  .tabel .coloana1 .rand-continut {
+    width: 100%;
+    flex: 100%;
+  }
+
+  .rand-titlu {
+    background-color: rgba(145, 145, 145, 0.758);
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border-top: 2px solid black;
+  }
+
+  .rand-continut {
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    border-top: 2px solid black;
+  }
+
+  .rand-continut div {
+    align-items: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    border-right: 2px solid black;
+  }
+
+  .rand-continut span {
+    margin-left: 0.2em;
+  }
+
+  .coloana2 .barcode {
+    flex: 70%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .coloana2 .rand {
+    flex: 15%;
+    width: 100%;
+    display: flex;
+  }
+
+  .coloana3 .element {
+    width: 100%;
+    flex: 100%;
+    display: flex;
+  }
+
+  .element .rand-titlu {
+    flex: 45%;
+    height: 100%;
+    background-color: rgba(145, 145, 145, 0.758);
+    border-right: 2px solid black;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .element .rand-titlu span {
+    margin-left: 0.2em;
+  }
+
+  .element .rand-continut {
+    flex: 55%;
+    height: 100%;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .lista2 {
+    margin-top: 0.7vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    border: 2px solid black;
+  }
+
+  .lista2 .rand {
+    flex: 100%;
+    border-bottom: 2px solid black;
+    display: flex;
+  }
+
+  .grup {
+    flex: 33%;
+    border-right: 2px solid black;
+    display: flex;
+  }
+
+  .grup div {
+    border-right: 2px solid black;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    padding-left: 0.2em;
+  }
+}
