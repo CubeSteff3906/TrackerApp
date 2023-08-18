@@ -78,11 +78,17 @@
 
       <form method="POST" action="/operator/numere-program?revizie=<%=revizie%>&idAngajat=<%=idAngajat%>">
 
-        <% for (let i = 0; i <= denumiriOperatii.length - 1; i++) { %>
-            <label><%= denumiriOperatii[i] %></label>
-            <input type="text" name="<%=denumiriOperatii[i]%>">
-        <% } %>
-
+        <div style="max-height: 40vh; overflow-y: scroll;">
+          <% for (let i=0; i <=denumiriOperatii.length - 1; i++) { %>
+            <div style="width: 100%; justify-content: space-between; display: flex; margin-top: 0.4em;">
+              <label>
+                <%= denumiriOperatii[i] %>
+              </label>
+              <input type="text" name="<%=denumiriOperatii[i]%>">
+            </div>
+          <% } %>
+        </div>
+        
         <div class="footer-pop-up">
           <button style="margin-right: 2em;">ANULATI</button>
           <button type="submit">OK</button>

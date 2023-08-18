@@ -12,7 +12,7 @@
 
   <section class="fundal-pop-up">
   
-    <form class="pop-up"  method="POST" action="/operator/piesa-noua?idAngajat=<%= idAngajat %>">
+    <form id="myForm" class="pop-up"  method="POST" action="/operator/piesa-noua?idAngajat=<%= idAngajat %>">
   
       <div class="header-pop-up">
         <p style="margin: 0;">FISA URMARIRE LOT IN PRODUCTIE</p>
@@ -22,27 +22,27 @@
         <div class="coloana" style="flex: 23%; margin: 0 0.4em;">
           <div>
             <label for="Numar_Fisa">Numar Fisa:</label>
-            <input type="text" name="Numar_Fisa">
+            <input type="text" name="Numar_Fisa" required>
           </div>
           <div>
             <label for="Data">Data:</label>
-            <input type="date" name="Data">
+            <input type="date" name="Data" required>
           </div>
           <div>
             <label for="Identificator">Identificator:</label>
-            <input type="text" name="Identificator">
+            <input type="text" name="Identificator" required>
           </div>
           <div>
             <label for="Termen_Livrare">Termen De Livrare:</label>
-            <input type="date" name="Termen_Livrare">
+            <input type="date" name="Termen_Livrare" required>
           </div>
           <div>
             <label for="Numar_Lot">Numar Lot:</label>
-            <input type="text" name="Numar_Lot">
+            <input type="text" name="Numar_Lot" required>
           </div>
           <div style="border-bottom: 2px solid black;">
             <label for="Cantitate">Numar Bucati:</label>
-            <input type="number" name="Cantitate">
+            <input type="number" name="Cantitate" required>
           </div>
         </div>
 
@@ -50,20 +50,20 @@
           <% if (!produs) { %>
             <div>
               <label for="Cod_Reper">Cod Reper:</label>
-              <input type="text" name="Cod_Reper">
+              <input type="text" name="Cod_Reper" required>
             </div>
             <div>
               <label for="Denumire_Reper">Denumire Reper:</label>
-              <input type="text" name="Denumire_Reper">
+              <input type="text" name="Denumire_Reper" required>
             </div>
           <% } else { %>
             <div>
               <label for="Cod_Reper">Cod Reper:</label>
-              <input type="text" name="Cod_Reper" value="<%= produs.Cod_reper %>" readonly>
+              <input type="text" name="Cod_Reper" value="<%= produs.Cod_reper %>" readonly required>
             </div>
             <div>
               <label for="Denumire_Reper">Denumire Reper:</label>
-              <input type="text" name="Denumire_Reper" value="<%= produs.Denumire %>" readonly>
+              <input type="text" name="Denumire_Reper" value="<%= produs.Denumire %>" readonly required>
             </div>
           <% } %>
           <div>
@@ -119,26 +119,27 @@
             const select = document.getElementById('revizii');
             select.selectedIndex = vectorRevizii.length - 1;
           })
+
         </script>
 
           <% if (!produs) { %>
             <div>
               <label for="Desen">Desen:</label>
-              <input id="Desen" type="text" name="Desen">
+              <input id="Desen" type="text" name="Desen" required>
             </div>
           <% } else { %>
             <div>
               <label for="Desen">Desen:</label>
-              <input id="Desen" type="text" name="Desen" readonly>
+              <input id="Desen" type="text" name="Desen" readonly required>
             </div>
           <% } %>
           <div>
             <label for="Dimensiune_Semifabricat">Dimensiune Semifabricat:</label>
-            <input type="text" name="Dimensiune_Semifabricat">
+            <input type="text" name="Dimensiune_Semifabricat" required>
           </div>
           <div style="border-bottom: 2px solid black;">
             <label for="Certificat_Calitate">Certificat Calitate:</label>
-            <input type="text" name="Certificat_Calitate">
+            <input type="text" name="Certificat_Calitate" required>
           </div>
         </div>
         <div class="coloana" style="flex: 35%; margin: 0 1.4em 0 0.6em;">
@@ -164,6 +165,30 @@
       </div>
   
     </form>
+
+    <script>
+
+      const form = document.getElementById("myForm");
+
+      form.addEventListener("submit", function(event) {
+
+        let isValid = true;
+
+        var requiredInputs = this.querySelectorAll("input[required]");
+
+        for (var i = 0; i < requiredInputs.length; i++) {
+          if (requiredInputs[i].value.trim() === "") {
+            formIsValid = false;
+            break;
+          }
+        }
+
+        if (formIsValid) {
+          event.preventDefault();
+        }
+
+      });
+    </script>
 
   </section>
 

@@ -12,23 +12,27 @@
     <div class="div-buton-inapoi">
       <a href="/operator?idAngajat=<%=idAngajat%>" class="buton-inapoi">&#10094; INAPOI</a>
       <p style="margin: 0 20vw 0 17vw;">CATALOG PRODUSE</p>
-      <button onClick="window.location.href = 'http://localhost:3000/operator/catalog-popup?filtru=<%= filtru %>&codReper=null&idAngajat=<%=idAngajat%>';" style="margin-left: 0.2em;">ADAUGA PRODUS +</button>
+      <button onClick="window.location.href = '/operator/catalog-popup?filtru=<%= filtru %>&codReper=null&idAngajat=<%=idAngajat%>';" style="margin-left: 0.2em;">ADAUGA PRODUS +</button>
     </div>
   </header>
   <div class="corp">
     <div class="big-daddy-scroll">
       <% if (filtru === "null") { %>
         <% produse.forEach(element => { %>
-          <div style="margin: 1em 0.5em; padding: 1em 1em; font-size: 20px; font-weight: bold; border: 2px solid black;">
-            <%= element.Denumire %> <%= element.Cod_reper %>
-            <% const v = element.Revizii %> <br> 
-            <%= v.length %>
-            <% if(v.length > 1) { %>
-              Revizii
-            <% } else { %>
-              Revizie
-            <% } %>
-            <button onclick="window.location.href='/operator/catalog-popup?filtru=<%=filtru%>&codReper=<%=element.Cod_reper%>'">ADAUGA REVIZIE</button>
+          <div style="display: flex; justify-content: space-between; margin: 1em 0.5em; padding: 1em 1em; font-size: 20px; font-weight: bold; border: 2px solid black;">
+            <div style="display: flex; flex-direction: column;">
+              <%= element.Denumire %> <%= element.Cod_reper %>
+              <% const v = element.Revizii %> <br> 
+              <%= v.length %>
+              <% if(v.length > 1) { %>
+                Revizii
+              <% } else { %>
+                Revizie
+              <% } %>
+            </div>
+            <div style="display: flex; justify-content: center;">
+              <button style="background-color: rgba(0,0,0,0); border: none; cursor: pointer;" onclick="window.location.href='/operator/catalog-popup?filtru=<%=filtru%>&codReper=<%=element.Cod_reper%>'"><img style="width: 2em;" src="/icons/adauga.png"></button>
+            </div>
           </div>
         <% }); %>
       <% } else { %>

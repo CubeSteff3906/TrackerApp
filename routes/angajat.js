@@ -47,11 +47,22 @@ const suplimenteazaLot = async function (lot) {
   let data = datetime.toString();
   data = data.slice(0, 10);
 
+  let cod = lot._id;
+  let codFinal;
+
+  let text = lot.Identificator;
+  if (text.slice(text.length-7, text.length) !== "(Rebut)") {
+    text += "(Rebut)";
+    codFinal = cod + "-R1";
+  } else {
+    codFinal = cod.slice(0, cod.length - 1) + (+cod[cod.length - 1] + 1);
+  }
+
   const lotRebut = new Loturi({
-    _id: lot._id + "-A",
+    _id: codFinal,
     Data: data,
     Stadiu_lot: "In creare",
-    Identificator: lot.Identificator + " (Rebut)",
+    Identificator: text,
     Termen_Livrare: lot.Termen_Livrare,
     Cod_reper: lot.Cod_reper,
     Denumire: lot.Denumire,

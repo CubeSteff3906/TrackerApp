@@ -57,6 +57,7 @@ header button {
 .big-daddy-scroll {
   flex: 62%;
   height: 100%;
+  overflow-y: scroll;
 }
 
 .navbar {

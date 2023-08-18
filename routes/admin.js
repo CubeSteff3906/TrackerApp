@@ -11,7 +11,6 @@ const Loturi = require('../models/loturi');
 router.get('/', async (req, res) => {
   const idAngajat = req.query.idAngajat;
   const loturiInCurs = await Loturi.find().exec();
-  await Loturi.deleteMany().exec();
   res.render('admin', { loturiInCurs, idAngajat });
 });
 
@@ -75,59 +74,6 @@ router.post('/sterge-angajat', async (req, res) => {
     })
 })
 
-// Rute ale paginii de editare ale bazei de date a RTSP-urilor
-router.get('/rtsp', async (req, res) => {
-  const idAngajat = req.query.idAngajat;
-  const vectorRTSPuri = await RTSPuri.find().exec();
-  const vectorOperatii = await Operatii.find().exec();
-  res.render('admin/rtsp', { RTSP: vectorRTSPuri, Operatii: vectorOperatii, idAngajat });
-});
-
-router.post('/rtsp', async (req, res) => {
-  const idAngajat = req.query.idAngajat;
-  const vectorOperatii = await Operatii.find().exec();
-
-  const RTSP = req.body.rtsp;
-  const Cod_client = req.body.codclient;
-  const nume = req.body.nume;
-
-  const valoriForm = Object.entries(req.body);
-  valoriForm.sort((a, b) => a[0].localeCompare(b[0]));
-  // Ordinea valorile din form este: casute bifate in ordine crescatoare, dupa valori input
-  const indexFinal = valoriForm.length - 4;
-  let indexInitial = 0;
-  let esteNecesaraOperatia = [];
-  esteNecesaraOperatia.push(false);
-  for (let i = 1; i <= vectorOperatii.length; i++) {
-    esteNecesaraOperatia.push(false);
-  }
-  while (indexInitial <= indexFinal) {
-    let i = +valoriForm[indexInitial][1];
-    esteNecesaraOperatia[i] = true;
-    indexInitial++;
-  }
-  const rtspNou = new RTSPuri({
-    RTSP: RTSP,
-    Cod_client: Cod_client,
-    nume: nume,
-    esteNecesaraOperatia: esteNecesaraOperatia
-  });
-  rtspNou.save();
-  res.redirect(`./rtsp?idAngajat=${idAngajat}`);
-})
-
-router.post('/sterge-rtsp', async (req, res) => {
-  const idAngajat = req.query.idAngajat;
-  const id = req.body.id;
-
-  RTSPuri.findOneAndDelete({ RTSP: id })
-    .then(() => {
-      res.redirect(`./rtsp?idAngajat=${idAngajat}`)
-    })
-    .catch((eroare) => {
-      console.error('Eroare: Nu s-a putut sterge profilul', eroare);
-    })
-})
 
 // Rute ale paginii de editare a operatiilor
 router.get('/operatii', async (req, res) => {

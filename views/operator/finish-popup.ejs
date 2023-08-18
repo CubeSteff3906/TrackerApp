@@ -4,11 +4,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/styles/operator/index.css">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/finish-popup.css">
   <title>Operator</title>
 </head> 
 
 <body>
+
+    <section class="fundal-pop-up">
+  
+    <form class="pop-up" method="POST" action="./sterge-revizie">
+  
+      <p>Vreti sa inchideti fisa de urmarire a lotului <%= lotDat._id %>?</p>
+
+      <input type="hidden" name="idAngajat" value="<%=idAngajat%>">
+      <input type="hidden" name="id" value="<%=lotDat._id%>">
+
+      <div class="butoane">
+        <button onclick="window.location.href='/operator?idAngajat=<%=idAngajat%>'" type="button" style="background-color: red;"><img style="height: 1em; width: 1em; margin-right: 0.4em;" src="/icons/cancel.png">NU</button>
+        <button type="submit" style="background-color: green;"><img style="height: 1em; width: 1em; margin-right: 0.4em;" src="/icons/plus.png">DA</button>
+      </div>
+
+    </form>
+  
+  </section>
 
   <header>
     <div class="div-buton-inapoi">

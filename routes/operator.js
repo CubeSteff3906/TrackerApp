@@ -15,10 +15,6 @@ router.get('/', async (req, res) => {
   const produse = await Produse.find().exec();
   const operatii = await Operatii.find().exec();
   const idAngajat = req.query.idAngajat;
-  loturiInCurs.forEach(lot => {
-    const da = lot.stadiuOperatie;
-    console.log(lot.stadiuOperatie[da.length - 1]);
-  })
   console.log(await Loturi.find().exec());
   res.render('operator', { idAngajat, loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs, produse, operatii });
 })
@@ -47,6 +43,19 @@ router.get('/confirmare', async (req, res) => {
   res.render('operator/confirmare', { bazaLoturiInCurs, loturiInCreare, loturiInCurs, loturiFinalizate, produse, lotDat, idAngajat });
 })
 
+router.get('/finish-popup', async (req, res) => {
+  const bazaLoturiInCurs = await Loturi.find({ Stadiu_lot: "In lucru" }).lean().exec();
+  const loturiInCreare = await Loturi.find({ Stadiu_lot: "In creare" }).exec();
+  const loturiInCurs = await Loturi.find({ Stadiu_lot: "In lucru" }).exec();
+  const loturiFinalizate = await Loturi.find({ Stadiu_lot: "Finalizat" }).exec();
+  const produse = await Produse.find().exec();
+  const id = req.query.id;
+  const idAngajat = req.query.idAngajat;
+  const lot = await Loturi.find({ _id: id }).exec();
+  const lotDat = lot[0];
+  res.render('operator/finish-popup', { bazaLoturiInCurs, loturiInCreare, loturiInCurs, loturiFinalizate, produse, lotDat, idAngajat });
+})
+
 router.get('/print', async (req, res) => {
   const bazaLoturiInCurs = await Loturi.find({ Stadiu_lot: "In lucru" }).lean().exec();
   const loturiInCreare = await Loturi.find({ Stadiu_lot: "In creare" }).exec();
@@ -68,11 +77,14 @@ router.get('/print', async (req, res) => {
   let vectorCurent = [];
   let j = 1;
   for (let i = 0; i <= vectorOperatii.length - 1; i++) {
-    if (lot.esteNecesaraOperatia[i] === true) {
+    if (lot.esteNecesaraOperatia[j] === true) {
       vectorCurent.push(j + ". " + vectorOperatii[i]);
       j++;
     }
   }
+
+  console.log(vectorCurent, vectorOperatii);
+
   res.render('operator/print', { bazaLoturiInCurs, loturiFinalizate, loturiInCreare, loturiInCurs, produse, lot, idAngajat, tip, vectorCurent });
 })
 
@@ -139,6 +151,15 @@ router.post('/sterge-lot', async(req, res) => {
     })
 })
 
+router.post('/sterge-revizie', async (req, res) => {
+  const idAngajat = req.body.idAngajat;
+  const id = req.body.id;
+
+  await Loturi.deleteOne({_id: id}).exec();
+
+  res.redirect(`/operator?idAngajat=${idAngajat}`)
+})
+
 router.post('/incepe-lot', async (req, res) => {
   const idAngajat = req.query.idAngajat;
   const Identificator = req.body.Identificator;
@@ -193,8 +214,6 @@ router.post('/piesa-noua', async (req, res) => {
   Termen_Livrare = Termen_Livrare.toString();
   Termen_Livrare = Termen_Livrare.slice(0, 10);
 
-  Termen_Livrare = Termen_Livrare.toString();
-  Termen_Livrare = Termen_Livrare.slice(0, 10);
 
   const valoriForm = Object.entries(req.body);
   valoriForm.sort((a, b) => a[0].localeCompare(b[0]));
@@ -208,6 +227,9 @@ router.post('/piesa-noua', async (req, res) => {
   let cantitatePieseInCurs = [-1];
   let angajatOperatie = ["NULL"];
   let utilajOperatie = ["NULL"];
+
+  let data2 = Data.slice(8,10) + "." + Data.slice(5,7) + "." + Data.slice(0,4);
+  let data3 = Termen_Livrare.slice(8, 10) + "." + Termen_Livrare.slice(5, 7) + "." + Termen_Livrare.slice(0, 4);
 
   for (let i = 1; i <= vectorOperatii.length; i++) {
     esteNecesaraOperatia.push(false);
@@ -239,10 +261,10 @@ router.post('/piesa-noua', async (req, res) => {
 
   const lotNou = new Loturi({
     _id: Numar_Fisa,
-    Data: Data,
+    Data: data2,
     Stadiu_lot: "In creare",
     Identificator: Identificator,
-    Termen_Livrare: Termen_Livrare,
+    Termen_Livrare: data3,
     Cod_reper: Cod_Reper,
     Denumire: Denumire_Reper,
     Numar_Lot: Numar_Lot,
@@ -416,9 +438,6 @@ router.post('/catalog-popup', async (req, res) => {
 })
 
 router.get('/numere-program', async (req, res) => {
-  setTimeout(() => {
-    // No comment
-  }, 500);
   const idAngajat = req.query.idAngajat;
   const filtru = req.query.filtru;
   const Cod_reper = req.query.codReper;
@@ -430,6 +449,9 @@ router.get('/numere-program', async (req, res) => {
     revizie = revizie + "-0";
   }
   const reviziaTinta = await Revizii.find({ _id: revizie }).exec();
+  setTimeout(() => {
+    // No comment
+  }, 500);
   const operatiiRevizie = reviziaTinta[0].esteNecesaraOperatia;
   // let areProgram = ["null"];
   let denumiriOperatii = [];
