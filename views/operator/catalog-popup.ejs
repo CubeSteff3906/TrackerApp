@@ -118,7 +118,7 @@
     <div class="pop-up">
   
       <div class="header-pop-up">
-        <p style="margin: 0;">FISA URMARIRE LOT IN PRODUCTIE</p>
+        <p style="margin: 0;">FISA DESCRIERE PRODUS</p>
       </div>
 
       <form method="POST" action="/operator/catalog-popup?idAngajat=<%=idAngajat%>">
@@ -127,27 +127,35 @@
 
             <div class="extra">
               <div>
-                <label>Cod Reper:</label>
-                <input type="text" name="Cod_Reper">
+                <label>Cod Reper (RTSP):</label>
+                <input type="text" name="Cod_Reper" required>
               </div>
               <div style="margin-left: 1.7em;">
                 <label>Cod Echivalent Client:</label>
-                <input type="text" name="Cod_Client">
+                <input type="text" name="Cod_Client" required>
               </div>
             </div>
 
-            <label>Desen Revizie:</label>
-            <input type="text" name="Desen">
+            <div class="extra">
+              <div>
+                <label>Desen:</label>
+                <input type="text" name="Desen" required>
+              </div>
+              <div style="margin-left: 1.7em;">
+                <label>Revizie:</label>
+                <input type="text" name="Revizie" value="-" readonly>
+              </div>
+            </div>
 
             <input type="hidden" name="tip" value="produs">
 
             <label style="margin-top: 0.4em;">Denumire:</label>
-            <input style="margin-bottom: 0.4em;" type="text" name="Denumire">
+            <input style="margin-bottom: 0.4em;" type="text" name="Denumire" required>
           <% } else { %>
 
             <div class="extra">
               <div>
-                <label>Cod Reper:</label>
+                <label>Cod Reper (RTSP):</label>
                 <input type="text" name="Cod_Reper" value="<%= codReper %>" readonly>
               </div>
               <div style="margin-left: 1.7em;">
@@ -156,8 +164,20 @@
               </div>
             </div>
 
-            <label>Desen Revizie:</label>
-            <input type="text" name="Desen" value="<%= desen %>">
+            <div class="extra">
+              <div>
+                <label>Desen:</label>
+                <input type="text" name="Desen" value="<%= Desen %>" required>
+              </div>
+              <div style="margin-left: 1.7em;">
+                <label>Revizie:</label>
+                <% if (Rev === "-") { %>
+                  <input type="text" name="Revizie" required>
+                <% } else { %>
+                  <input type="text" name="Revizie" value="<%= Rev %>" required>
+                <% } %>
+              </div>
+            </div>
 
             <input type="hidden" name="tip" value="revizie">
 

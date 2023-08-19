@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
   const produse = await Produse.find().exec();
   const operatii = await Operatii.find().exec();
   const idAngajat = req.query.idAngajat;
-  console.log(await Loturi.find().exec());
   res.render('operator', { idAngajat, loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs, produse, operatii });
 })
 
@@ -193,6 +192,9 @@ router.get('/piesa-noua', async (req, res) => {
     }
   })
   const n = operatii.length;
+
+  
+
   res.render('operator/piesa-noua', { loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs,idAngajat, produse, operatii, produs, vectorRevizii, n});
 })
 
@@ -346,7 +348,8 @@ router.get('/catalog-popup', async (req, res) => {
   let produs;
   let codClient;
   let denumire;
-  let desen;
+  let Desen;
+  let Rev;
   let revizieRecenta;
   if (codReper !== "null") {
     produs = await Produse.find({ Cod_reper: codReper }).exec();
@@ -358,12 +361,14 @@ router.get('/catalog-popup', async (req, res) => {
     revizieRecenta = await Revizii.find({ _id: revizieRecenta }).exec();
     codClient = revizieRecenta[0].Cod_Echivalent_Client;
     codReper = codReper+"-"+lungime;
-    desen = revizieRecenta[0].Desen_Revizie;
+    console.log(revizieRecenta[0])
+    Desen = revizieRecenta[0].Desen;
+    Rev = revizieRecenta[0].Revizie;
   }
   const produse = await Produse.find().exec();
   const revizii = await Revizii.find().exec();
   const operatii = await Operatii.find().exec();
-  res.render('operator/catalog-popup', { produse, revizii, operatii, filtru, codReper, produs, denumire, codClient, desen, idAngajat });
+  res.render('operator/catalog-popup', { produse, revizii, operatii, filtru, codReper, produs, denumire, codClient, Desen, Rev, idAngajat });
 })
 
 router.post('/catalog-popup', async (req, res) => {
@@ -373,6 +378,7 @@ router.post('/catalog-popup', async (req, res) => {
   const Cod_Client = req.body.Cod_Client;
   const Denumire = req.body.Denumire;
   const Desen = req.body.Desen;
+  const Revizie = req.body.Revizie;
   const filtru = req.body.filtru;
 
   const vectorOperatii = await Operatii.find().exec();
@@ -401,7 +407,8 @@ router.post('/catalog-popup', async (req, res) => {
     const revizieInitiala = new Revizii({
       _id: string,
       Cod_Echivalent_Client: Cod_Client,
-      Desen_Revizie: Desen,
+      Desen: Desen,
+      Revizie: Revizie,
       esteNecesaraOperatia: esteNecesaraOperatia,
       Numar_Program: Numar_Program
     });
@@ -418,7 +425,8 @@ router.post('/catalog-popup', async (req, res) => {
     const revizie = new Revizii({
       _id: Cod_Reper,
       Cod_Echivalent_Client: Cod_Client,
-      Desen_Revizie: Desen,
+      Desen: Desen,
+      Revizie: Revizie,
       esteNecesaraOperatia: esteNecesaraOperatia,
       Numar_Program: Numar_Program
     });

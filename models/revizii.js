@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const schemaRevizie = new mongoose.Schema({
   _id: String,
   Cod_Echivalent_Client: String,
-  Desen_Revizie: String,
+  Desen: String,
+  Revizie: String,
   esteNecesaraOperatia: [Boolean],
   Numar_Program: [String] // NULL / Numarul de program
 });

@@ -96,7 +96,7 @@
                 rev = element;
               }
             })
-            Desen.value = rev.Desen_Revizie;
+            Desen.value = rev.Desen + " / Rev " + rev.Revizie;
             const v = rev.esteNecesaraOperatia;
             for (let i = 1; i <= v.length; i++) {
               const obj = document.getElementById(i);
@@ -106,7 +106,7 @@
 
           document.addEventListener("DOMContentLoaded", function (event) {
             const rev = vectorRevizii[vectorRevizii.length - 1];
-            Desen.value = rev.Desen_Revizie;
+            Desen.value = rev.Desen + " / Rev " + rev.Revizie;
             let vector = rev.esteNecesaraOperatia;
             let v = [];
             let n = '<%= n %>';
@@ -127,17 +127,11 @@
 
         </script>
 
-          <% if (!produs) { %>
-            <div>
-              <label for="Desen">Desen:</label>
-              <input id="Desen" type="text" name="Desen" required>
-            </div>
-          <% } else { %>
-            <div>
-              <label for="Desen">Desen:</label>
-              <input id="Desen" type="text" name="Desen" readonly required>
-            </div>
-          <% } %>
+          <div>
+            <label for="Desen">Desen:</label>
+            <input id="Desen" type="text" name="Desen" value="<%=produs.Desen%>" readonly required>
+          </div>
+          <input type="hidden" name="Rev" value="<%=produs.Rev%>">
           <div>
             <label for="Dimensiune_Semifabricat">Dimensiune Semifabricat:</label>
             <input type="text" name="Dimensiune_Semifabricat" required>
@@ -151,7 +145,7 @@
           <div>
             <label>Operatii:</label>
           </div>
-          <div class="omg" style="height: 32.3vh; overflow-y: scroll; overflow-x: hidden; scrollbar-width: none; border: none; border-right: 2px solid black; border-bottom: 2px solid black;">
+          <div class="omg" style="height: 33.2vh; overflow-y: scroll; overflow-x: hidden; border: none; border-right: 2px solid black; border-bottom: 2px solid black;">
               <% operatii.forEach(operatie=> { %>
                 <div style="display: flex; flex-direction: row; align-items: center;">
                   <p style="width: 90%; margin: 0;">
