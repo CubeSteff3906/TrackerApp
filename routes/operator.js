@@ -192,7 +192,8 @@ router.get('/piesa-noua', async (req, res) => {
       vectorRevizii.push(revizie);
     }
   })
-  res.render('operator/piesa-noua', { loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs,idAngajat, produse, operatii, produs, vectorRevizii});
+  const n = operatii.length;
+  res.render('operator/piesa-noua', { loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs,idAngajat, produse, operatii, produs, vectorRevizii, n});
 })
 
 router.post('/piesa-noua', async (req, res) => {

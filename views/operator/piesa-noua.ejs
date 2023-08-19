@@ -107,7 +107,12 @@
           document.addEventListener("DOMContentLoaded", function (event) {
             const rev = vectorRevizii[vectorRevizii.length - 1];
             Desen.value = rev.Desen_Revizie;
-            const v = rev.esteNecesaraOperatia;
+            let vector = rev.esteNecesaraOperatia;
+            let v = [];
+            let n = '<%= n %>';
+            for (let i = 0; i <= n; i++) {
+              v[i] = vector[i];
+            }
             for (let i = 1; i <= v.length; i++) {
               const obj = document.getElementById(i);
               if (v[i] === true) {
