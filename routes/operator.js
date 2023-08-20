@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
   const produse = await Produse.find().exec();
   const operatii = await Operatii.find().exec();
   const idAngajat = req.query.idAngajat;
+  console.log(await Operatii.find().exec())
   res.render('operator', { idAngajat, loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs, produse, operatii });
 })
 
@@ -361,7 +362,6 @@ router.get('/catalog-popup', async (req, res) => {
     revizieRecenta = await Revizii.find({ _id: revizieRecenta }).exec();
     codClient = revizieRecenta[0].Cod_Echivalent_Client;
     codReper = codReper+"-"+lungime;
-    console.log(revizieRecenta[0])
     Desen = revizieRecenta[0].Desen;
     Rev = revizieRecenta[0].Revizie;
   }
@@ -383,6 +383,8 @@ router.post('/catalog-popup', async (req, res) => {
 
   const vectorOperatii = await Operatii.find().exec();
 
+  const n = vectorOperatii.length;
+
   const valoriForm = Object.entries(req.body);
   valoriForm.sort((a, b) => a[0].localeCompare(b[0]));
   // Ordinea valorile din form este: casute bifate in ordine crescatoare, dupa valori input
@@ -400,6 +402,10 @@ router.post('/catalog-popup', async (req, res) => {
     Numar_Program[i] = "Nedefinit";
     indexInitial++;
   }
+
+
+  Numar_Program = Numar_Program.slice(0, n+1);
+  esteNecesaraOperatia = esteNecesaraOperatia.slice(0,n+1);
 
   if (tip === "produs") {
 
@@ -443,7 +449,7 @@ router.post('/catalog-popup', async (req, res) => {
     await Produse.updateOne(filtruProdus, updateProdus).exec();
   }
   
-  res.redirect(`./numere-program?codReper=${Cod_Reper}&filtru=${filtru}&idAngajat=${idAngajat}`);
+  res.redirect(`./catalog?filtru=${filtru}&idAngajat=${idAngajat}`);
 })
 
 router.get('/numere-program', async (req, res) => {

@@ -1,0 +1,37 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/meniu-popup.css">
+  <title>Meniu Operatie</title>
+</head>
+<body>
+
+  <div class="outer-container">
+
+    <div class="form-comanda">
+
+      <form method="POST" action="./meniu-popup" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="hidden" name="Identificator" value="<%= Identificator %>">
+        <input type="hidden" name="operatieCurenta" value="<%= operatieCurenta %>">
+
+        <label for="numar">INTRODUCETI NUMARUL DE PROGRAM ATASAT</label>
+        <% if (numar === "Nedefinit") { %>
+          <input type="text" name="numar" value="-">
+        <% } else { %>
+          <input type="text" name="numar" value="<%= numar %>">
+        <% } %>
+
+        <button type="submit">CONFIRMATI</button>
+      </form>
+
+
+    </div>
+
+  </div>
+
+</body>
+</html>
