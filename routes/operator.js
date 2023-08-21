@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   const produse = await Produse.find().exec();
   const operatii = await Operatii.find().exec();
   const idAngajat = req.query.idAngajat;
-  console.log(await Operatii.find().exec())
+  console.log(await Loturi.find().exec())
   res.render('operator', { idAngajat, loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs, produse, operatii });
 })
 

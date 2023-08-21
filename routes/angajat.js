@@ -344,18 +344,44 @@ router.get('/meniu-operatie', async (req, res) => {
   res.render('angajat/meniu-operatie', { Identificator, idAngajat, operatieCurenta, indexOperatieCurenta, tipOperatie, numeAngajat, lot, Utilaje: utilajeDisponibile });
 })
 
-router.post('/meniu-operatie', async (req, res) => {
+router.get('/meniu-operatie2', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
+  const Identificator = req.query.idPiesa;
+  const tipOperatie = req.query.tipOperatie;
+  const operatieCurenta = req.query.operatieCurenta;
+  const index = req.query.index;
+  const nrRebut = req.query.nrRebut;
+
+  const lot = await Loturi.findOne({ _id: Identificator}).exec();
+
+  res.render('angajat/meniu-operatie2', { Identificator, idAngajat, operatieCurenta, index, tipOperatie, lot, nrRebut });
+})
+
+router.get('/meniu-operatie3', async (req, res) => {
+  const idAngajat = req.query.idAngajat;
+  const Identificator = req.query.idPiesa;
+  const tipOperatie = req.query.tipOperatie;
+  const operatieCurenta = req.query.operatieCurenta;
+  const index = req.query.index;
+  const nrRebut = req.query.nrRebut;
+  const nrFin = req.query.nrFin;
+
+  const lot = await Loturi.findOne({ _id: Identificator }).exec();
+
+  res.render('angajat/meniu-operatie3', { Identificator, idAngajat, operatieCurenta, index, tipOperatie, lot, nrRebut, nrFin });
+})
+
+router.post('/meniu-operatie3', async (req, res) => {
   const idAngajat = req.body.idAngajat;
   const Identificator = req.body.idPiesa;
-  const operatieCurenta = req.body.operatieCurenta;
   const tipOperatie = req.body.tipOperatie;
-  const utilajSelectat = req.body.utilaj;
-  let nrRebut = req.body.nrRebut;
-  if (!nrRebut) {
-    nrRebut = 0;
-  }
-  await executaOperatie(Identificator, idAngajat, operatieCurenta, tipOperatie, utilajSelectat, nrRebut);
-  res.redirect('/');
+  const index = req.body.index;
+  const nrRebut = req.body.nrRebut;
+  const nrFin = req.body.nrFin;
+
+  await executaOperatie(Identificator, idAngajat, index, tipOperatie, nrFin, nrRebut);
+
+  res.redirect(`/`);
 })
 
 module.exports = router;
