@@ -24,7 +24,13 @@
 
       <br>
 
-      <form method="GET" action="./meniu-operatie2" style="display: flex; flex-direction: column; align-items: center;">
+      <form
+      <% if (tipOperatie === "Finalizare") { %>
+        method="GET" action="./meniu-operatie2"
+      <% } else { %>
+        method="POST" action="./meniu-operatie3"
+      <% } %>
+      style="display: flex; flex-direction: column; align-items: center;">
         <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
         <input type="hidden" name="idPiesa" value="<%= lot._id %>">
         <input type="hidden" name="index" value="<%= indexOperatieCurenta %>">

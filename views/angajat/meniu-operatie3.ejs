@@ -31,6 +31,10 @@
         <% const valoare = lot.cantitatePieseInCurs[index] - nrFin - nrRebut; %>
         <% if (valoare === 0) { %>
           <label>ATI TERMINAT TOATE PIESELE?</label>
+          <% if (nrRebut > 0) { %>
+            <br>
+            <label>(CU EXCEPTIA CELOR <%=nrRebut%> REBUTURI)</label>
+          <% } %>
         <% } else { %>
           <label>MAI AVETI DE TERMINAT <%= valoare %> PIESE?</label>
         <% } %>
