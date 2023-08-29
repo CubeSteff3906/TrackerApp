@@ -77,7 +77,7 @@ router.get('/print', async (req, res) => {
   let vectorCurent = [];
   let j = 1;
   for (let i = 0; i <= vectorOperatii.length - 1; i++) {
-    if (lot.esteNecesaraOperatia[j] === true) {
+    if (lot.esteNecesaraOperatia[i+1] === true) {
       vectorCurent.push(j + ". " + vectorOperatii[i]);
       j++;
     }

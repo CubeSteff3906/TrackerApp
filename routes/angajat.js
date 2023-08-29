@@ -14,6 +14,9 @@ const esteGataLotul = async function (lot) {
       cond++;
     }
   });
+  if (lot.nrRebut >= lot.cantitateaTotala) {
+    cond=0;
+  }
   return (cond === 0);
 }
 
@@ -120,6 +123,10 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
   const filtruLot = { _id: Identificator };
   const filtruAngajat = { _id: idAngajat };
 
+  if (operatieSelectata > 30) {
+    operatieSelectata = 30;
+  }
+
   const angajatCurent = await Angajati.findOne(filtruAngajat).exec();
   let lot = await Loturi.findOne(filtruLot).exec();
 
@@ -133,6 +140,8 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
   while (lot.stadiuOperatie[operatieUlterioara] === "NULL") {
     operatieUlterioara++;
   }
+
+  let operatie;
 
   // Constructia obiectelor de update in functie de tipul operatiei
   if (tipOperatie === "Initiere") {
@@ -181,7 +190,7 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
     
     const dataFinalizareOperatie = new Date();
 
-    const operatie = await Operatii.findOne({ id: operatieSelectata }).exec();
+    operatie = await Operatii.findOne({ id: operatieSelectata }).exec();
 
     let rezumatOperatieCurenta = angajatCurent.nume + " a terminat " + utilajSelectat +
     " x " + lot.Denumire + " dupa operatia de " + (operatie.nume).toLowerCase();
@@ -251,6 +260,8 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
 
   }
 
+  // console.log(operatieSelectata, operatie, lot, await Operatii.find().exec());
+
   try{
     await Loturi.updateOne(filtruLot, update).exec();
   } catch (err) {
@@ -283,7 +294,11 @@ router.post('/', async (req, res) => {
   nume = nume.toUpperCase();
   const lot = await Loturi.findOne({ _id: Identificator }).exec();
   if (lot) {
-    res.redirect(`angajat/operatii-piesa?idAngajat=${idAngajat}&Identificator=${Identificator}`);
+    if (lot.Stadiu_lot === "Finalizat" || lot.Stadiu_lot === "Finalizata") {
+      res.redirect(`/popup?idAngajat=${idAngajat}&tipEroare=comandaLipsa&nume=${nume}`);
+    } else {
+      res.redirect(`angajat/operatii-piesa?idAngajat=${idAngajat}&Identificator=${Identificator}`);
+    }
   } else {
     res.redirect(`/popup?idAngajat=${idAngajat}&tipEroare=comandaLipsa&nume=${nume}`);
   }

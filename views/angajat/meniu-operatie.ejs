@@ -15,9 +15,9 @@
     <div class="form-comanda">
 
       <% if (tipOperatie === "Initiere") { %>
-        <p>VRETI SA INCEPETI O OPERATIE DE <%= operatieCurenta %> PENTRU COMANDA <%= lot._id %> ?</p>
+        <p>VRETI SA INCEPETI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
       <% } else if (tipOperatie === "Finalizare") { %>
-        <p>VRETI SA FINALIZATI OPERATIA DE <br> <%= operatieCurenta %> PENTRU COMANDA <%= lot._id %> ?</p>
+        <p>VRETI SA FINALIZATI OPERATIA DE <br> <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
 
         <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[indexOperatieCurenta] %> PIESE</p>
       <% } %>
