@@ -1,0 +1,40 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/meniu-operatie.css">
+  <title>Meniu Operatie</title>
+</head>
+<body>
+
+  <div class="outer-container">
+
+    <div class="form-comanda">
+
+      <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[index] %> PIESE</p>
+      <p style="margin-top: 0.2em; ">ATI REBUTAT <%= nrRebut %> PIESE</p>
+
+      <br>
+
+      <form method="GET" action="./meniu-operatie3" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+        <input type="hidden" name="idPiesa" value="<%= lot._id %>">
+        <input type="hidden" name="index" value="<%= index %>">
+        <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
+        <input type="hidden" name="operatieCurenta" value="<%= operatieCurenta %>">
+        <input type="hidden" name="nrRebut" value="<%= nrRebut %>">
+
+        <label for="nrRebut">CATE PIESE ATI FINALIZAT?</label>
+        <input type="number" name="nrFin" value="<%= lot.cantitatePieseInCurs[index] - nrRebut %>" max="<%= lot.cantitatePieseInCurs[index] - nrRebut %>" >
+
+        <br>
+        <button type="submit">INTRODUCETI</button>
+      
+      </form>
+    </div>
+  </div>
+</body>
+</html>

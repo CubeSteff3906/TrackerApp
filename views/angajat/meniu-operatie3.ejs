@@ -1,0 +1,56 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/meniu-operatie.css">
+  <title>Meniu Operatie</title>
+</head>
+<body>
+
+  <div class="outer-container">
+
+    <div class="form-comanda">
+
+      <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[index] %> PIESE</p>
+      <p style="margin-top: 0.2em; ">ATI REBUTAT <%= nrRebut %> PIESE</p>
+      <p style="margin-top: 0.2em;">ATI TERMINAT <%= nrFin %> PIESE</p>
+
+      <br>
+
+      <form method="POST" action="./meniu-operatie3" style="display: flex; flex-direction: column; align-items: center;">
+        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+        <input type="hidden" name="idPiesa" value="<%= lot._id %>">
+        <input type="hidden" name="index" value="<%= index %>">
+        <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
+        <input type="hidden" name="nrRebut" value="<%= nrRebut %>">
+        <input type="hidden" name="nrFin" value="<%= nrFin %>">
+
+        <% const valoare = lot.cantitatePieseInCurs[index] - nrFin - nrRebut; %>
+        <% if (valoare === 0) { %>
+          <% if (nrRebut >= lot.cantitateaTotala ) { %>
+            <label>ATI STRICAT TOATE PIESELE CU CARE ATI INCEPUT?</label>
+          <% } else { %>
+            <label>ATI TERMINAT TOATE PIESELE?</label>
+            <% if (nrRebut > 0) { %>
+              <br>
+              <label>(CU EXCEPTIA CELOR <%=nrRebut%> REBUTURI)</label>
+            <% } %>
+          <% } %>
+        <% } else { %>
+          <label>MAI AVETI DE TERMINAT <%= valoare %> PIESE?</label>
+        <% } %>
+
+        <br>
+        <div style="width: 30%; display: flex; justify-content: space-between;">
+          <button type="button" onclick="window.location.href='./meniu-operatie?idAngajat=<%=idAngajat%>&operatieCurenta=<%=index%>&Identificator=<%=Identificator%>&tipOperatie=Finalizare'">NU</button>
+          <button type="submit">DA</button>
+        </div>
+      
+      </form>
+    </div>
+  </div>
+</body>
+</html>

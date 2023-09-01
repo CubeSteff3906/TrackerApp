@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/selectie-operatii.css">
+  <title>Selectati Piesa</title>
+</head>
+<body>
+
+  <div class="outer-container">
+
+    <div class="form-comanda">
+      <p style="font-size: 40px; font-weight: bold; display: inline; margin-top: 2em;"> SELECTATI PIESA </p>
+
+      <div class="mini-casuta">
+        <% pieseComandaCurenta.forEach(piesa=> { %>
+          <form style="margin: 0;" method="POST" action="./selectie-operatii">
+            <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+            <input type="hidden" name="idPiesa" value="<%= piesa._id %>">
+            <input type="hidden" name="idComanda" value="<%= idComanda %>">
+            <button class="yes" type="submit">
+              <%= piesa.nume %> <br>
+                <p class="extra">(<%= piesa.RTSP %>)</p>
+            </button>
+          </form>
+        <% }); %>
+      </div>
+
+    </div>
+
+  </div>
+  
+</body>
+</html>

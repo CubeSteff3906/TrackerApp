@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/operator/index.css">
+  <title>Operator</title>
+</head> 
+
+<body>
+
+  <header>
+    <div class="div-buton-inapoi" style="width: 20%;">
+      <a style="font-size: 1.3em;" href="../" class="buton-inapoi">&#10094; INAPOI</a>
+    </div>
+    <p style="margin-left: 5%; margin-right: -20%;">FISE DE URMARIRE LOTURI <img style="display:inline; margin: 0; margin-left: 8%; margin-bottom: -15px; width: 10%;" src="/images/logo-ratis-color.jpg"></p>
+    <button onClick="window.location.href = '/operator/catalog?filtru=null&idAngajat=<%=idAngajat%>';" style="margin-right: 0;">CATALOG PRODUS</button>
+    <button onClick="window.location.href = '/operator/popup?err=null&idAngajat=<%= idAngajat %>';" style="margin-left: 0.2em;">ADAUGA FISA +</button>
+  </header>
+
+  <% console.log(vectorMare) %>
+
+  <div class="corp">
+
+    <div style="display: flex; flex-direction: column; width:35%;">
+      <section class="titlu" style="border-bottom: none;">
+        <p>LOTURI IN ASTEPTARE</p>
+      </section>
+      <section class="meniu-adaugare">
+        <% loturiInCreare.forEach( lot=> { %>
+          <div class="element">
+            <div class="titlu">
+              <p><img style="width:1rem; height: 1rem; margin-right: 0.6em;" src="/icons/in-editare.png">Lot #<%= lot._id %> - <%= lot.Identificator %> </p>
+            </div>
+            <div class="continut">
+              <p><span style="font-weight: bold;">Comanda:</span> <%= lot.cantitateaTotala %> x <%= lot.Denumire %> (<%= lot.Cod_reper %>)</p>
+              <p><span style="font-weight: bold;">Termen de Livrare:</span> <%= lot.Termen_Livrare %></p>
+            </div>
+            <div class="butoane">
+              <form method="GET" action="/operator/confirmare">
+                <input type="hidden" id="id" name="id" value="<%= lot._id %>">
+                <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+
+                <button style="background: red;" type="submit" class="cancel"><img src="/icons/cancel.png"></button>
+              </form>
+              <form style="margin-right: 1em;" method="POST" action="/operator/deschide-comanda?idAngajat=<%= idAngajat %>&lot=<%= lot._id %>">
+                <input type="hidden" name="numar" value="<%= lot.Cod_reper %>">
+                <button style="background-color: green;" type="submit" class="add"><img src="/icons/plus.png"></button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      </section>
+    </div>
+
+    <div style="display: flex; flex-direction: column; width: 63%;">
+      <section class="titlu" style="border-bottom: none;">
+        <p style="margin: 0.05em 0;" >LOTURI IN PRODUCTIE</p>
+      </section>
+      <section class="lista">
+        <% loturiFinalizate.forEach(lot=> { %>
+          <br>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+          <div class="element2">
+            <div class="div-stanga">
+              <p style="margin: 0;">LOTUL #<%= lot._id %> - <%= lot.Identificator %>
+              </p>
+            </div>
+            <div class="div-dreapta">
+              <div style="width: 18vw; display: flex; justify-content: end;">
+                <div style="width: 100%; display: flex; flex-direction: column; align-items: end;">
+                  <div style="width: 100%; display: flex; justify-content: end;">
+                    FINALIZAT <br>
+                    <img src="/icons/finalizat.png">
+                  </div>
+                  <% if (lot.cantitateRebut> 0) { %>
+                    <p style="margin: 0;"><span style="color:red;"><%=lot.cantitateRebut%> Produse In Rebut</span></p>
+                  <% } %>
+                </div>
+              </div>
+              <div style="width: 9vw; display: flex; justify-content: end;">
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>'"><img
+                    style="width:2em; height: 2em;" src="/icons/print.png"></button>
+                <button class="yes" onclick="window.location.href='/operator/finish-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'">
+                  <img style="width:2em; height: 2em;" src="/icons/plus.png">
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+        <% loturiInCurs.forEach(lot=> { %>
+          <br>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+          <div class="element2">
+            <div class="div-stanga">
+              <p style="margin: 0;">LOTUL #<%= lot._id %> - <%= lot.Identificator %></p>
+            </div>
+            <div class="div-dreapta">
+              <div style="width: 12vw; display: flex; justify-content: end;">
+                IN LUCRU
+                <img src="/icons/in-lucru.png">
+              </div>
+              <div style="width: 9vw; display: flex; justify-content: end;">
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=fisa&idAngajat=<%=idAngajat%>'"><img style="width:2em; height: 2em;" src="/icons/print.png"></button>
+                <button class="yes" onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+        <br>
+        <% if (loturiInCurs.length > 0 || loturiFinalizate.length > 0) { %>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+        <% } %>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

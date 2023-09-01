@@ -1,0 +1,219 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+header {
+  width: 100%;
+  padding: 1em 0.1em;
+  border: 4px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+header p {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 2em 0 0;
+}
+
+header button {
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 0.2em;
+  padding: 0.75em 1em;
+  margin: 0 1em;
+}
+
+.div-buton-inapoi {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  font-size: 1.2em;
+  padding-left: 0.8em;
+}
+
+.buton-inapoi {
+  margin: 0.4em 5em 0.4em 0.6em;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.corp {
+  margin-top: 1vh;
+  width: 99%;
+  height: 84vh;
+  display: flex;
+}
+
+.big-daddy-scroll {
+  flex: 62%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.navbar {
+  flex: 34%;
+  height: 95.4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.8em 1em;
+  border: 3px solid black;
+}
+
+.navbar .sectiune-filtre {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black;
+  margin-top: 5em;
+  padding-bottom: 1em;
+}
+
+.sectiune-filtre .continut {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sectiune-filtre p,
+.sectiune-cautare label {
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  margin: 0;
+  padding: 0.4em 0;
+  text-align: center;
+  border: 2px solid black;
+  border-top: none;
+}
+
+.sectiune-filtre button {
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 0.2em 0.3em;
+}
+
+.sectiune-filtre div label {
+  font-size: 28px;
+  margin-right: 0.2em;
+}
+
+.sectiune-filtre option,
+.sectiune-filtre select {
+  font-size: 22px;
+  margin: 0 0.6em 0 0.2em;
+}
+
+.sectiune-cautare {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5em;
+}
+
+.sectiune-cautare label {
+  border: none;
+}
+
+.sectiune-cautare input {
+  height: 1.6em;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.sectiune-cautare div {
+  display: flex;
+  flex-direction: row;
+  border: 2px solid black;
+}
+
+.sectiune-cautare button {
+  border: 1px solid black;
+  border-left: 2px solid black;
+}
+
+
+.fundal-pop-up {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pop-up {
+  width: 40vw;
+  border: 4px solid black;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-pop-up {
+  width: 100%;
+  padding: 1em 0.4em;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.pop-up form {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pop-up form label {
+  font-size: 18px;
+}
+
+.pop-up form input {
+  font-size: 16px;
+}
+
+.footer-pop-up {
+  width: 100%;
+  padding: 1em 0.4em;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-pop-up button {
+  width: 10vw;
+  height: 6vh;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.pop-up .extra {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.extra div {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,296 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+header {
+  width: 100%;
+  padding: 1em 0.1em;
+  border: 4px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}
+
+header p {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0 2em 0 0;
+}
+
+header button {
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 0.2em;
+  padding: 0.75em 1em;
+  margin: 0 1em;
+}
+
+.div-buton-inapoi {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  padding-left: 0.8em;
+}
+
+.buton-inapoi {
+  margin: 0.4em 5em 0.4em 0.6em;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.corp {
+  margin-top: 1vh;
+  width: 99%;
+  height: 84vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+.corp section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 4px solid black;
+}
+
+.corp .div-titlu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: hidden;
+  padding: 1em 2em 1em 1em;
+  height: 100%;
+}
+
+.lista::-webkit-scrollbar {
+  display: none;
+}
+
+.titlu {
+  display: flex;
+  justify-content: center;
+  padding: 1.2em 1em;
+}
+
+.titlu p {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.element {
+  margin: 0.4em 0 0.4em 1em;
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+  border: 2px black solid;
+  padding: 1.2em 1em;
+}
+
+.element .titlu {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-decoration: underline;
+  padding-bottom: 0;
+}
+
+.element .continut {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.continut p {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+/*Meniu Adaugare*/
+
+.meniu-adaugare {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: hidden;
+  padding: 1em 2em 1em 1em;
+  height: 100%;
+}
+
+.meniu-adaugare::-webkit-scrollbar {
+  display: none;
+}
+
+.meniu-adaugare .element {
+  margin: 0.4em 0 0.4em 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px black solid;
+  padding: 0;
+}
+
+.element .titlu {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titlu .info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info .status {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1em;
+}
+
+.status img {
+  width: 1em;
+  margin-left: 1em;
+}
+
+.butoane {
+  display: flex;
+}
+
+.butoane img {
+  width: 2.2em;
+  height: 2.2em;
+}
+
+.butoane form button {
+  border: 2px solid black;
+  cursor: pointer;
+  margin: 1em;
+  padding: 0.5em 2em;
+}
+
+.piese {
+  width: 81.1%;
+  height: 16vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+  overflow-y: scroll;
+  border: 3px solid black;
+}
+
+.element-piesa {
+  font-weight: bold;
+}
+
+.element-piesa form button {
+  font-size: 1em;
+  border: none;
+  background-color: rgba(0,0,0,0);
+}
+
+.element-piesa form button img {
+  width: 1em;
+}
+
+
+.element2 {
+  margin: 0.4em 0 0.4em 1em;
+  width: 96%;
+  display: flex;
+  justify-content: space-between;
+  border: 2px black solid;
+  padding: 1.2em 1em;
+}
+
+.element2 .sus {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.element2 .jos {
+  width: 80%;
+  padding: 0.4em 0.2em;
+  border: 3px solid black;
+  margin-bottom: 0.5em;
+}
+
+.element-piesa {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4em 0.8em;
+  font-size: 20px;
+}
+
+.titlu form {
+  margin: 0;
+  display: flex;
+}
+
+.element2 .div-stanga {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-left: 0.6em;
+}
+
+.element2 .div-dreapta {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.element2 .div-dreapta img {
+  margin: 0 1em 0 1em;
+  width: 1em;
+  height: 1em;
+}
+
+.element2 .div-dreapta button {
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+
+.acceseaza-piesa {
+  width: 100%;
+  height: 100%;
+  margin: 0.4em 0 0.4em 1em;
+  display: flex;
+  align-items: center;
+  border: 2px black solid;
+  padding: 0;
+}
+
+.yes {
+  cursor: pointer;
+}

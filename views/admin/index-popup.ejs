@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="/styles/admin/index-popup.css">
+</head>
+<body style="margin: 0; padding: 0;"> 
+
+  <header style="width: 100%; padding: 0.75em 0.1em; display: flex; align-items: center; border: 4px solid black;">
+    <div style="display: flex; text-align: center; font-size: 1.2em; padding-left: 0.8em; flex: 15%;">
+      <a href="../" style="margin: 0.4em 0.6em; font-size: 1.6em; font-weight: bold;">&#10094; INAPOI</a>
+    </div>
+    <nav style="flex: 85%;">
+      <ul style="font-size: 1.6em; display: flex; justify-content: space-between; padding: 0 5em 0 8em; list-style-type: none;">
+        <li style="background-color: gray;"><a href="/admin?idAngajat=<%= idAngajat %>&privilegii=<%=privilegii%>">LOG</a></li>
+        <% if (privilegii === "admin") { %>
+          <li><a href="/admin/angajati?idAngajat=<%= idAngajat %>&privilegii=<%=privilegii%>">ANGAJATI</a></li>
+          <li><a href="/admin/operatii?idAngajat=<%= idAngajat %>&privilegii=<%=privilegii%>">OPERATII</a></li>
+          <li><a href="/admin/utilaje?idAngajat=<%= idAngajat %>&privilegii=<%=privilegii%>">UTILAJE</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </header>
+
+    <div class="cutiuta">
+      <section class="meniu-adaugare">
+        <% loturiFinalizate.forEach(lot=> { %>
+          <br>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+          <div class="element2">
+            <div class="div-stanga">
+              <p style="margin: 0;">LOTUL #<%= lot._id %> - <%= lot.Identificator %>
+              </p>
+            </div>
+            <div class="div-dreapta">
+              <div style="width: 18vw; display: flex; justify-content: end;">
+                <div style="width: 100%; display: flex; flex-direction: column; align-items: end;">
+                  <div style="width: 100%; display: flex; justify-content: end;">
+                    FINALIZAT <br>
+                    <img src="/icons/finalizat.png">
+                  </div>
+                  <% if (lot.cantitateRebut> 0) { %>
+                    <p style="margin: 0; margin-right: 12px;"><span style="color:red;"><%=lot.cantitateRebut%> Produse In Rebut</span></p>
+                  <% } %>
+                </div>
+              </div>
+              <div style="width: 4vw; display: flex; justify-content: end;">
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>&radacina=monitorizare'"><img
+                    style="width:2em; height: 2em;" src="/icons/print.png"></button>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+        <% loturiInCurs.forEach(lot=> { %>
+          <br>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+          <div class="element2">
+            <div class="div-stanga">
+              <p style="margin: 0;">LOTUL #<%= lot._id %> - <%= lot.Identificator %></p>
+            </div>
+            <div class="div-dreapta">
+              <div style="width: 12vw; display: flex; justify-content: end;">
+                IN LUCRU
+                <img src="/icons/in-lucru.png">
+              </div>
+              <div style="width: 4vw; display: flex; justify-content: end;">
+                <button class="yes" onclick="window.location.href='/operator/info-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+        <br>
+        <% if (loturiInCurs.length > 0) { %>
+          <div style="border: 3px solid black; width: 120%; height: 0.2em;"></div> <br>
+        <% } %>
+      </section>
+    </div>
+
+      <section class="fundal-pop-up">
+  
+    <form class="pop-up">
+  
+      <div class="titlu-popup">
+        <p style="text-decoration: underline;">
+          Detalii comanda #<%= lot._id %>:
+        </p>
+        <p class="stadiu">
+          <%= lot.Stadiu_lot %>
+          <% if (lot.Stadiu_lot === "In lucru") { %>
+            <img class="icon" src="/icons/in-lucru.png">
+          <% } else { %>
+            <img class="icon" src="/icons/finalizat.png">
+          <% } %>
+          <button type="button" class="anuleaza"><img style="width: 1.8em;" onclick="window.location.href='/admin?idAngajat=<%=idAngajat%>&privilegii=monitorizare'" src="/icons/cancel.png"></button>
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="coloana">
+          <div class="informatii" style="margin-top: 1em;">
+            <p>
+              <span>Identificator:</span>
+              <%= lot.Identificator %>
+            </p>
+          </div>
+          <div class="informatii">
+            <p>
+              <span>Produs:</span>
+              <%= lot.Denumire %> (<%= lot.Revizie %>)
+            </p>
+          </div>
+        </div>
+        <div class="coloana">
+          <div class="informatii" style="margin-top: 1em;">
+            <p>
+              <% var data=lot.Termen_Livrare; %>
+              <% data=data.toString() %>
+              <% data=data.substring(0,15); %>
+              <span>Termen Livrare:</span>
+              <%= data %>
+            </p>
+          </div>
+          <div class="informatii">
+            <p>
+              <% if (lot.Stadiu_lot === "Finalizat") { %>
+                <span>Finalizate:</span>
+              <% } else { %>
+                <span>In lucru:</span>
+              <% } %>
+              <%= lot.cantitateaTotala - lot.cantitateRebut %>/<%= lot.cantitateaTotala %>
+              <% if (lot.cantitateaTotala > 1) { %>
+                produse
+              <% } else { %>
+                produs
+              <% } %>
+              <% if(lot.Stadiu_lot !== "Finalizat") { %>
+                  (Rebut: <%= lot.cantitateRebut %>)
+              <% } %>
+            </p>
+          </div>
+          <% if (lot.Stadiu_lot === "Finalizat") { %>
+            <div class="informatii">
+              <p>
+                <span style="color: red;">In rebut:</span>
+                <%= lot.cantitateRebut %>/<%= lot.cantitateaTotala %>
+                <% if (lot.cantitateRebut > 1) { %>
+                  produse
+                <% } else { %>
+                  produs
+                <% } %>
+              </p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+
+      <% if (lot.Stadiu_lot === "In lucru") { %>
+        <div class="stadiu-lot">
+          <p>
+            <span>Stadiu:</span> 
+            <% let i = 0; %>
+            <% let ok = 1; %>
+            <% let v = lot.stadiuOperatie; %>
+            <% v = v.slice(1, v.length) %>
+            <% v.forEach(stadiu => { %>
+              <% if (ok === 1) { %>
+                <% if (stadiu === "NULL" || stadiu === "Finalizata") { %>
+                  <% i++; %>
+                <% } else { %>
+                  <% console.log(v, i) %>
+                  <% const str=operatii[i].nume; %>
+                  <% if (stadiu === "In asteptare") { %>
+                    Se pregateste operatia de <%= str.toLowerCase() %>
+                  <% } else { %>
+                    Se efectueaza operatia de <%= str.toLowerCase() %>
+                  <% } %>
+                  <% ok = 0; %>
+                <% } %>
+              <% } %>
+            <% }); %>
+          </p>
+        </div>
+      <% } else {
+
+      } %>
+    </form>
+  </section>  
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/angajat/meniu-operatie.css">
+  <title>Meniu Operatie</title>
+</head>
+<body>
+
+  <div class="outer-container">
+
+    <div class="form-comanda">
+
+      <% if (tipOperatie === "Initiere") { %>
+        <p>VRETI SA INCEPETI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
+      <% } else if (tipOperatie === "Finalizare") { %>
+        <p>VRETI SA FINALIZATI OPERATIA DE <br> <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
+
+        <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[indexOperatieCurenta] %> PIESE</p>
+      <% } %>
+
+      <br>
+
+      <form
+      <% if (tipOperatie === "Finalizare") { %>
+        method="GET" action="./meniu-operatie2"
+      <% } else { %>
+        method="POST" action="./meniu-operatie3"
+      <% } %>
+      style="display: flex; flex-direction: column; align-items: center;">
+        <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+        <input type="hidden" name="idPiesa" value="<%= lot._id %>">
+        <input type="hidden" name="index" value="<%= indexOperatieCurenta %>">
+        <input type="hidden" name="tipOperatie" value="<%= tipOperatie %>">
+        <input type="hidden" name="operatieCurenta" value="<%= operatieCurenta %>">
+
+        <% if (tipOperatie == "Finalizare") { %>
+          <label for="nrRebut">CATE PIESE ATI REBUTAT?</label>
+          <input type="number" name="nrRebut" value="0" max="<%= lot.cantitateTotala - lot.cantitatePieseInCurs[indexOperatieCurenta] %>" >
+        <% } else { %>
+          <% if (Utilaje.length > 0) { %>
+            <label for="nrFin">SELECTEAZA UTILAJUL PE CARE IL VEI FOLOSI</label>
+            <select name="nrFin">
+              <% Utilaje.forEach(utilaj => { %>
+                <option value="<%= utilaj %>"><%= utilaj %></option>
+              <% }); %>
+            </select>
+          <% } %>
+        <% } %>
+
+        <br>
+        <% if (tipOperatie === "Initiere") { %>
+          <button type="submit">INCEPE</button>
+        <% } else { %>
+          <button type="submit">INTRODUCETI</button>
+        <% } %>
+      </form>
+
+
+    </div>
+
+  </div>
+
+</body>
+</html>
