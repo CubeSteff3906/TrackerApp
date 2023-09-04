@@ -141,10 +141,58 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
     operatieUlterioara++;
   }
 
-  let operatie;
-
+  let operatie = await Operatii.findOne({ id: operatieSelectata }).exec();
+  
   // Constructia obiectelor de update in functie de tipul operatiei
-  if (tipOperatie === "Initiere") {
+  if (tipOperatie === "Setup") {
+    let setupTerminat = lot.setupTerminat;
+    setupTerminat[operatieSelectata] = true;
+
+    let date = new Date();
+    let data = date.toString();
+
+    const ziua = data.slice(8, 10) + data.slice(3, 7) + data.slice(10, 15);
+    const ora = data.slice(15, 24);
+
+    const rezumatOperatieCurenta = angajatCurent.nume + " a terminat setup-ul pentru operatia de " +
+    (operatie.nume).toLowerCase() + " pe data de " + ziua + " la ora " + ora + ".";
+
+    update = {
+      $set: {
+        'setupTerminat': setupTerminat
+      },
+      $push: {
+        'rezumatOperatiiFinalizate': rezumatOperatieCurenta
+      }
+    };
+  } else if (tipOperatie === "InitiereFinalizare") {
+    let date = new Date();
+    let data = date.toString();
+
+    const ziua = data.slice(8, 10) + data.slice(3, 7) + data.slice(10, 15);
+    const ora = data.slice(15, 24);
+
+    const rezumatOperatieCurenta = angajatCurent.nume + " a marcat ca finalizata operatia de " +
+    (operatie.nume).toLowerCase() + " pe data de " + ziua + " la ora " + ora + ".";
+
+    const cantitatePieseFinalizate = lot.cantitatePieseFinalizate;
+    cantitatePieseFinalizate[operatieSelectata] = cantitatePieseFinalizate[operatiePrecedenta];
+    cantitatePieseFinalizate[operatiePrecedenta] = 0;
+
+    const stadiuOperatie = lot.stadiuOperatie;
+    stadiuOperatie[operatieSelectata] = "Finalizata";
+
+    update = {
+      $set: {
+        'cantitatePieseFinalizate': cantitatePieseFinalizate,
+        'stadiuOperatie': stadiuOperatie
+      },
+      $push: {
+        'rezumatOperatiiFinalizate': rezumatOperatieCurenta
+      }
+    };
+
+  } else if (tipOperatie === "Initiere") {
 
     // Cand initiem o operatie, pornim intotdeauna cu numarul de piese care au trecut prin toate operatiile
     // precedente si asteapta operatia noastra.
@@ -192,32 +240,41 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
 
     operatie = await Operatii.findOne({ id: operatieSelectata }).exec();
 
-    let rezumatOperatieCurenta = angajatCurent.nume + " a terminat " + utilajSelectat +
+    let rezumatOperatieCurenta;
+
+    let data1;
+    let ziua1;
+    let ora1;
+
+    rezumatOperatieCurenta = angajatCurent.nume + " a terminat " + utilajSelectat +
     " x " + lot.Denumire + " dupa operatia de " + (operatie.nume).toLowerCase();
 
     if (lot.utilajOperatie[operatieSelectata] !== "NULL" && lot.utilajOperatie[operatieSelectata] !== null ) {
       rezumatOperatieCurenta = rezumatOperatieCurenta + " la utilajul " + lot.utilajOperatie[operatieSelectata];
     }
+    
+    data1 = (lot.dataInitiereOperatie[operatieSelectata]).toString();
+    ziua1 = data1.slice(8, 10) + data1.slice(3, 7) + data1.slice(10, 15);
+    ora1 = data1.slice(15, 24);
 
-    let data1 = (lot.dataInitiereOperatie[operatieSelectata]).toString();
     let data2 = dataFinalizareOperatie.toString();
-
-    const ziua1 = data1.slice(8, 10) + data1.slice(3, 7) + data1.slice(10, 15);
     const ziua2 = data2.slice(8, 10) + data2.slice(3, 7) + data2.slice(10, 15);
-
-    const ora1 = data1.slice(15, 24);
     const ora2 = data2.slice(15, 24);
-
+    
     rezumatOperatieCurenta = rezumatOperatieCurenta + ". A inceput operatia pe data de " + ziua1 + " la ora" + ora1 +
     " si a terminat pe data de " + ziua2 + " la ora" + ora2 + ".";
 
     const timpDeExecutieOperatie = (dataFinalizareOperatie - lot.dataInitiereOperatie[operatieSelectata]) / 1000;
 
+    let setupTerminat = lot.setupTerminat;
+
     let stadiu;
     if (numarPieseNeterminate > 0) {
       stadiu = "In asteptare";
+      setupTerminat[operatieSelectata] = false;
     } else {
       stadiu = "Finalizata";
+      setupTerminat[operatieSelectata] = null;
     }
 
     // Mai am de efectuat operatieSelectata pentru toate piesele pe care nu le-am terminat dar nici nu le-am stricat
@@ -249,6 +306,7 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
         'cantitatePieseInCurs': cantitatePieseInCurs,
         'cantitatePieseFinalizate': cantitatePieseFinalizate,
         'stadiuOperatie': stadiuOperatie,
+        'setupTerminat': setupTerminat,
         'angajatOperatie': angajatOperatie,
         'utilajOperatie': utilajOperatie
       },
@@ -259,8 +317,6 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
     };
 
   }
-
-  // console.log(operatieSelectata, operatie, lot, await Operatii.find().exec());
 
   try{
     await Loturi.updateOne(filtruLot, update).exec();
@@ -339,8 +395,14 @@ router.get('/meniu-operatie', async (req, res) => {
     denumiriOperatii.push(operatie.nume);
   });
 
-  const indexOperatieCurenta = req.query.operatieCurenta;
+  const lot = await Loturi.findOne({ _id: Identificator }).exec();
+
+  let indexOperatieCurenta = req.query.operatieCurenta;
   const operatieCurenta = denumiriOperatii[indexOperatieCurenta];
+  let indexOperatiePrecedenta = indexOperatieCurenta - 1;
+  while (lot.cantitatePieseFinalizate[indexOperatiePrecedenta] === -1) {
+    indexOperatiePrecedenta--;
+  }
 
   const utilajeDisponibile = [];
   const vectorUtilaje = await Utilaje.find().exec();
@@ -354,9 +416,7 @@ router.get('/meniu-operatie', async (req, res) => {
   const angajat = await Angajati.findOne({ _id: idAngajat }).exec();
   const numeAngajat = angajat.nume;
 
-  const lot = await Loturi.findOne({ _id: Identificator }).exec(); 
-
-  res.render('angajat/meniu-operatie', { Identificator, idAngajat, operatieCurenta, indexOperatieCurenta, tipOperatie, numeAngajat, lot, Utilaje: utilajeDisponibile });
+  res.render('angajat/meniu-operatie', { Identificator, idAngajat, operatieCurenta, indexOperatieCurenta, indexOperatiePrecedenta, tipOperatie, numeAngajat, lot, Utilaje: utilajeDisponibile });
 })
 
 router.get('/meniu-operatie2', async (req, res) => {

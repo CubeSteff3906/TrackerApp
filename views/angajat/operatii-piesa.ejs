@@ -31,16 +31,36 @@
           <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
           <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
           <input type="hidden" name="tipOperatie" value="Finalizare">
-          <button type="submit">Finalizeaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseInCurs[operatiaCurenta]%> x <%= piesaCurenta.Denumire %></button>
+          <button type="submit">Finalizati <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseInCurs[operatiaCurenta]%> x <%= piesaCurenta.Denumire %></button>
         </form>
       <% } else if (piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta] > 0 && piesaCurenta.stadiuOperatie[operatiaCurenta] !== "In lucru" ) { %>
-        <form method="POST" action="./operatii-piesa">
-          <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
-          <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
-          <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
-          <input type="hidden" name="tipOperatie" value="Initiere">
-          <button type="submit">Initiaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.Denumire %></button>
-        </form>
+        <% if (denumiriOperatii[operatiaCurenta].includes("Control") || denumiriOperatii[operatiaCurenta].includes("Receptie") || denumiriOperatii[operatiaCurenta].includes("Eliberare")) { %>
+          <form method="POST" action="./operatii-piesa">
+            <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+            <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
+            <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
+            <input type="hidden" name="tipOperatie" value="InitiereFinalizare">
+            <button type="submit">Initiaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.Denumire %></button>
+          </form>
+        <% } else { %>
+          <% if (piesaCurenta.setupTerminat[operatiaCurenta] === true || piesaCurenta.setupTerminat[operatiaCurenta] === null) { %>
+            <form method="POST" action="./operatii-piesa">
+              <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+              <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
+              <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
+              <input type="hidden" name="tipOperatie" value="Initiere">
+              <button type="submit">Initiaza <%= denumiriOperatii[operatiaCurenta] %> <br> pentru <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.Denumire %></button>
+            </form>
+          <% } else if (piesaCurenta.setupTerminat[operatiaCurenta] === false) { %>
+            <form method="POST" action="./operatii-piesa">
+              <input type="hidden" name="idAngajat" value="<%= idAngajat %>">
+              <input type="hidden" name="idPiesa" value="<%= piesaCurenta._id %>">
+              <input type="hidden" name="operatieCurenta" value="<%= operatiaCurenta %>">
+              <input type="hidden" name="tipOperatie" value="Setup">
+              <button type="submit">Initiati setup pentru operatia de <br> <%= denumiriOperatii[operatiaCurenta] %> <%= piesaCurenta.cantitatePieseFinalizate[operatiaPrecedenta]%> x <%= piesaCurenta.Denumire %></button>
+            </form>
+          <% } %>
+        <% } %>
       <% } %>
       <% console.log(operatiaCurenta, operatiaPrecedenta) %>
     </div>

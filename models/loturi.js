@@ -58,6 +58,7 @@ const schemaLoturi = new mongoose.Schema({
   // Gestionarea comenzii in timp real
   esteNecesaraOperatia: [Boolean],
   stadiuOperatie: [String],
+  setupTerminat: [Boolean],
   cantitatePieseInCurs: [Number],
   cantitatePieseFinalizate: [Number],
   angajatOperatie: [String],

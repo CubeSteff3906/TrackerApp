@@ -15,11 +15,28 @@
     <div class="form-comanda">
 
       <% if (tipOperatie === "Initiere") { %>
-        <p>VRETI SA INCEPETI O OPERATIE DE <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
+        <p>INCEPETI OPERATIA DE <%= operatieCurenta.toUpperCase() %> <br> 
+        PENTRU <%= lot.cantitatePieseFinalizate[indexOperatiePrecedenta] %>
+        <% if (lot.cantitatePieseFinalizate[indexOperatiePrecedenta] > 1) { %>
+          PRODUSE
+        <% } else { %>
+          PRODUS
+        <% } %>
+        DIN COMANDA <%= lot._id %> ?</p>
       <% } else if (tipOperatie === "Finalizare") { %>
         <p>VRETI SA FINALIZATI OPERATIA DE <br> <%= operatieCurenta.toUpperCase() %> PENTRU COMANDA <%= lot._id %> ?</p>
 
         <p style="margin-top: 1em;">ATI INCEPUT CU <%= lot.cantitatePieseInCurs[indexOperatieCurenta] %> PIESE</p>
+      <% } else if (tipOperatie === "InitiereFinalizare") { %>
+        <p>
+          ATI EFECTUAT <%= operatieCurenta.toUpperCase() %> <br>
+          PENTRU <%= lot.cantitatePieseFinalizate[indexOperatiePrecedenta] %> 
+          <% if (lot.cantitatePieseFinalizate[indexOperatiePrecedenta] > 1) { %>
+            PRODUSE
+          <% } else { %>
+            PRODUS
+          <% } %> DIN COMANDA <%= lot._id %> ?
+        </p>
       <% } %>
 
       <br>
@@ -40,9 +57,9 @@
         <% if (tipOperatie == "Finalizare") { %>
           <label for="nrRebut">CATE PIESE ATI REBUTAT?</label>
           <input type="number" name="nrRebut" value="0" max="<%= lot.cantitateTotala - lot.cantitatePieseInCurs[indexOperatieCurenta] %>" >
-        <% } else { %>
+        <% } else if (tipOperatie === "Setup") { %>
           <% if (Utilaje.length > 0) { %>
-            <label for="nrFin">SELECTEAZA UTILAJUL PE CARE IL VEI FOLOSI</label>
+            <label for="nrFin">SELECTATI UTILAJUL PE CARE IL VETI FOLOSI</label>
             <select name="nrFin">
               <% Utilaje.forEach(utilaj => { %>
                 <option value="<%= utilaj %>"><%= utilaj %></option>
@@ -53,7 +70,9 @@
 
         <br>
         <% if (tipOperatie === "Initiere") { %>
-          <button type="submit">INCEPE</button>
+          <button type="submit">INCEPETI</button>
+        <% } else if (tipOperatie == "InitiereFinalizare") { %>
+          <button typoe="submit">CONFIRMATI</button>
         <% } else { %>
           <button type="submit">INTRODUCETI</button>
         <% } %>

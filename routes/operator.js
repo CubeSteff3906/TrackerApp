@@ -16,8 +16,7 @@ router.get('/', async (req, res) => {
   const operatii = await Operatii.find().exec();
   const idAngajat = req.query.idAngajat;
   const vectorMare = await Loturi.find().exec();
-  console.log(await Loturi.find().exec());
-  // await Loturi.deleteMany().exec();
+  // await Loturi.delete({ _id: 69 }).exec();
   res.render('operator', { idAngajat, loturiInCreare, loturiInCurs, loturiFinalizate, bazaLoturiInCurs, produse, operatii, vectorMare });
 })
 
@@ -236,6 +235,7 @@ router.post('/piesa-noua', async (req, res) => {
   let cantitatePieseInCurs = [-1];
   let angajatOperatie = ["NULL"];
   let utilajOperatie = ["NULL"];
+  let setupTerminat = [null];
 
   let data2 = Data.slice(8,10) + "." + Data.slice(5,7) + "." + Data.slice(0,4);
   let data3 = Termen_Livrare.slice(8, 10) + "." + Termen_Livrare.slice(5, 7) + "." + Termen_Livrare.slice(0, 4);
@@ -247,6 +247,7 @@ router.post('/piesa-noua', async (req, res) => {
     cantitatePieseInCurs.push(-1);
     angajatOperatie.push("NULL");
     utilajOperatie.push("NULL");
+    setupTerminat.push(null);
   }
   while (indexInitial <= indexFinal) { // Itereaza prin valorile select urilor din form
     let i = +valoriForm[indexInitial][1];
@@ -257,6 +258,7 @@ router.post('/piesa-noua', async (req, res) => {
     angajatOperatie[i] = "Niciunul";
     if ( i<= 30 && vectorOperatii[i-1].areProgram === true) {
       utilajOperatie[i] = "Niciunul";
+      setupTerminat[i] = false;
     }
     indexInitial++;
   }
@@ -267,6 +269,7 @@ router.post('/piesa-noua', async (req, res) => {
   cantitatePieseInCurs = cantitatePieseInCurs.splice(0, vectorOperatii.length + 1);
   angajatOperatie = angajatOperatie.splice(0, vectorOperatii.length + 1);
   utilajOperatie = utilajOperatie.splice(0, vectorOperatii.length + 1);
+  setupTerminat = setupTerminat.splice(0, vectorOperatii.length + 1);
 
   const datetime = new Date();
 
@@ -287,6 +290,7 @@ router.post('/piesa-noua', async (req, res) => {
     Certificat_Calitate: Certificat_Calitate,
     esteNecesaraOperatia: esteNecesaraOperatia,
     stadiuOperatie: stadiuOperatie,
+    setupTerminat: setupTerminat,
     cantitatePieseInCurs: cantitatePieseInCurs,
     cantitatePieseFinalizate: cantitatePieseFinalizate,
     angajatOperatie: angajatOperatie,
