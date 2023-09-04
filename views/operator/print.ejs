@@ -11,8 +11,8 @@
 
   <header>
     <button
-      <% if (radacina === "monitorizare") { %>
-        onclick="window.location.href='/admin?idAngajat=<%=idAngajat%>&privilegii=monitorizare'"
+      <% if (radacina === "monitorizare" || radacina === "admin") { %>
+        onclick="window.location.href='/admin?idAngajat=<%=idAngajat%>&privilegii=<%=radacina%>'"
       <% } else { %>
         onclick="window.location.href='/operator?idAngajat=<%=idAngajat%>'"
       <% } %>
@@ -27,8 +27,8 @@
     })
   </script>
 
-  <section class="continut">
-    <% if (tip==="fisa" ) { %>
+  <% if (tip==="fisa" ) { %>
+    <section class="continut">
       <div class="header">
         <div class="coloana1">
 
@@ -581,12 +581,13 @@
           </div>
         </div>
       </section>
-
-    <% } else if (tip==="raport" ) { %>
-
-    <% } %>
-
-  </section>
-
+  <%} else if (tip==="raport") { %>
+    <section class="continut" style="display: flex; justify-content: center;">
+      <div class="raport">
+        <p class="titlu-raport">RAPORT DE LOT</p>
+        <p class="data-raport">Data: <%= dataRaport %></p>
+      </div>
+    </section>
+  <% } %>
 </body>
 </html>

@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     } else if (angajat.pozitie === "Operator") {
       res.redirect(`/operator?idAngajat=${idAngajat}`);
     } else if (angajat.pozitie === "Administrator") {
-      res.redirect(`/admin?idAngajat=${idAngajat}`); // Va redirectiona la admin/verifica-parola initial, dupa de acolo la /admin/
+      res.redirect(`/admin?idAngajat=${idAngajat}&privilegii=admin`); // Va redirectiona la admin/verifica-parola initial, dupa de acolo la /admin/
     } else {
       console.log('Angajatul nu are o pozitie valida');
     }

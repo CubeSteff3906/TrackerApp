@@ -3,7 +3,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   padding: 4.5vh 3.5vw 4vh 3.5vw;
@@ -439,4 +439,29 @@ header button {
     align-items: center;
     padding-left: 0.2em;
   }
+}
+
+.raport {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 110vh;
+  border: 3px solid black;
+  padding: 1em 0.6em;
+}
+
+.titlu-raport {
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin: 0;
+  margin-top: 1em;
+}
+
+.data-raport {
+  margin: 0;
+  margin-top: 0.5em;
+  font-size: 20px;
+  font-style: italic;
 }

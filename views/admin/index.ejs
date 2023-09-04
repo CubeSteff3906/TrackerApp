@@ -47,7 +47,7 @@
                 </div>
               </div>
               <div style="width: 4vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>&radacina=monitorizare'"><img
+                <button class="yes" onclick="window.location.href='/operator/print?id=<%= lot._id %>&tip=raport&idAngajat=<%=idAngajat%>&radacina=<%=privilegii%>'"><img
                     style="width:2em; height: 2em;" src="/icons/print.png"></button>
               </div>
             </div>
@@ -66,7 +66,7 @@
                 <img src="/icons/in-lucru.png">
               </div>
               <div style="width: 4vw; display: flex; justify-content: end;">
-                <button class="yes" onclick="window.location.href='/admin/index-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
+                <button class="yes" onclick="window.location.href='/admin/index-popup?id=<%= lot._id %>&idAngajat=<%= idAngajat %>&privilegii=<%= privilegii %>'"><img style="width:2em; height: 2em;" src="/icons/info.png"></button>
               </div>
             </div>
           </div>

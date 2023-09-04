@@ -14,10 +14,10 @@
     </div>
     <nav class="nav-header">
       <ul>
-        <li><a href="./?idAngajat=<%= idAngajat %>">LOG</a></li>
-        <li ><a href="./angajati?idAngajat=<%= idAngajat %>">ANGAJATI</a></li>
-        <li><a href="./operatii?idAngajat=<%= idAngajat %>">OPERATII</a></li>
-        <li class="highlight"><a href="./utilaj?idAngajat=<%= idAngajat %>"">UTILAJE</a></li>
+        <li><a href="./?idAngajat=<%= idAngajat %>&privilegii=admin">LOG</a></li>
+        <li ><a href="./angajati?idAngajat=<%= idAngajat %>&privilegii=admin">ANGAJATI</a></li>
+        <li><a href="./operatii?idAngajat=<%= idAngajat %>&privilegii=admin">OPERATII</a></li>
+        <li class="highlight"><a href="./utilaj?idAngajat=<%= idAngajat %>&privilegii=admin"">UTILAJE</a></li>
       </ul>
     </nav>
   </header>

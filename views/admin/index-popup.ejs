@@ -93,7 +93,7 @@
           <% } else { %>
             <img class="icon" src="/icons/finalizat.png">
           <% } %>
-          <button type="button" class="anuleaza"><img style="width: 1.8em;" onclick="window.location.href='/admin?idAngajat=<%=idAngajat%>&privilegii=monitorizare'" src="/icons/cancel.png"></button>
+          <button type="button" class="anuleaza"><img style="width: 1.8em;" onclick="window.location.href='/admin?idAngajat=<%=idAngajat%>&privilegii=<%= privilegii %>'" src="/icons/cancel.png"></button>
         </p>
       </div>
 

@@ -264,6 +264,10 @@ const executaOperatie = async function (Identificator, idAngajat, operatieSelect
     rezumatOperatieCurenta = rezumatOperatieCurenta + ". A inceput operatia pe data de " + ziua1 + " la ora" + ora1 +
     " si a terminat pe data de " + ziua2 + " la ora" + ora2 + ".";
 
+    if (nrRebut > 0) {
+      rezumatOperatieCurenta += "S-au dat in rebut " + nrRebut + " produse.";
+    }
+
     const timpDeExecutieOperatie = (dataFinalizareOperatie - lot.dataInitiereOperatie[operatieSelectata]) / 1000;
 
     let setupTerminat = lot.setupTerminat;

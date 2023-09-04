@@ -86,9 +86,13 @@ router.get('/print', async (req, res) => {
     }
   }
 
-  console.log(vectorCurent, vectorOperatii);
+  let date = new Date();
+  let data = date.toString();
+  let dataRaport;
+  
+  dataRaport = data.slice(8, 10) + data.slice(3, 7) + data.slice(10, 15);
 
-  res.render('operator/print', { bazaLoturiInCurs, loturiFinalizate, loturiInCreare, loturiInCurs, produse, lot, idAngajat, tip, vectorCurent, radacina });
+  res.render('operator/print', { bazaLoturiInCurs, loturiFinalizate, loturiInCreare, loturiInCurs, produse, lot, idAngajat, tip, vectorCurent, radacina, dataRaport });
 })
 
 router.get('/info-popup', async (req, res) => {
