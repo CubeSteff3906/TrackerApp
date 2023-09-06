@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/admin/operatii.css">
+  <title>Document</title>
+</head>
+<body> 
+  <header>
+    <div class="div-buton-inapoi">
+      <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
+    </div>
+    <nav class="nav-header">
+      <ul>
+        <li><a href="./?idAngajat=<%= idAngajat %>&privilegii=admin">LOG</a></li>
+        <li><a href="/admin/istoric?idAngajat=<%= idAngajat %>&privilegii=admin">ISTORIC</a></li>
+        <li><a href="./angajati?idAngajat=<%= idAngajat %>&privilegii=admin">ANGAJATI</a></li>
+        <li class="highlight?idAngajat=<%= idAngajat %>&privilegii=admin"><a href="./operatii">OPERATII</a></li>
+        <li><a href="./utilaje?idAngajat=<%= idAngajat %>&privilegii=admin">UTILAJE</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="sectiune">
+
+    <div style="display: flex; justify-content: space-between;">
+
+      <div class="subsectiune" style="flex: 1.5;">
+
+        <div class="div-buton-adaugare">
+          <p>NUMAR OPERATII: <%= Operatii.length %> </p>
+          <input type="text" placeholder="Cauta operatie dupa nume">
+        </div>
+
+        <div class="big-daddy-scroll">
+          <% Operatii.forEach(operatie=> { %>
+            <div class="element-meniu">
+              <div class="div-stanga">
+                <img src="/icons/Operatii_icon-removebg-preview.png">
+                <div class="container">
+                  <%= operatie.id %> <br>
+                  <%= operatie.nume %>
+                </div>
+              </div>
+              <div class="div-dreapta">
+                <img class="roata" src="/icons/cog.png">
+                <button></button>
+
+                <img class="gunoi" src="/icons/trash.png">
+                <form method="POST" action="./sterge-operatie?idAngajat=<%= idAngajat %>">
+                  <input type="hidden" id="id" name="id" value="<%= operatie.id %>">
+                  <button type="submit">Sterge Operatie</button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
+        <form class="adauga" method="POST" action="./operatii?idAngajat=<%= idAngajat %>">
+          
+          <label for="id">INTRODUCETI INDEX (LASATI GOL DACA VRETI SA ADAUGATI LA COADA)</label>
+          <input type="text" id="id" name="index" style="margin-bottom: 1rem;">
+          
+          <label for="nume">INTRODUCETI NUME OPERATIE</label>
+          <input type="text" id="nume" name="nume" style="margin-bottom: 1rem;">
+
+          <div style="display: flex; align-items: center;">
+            <label for="areProgram">ARE UTILAJ?</label>
+            <input type="checkbox" name="areProgram" style="margin-left: 0.8em; width: 1.5em; height: 1.5em;">
+          </div>
+
+          <div class="div-buton">
+            <button type="submit">INTRODUCETI</button> 
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+  </section>
+</body>
+</html>

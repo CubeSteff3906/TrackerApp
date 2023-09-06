@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/styles/admin/angajati.css">
+  <title>Document</title>
+</head>
+<body> 
+  <header>
+    <div class="div-buton-inapoi">
+      <a href="../" class="buton-inapoi">&#10094; INAPOI</a>
+    </div>
+    <nav class="nav-header">
+      <ul>
+        <li><a href="./?idAngajat=<%= idAngajat %>&privilegii=admin">LOG</a></li>
+        <li><a href="/admin/istoric?idAngajat=<%= idAngajat %>&privilegii=admin">ISTORIC</a></li>
+        <li class="highlight"><a href="./angajati?idAngajat=<%= idAngajat %>&privilegii=admin">ANGAJATI</a></li>
+        <li><a href="./operatii?idAngajat=<%= idAngajat %>&privilegii=admin">OPERATII</a></li>
+        <li><a href="./utilaje?idAngajat=<%= idAngajat %>&privilegii=admin">UTILAJE</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="sectiune">
+
+    <div style="display: flex; justify-content: space-between;">
+
+      <div class="subsectiune" style="flex: 1.5;">
+
+        <div class="div-buton-adaugare">
+          <p>NUMAR ANGAJATI: <%= Angajati.length %> </p>
+          <input type="text" placeholder="Cauta angajat dupa RTSP">
+        </div>
+
+        <div class="big-daddy-scroll">
+          <% Angajati.forEach(angajat=> { %>
+            <div class="element-meniu">
+              <div class="div-stanga">
+                <img src="/icons/user_icon.png">
+                <div class="container"> 
+                  <%= angajat.nume %> <%= angajat.prenume %> <br>
+                    <%= angajat.pozitie %> <%= angajat._id %>
+                </div>
+              </div>
+              <div class="div-dreapta">
+                <img class="roata" src="/icons/cog.png">
+                <button></button>
+
+                <img class="gunoi" src="/icons/trash.png">
+                <form method="POST" action="./sterge-angajat?idAngajat=<%= idAngajat %>">
+                  <input type="hidden" name="id" value="<%= angajat._id %>">
+                  <button type="submit"></button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+
+      <div class="subsectiune" style="flex: 1; margin: 3em 5em 0 0; text-align: center;">
+        <form class="adauga" method="POST" action="./angajati?idAngajat=<%= idAngajat %>">
+          
+          <label for="id">INTRODUCETI ID ANGAJAT</label>
+          <input type="text" id="id" name="id" style="margin-bottom: 1rem; text-align: center;" placeholder="ID">
+          
+          <label for="nume">INTRODUCETI NUME COMPLET ANGAJAT</label>
+          <div style="display: flex;">
+            <input type="text" id="nume" name="nume" style="margin-right: 1em; text-align: center;" placeholder="NUME">
+            <input type="text" name="prenume" style="text-align: center;" placeholder="PRENUME">
+          </div>
+
+          <label for="pozitie">SELECTATI PRIVILEGII ANGAJAT</label>
+          <select id="pozitie" name="pozitie" style="text-align: center; margin-bottom: 1rem; font-size: 0.7em;">
+            <option value="Lucrator">Lucrator - Poate completa comenzi prin scanarea fisei tehnologice</option>
+            <option value="Operator">Operator - Poate initia comenzi noi si monitoriza comenzile in curs</option>
+            <option value="Administrator">Administrator - Poate monitoriza si administra procesul de productie</option>
+          </select>
+
+          <div style="display: flex;">
+            <label style="margin-right: 1em;" for="verificator">ANGAJATUL POATE EXECUTA <br> INSPECTII ALE COMENZILOR?</label>
+            <input style="align-self: center; width: 2em; height: 2em;" type="checkbox" id="verificator" name="verificator" style="margin-bottom: 1rem;">
+          </div>
+
+          <label for="parola">INTRODUCETI PAROLA ANGAJAT <br> (PENTRU ADMINISTRATORI):</label>
+          <input type="text" id="parola" name="parola" style="margin-bottom: 1rem; text-align: center;" placeholder="PAROLA">
+
+          <div class="div-buton">
+            <button type="submit">INTRODUCETI</button> 
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+  </section>
+</body>
+</html>

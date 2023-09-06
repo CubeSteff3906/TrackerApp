@@ -1,0 +1,67 @@
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/images/art.png');
+  background-size: cover;
+  background-position: bottom;
+  overflow: hidden;
+}
+
+.outer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.form-comanda {
+  color: white;
+  padding: 1em 0;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: rgb(37, 37, 37);
+  border-left: 3.5px solid white;
+  border-right: 3.5px solid white;
+}
+
+.salut {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.form-comanda label {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form-comanda img {
+  width: 30%;
+  object-fit: contain;
+  margin: 1.5em 0;
+}
+
+.form-comanda input {
+  margin-top: 1em;
+  width: 60%;
+  height: 2em;
+  text-align: center;
+  font-size: 1.2em;
+  color: black;
+}
+
+.form-comanda button {
+  width: 10rem;
+  height: 3rem;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin: 1em 0 1em 0;
+}

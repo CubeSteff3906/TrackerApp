@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
+  <script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+      var inputElement = document.getElementById('myInput');
+      inputElement.focus();
+      inputElement.select();
+    })
+  </script>
+</head>
+<body>
+  <div class="outer-container">
+  
+    <form class="form-comanda" method="POST" action="./">
+
+      <h1 id="greetingText"></h1>
+
+      <h3 style="margin-top: 0;">Bun venit la <img style="margin: 0; margin-left: 2px; margin-bottom: -15px; width: 8%;" src="/images/logo-ratis.png"></h3> <br>
+      <p style="margin-top: -1em;">SCANATI-VA LEGITIMATIA <br> PENTRU A CONTINUA</p> <br> <br>
+
+      <img src="/icons/scan-card.png" style="position: relative; width: 20%; margin: 0; margin-top: -20px;">
+
+      <input style="position: absolute; opacity: 0;" id="myInput" type="text" name="idAngajat" autofocus>
+      <button type="submit">INTRODUCETI</button>
+    </form>
+  
+  </div>
+  
+  <script>
+
+    // Footer time text
+    const greetingText = document.getElementById('greetingText');
+    
+    function updateTime() {
+      const date = new Date();
+      const hour = date.getHours();
+      const minute = date.getMinutes();
+      const second = date.getSeconds();
+      let greeting;
+    
+      if (hour >= 0 && hour < 6) {
+        greeting = 'BUNA SEARA!';
+      } else if (hour >= 6 && hour < 12) {
+        greeting = 'BUNA DIMINEATA!';
+      } else {
+        greeting = 'BUNA ZIUA!';
+      }
+    
+      greetingText.textContent = greeting;
+    }
+    
+    updateTime(); // Update time immediately
+    setInterval(updateTime, 1000); // Update time every second
+
+    const backgroundImages = [
+      "/images/download (1).jpg",
+      "/images/download (2).jpg",
+      "/images/download.jpg"
+    ];
+
+    var slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      slideIndex++;
+      if (slideIndex > backgroundImages.length) {
+        slideIndex = 1;
+      }
+
+      const body = document.body;
+      body.style.backgroundImage = `url('${backgroundImages[slideIndex - 1]}')`;
+
+      setTimeout(showSlides, 3000); // Change slide every 3 seconds
+    }
+  </script>
+
+</body>
+</html>
